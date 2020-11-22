@@ -19,7 +19,7 @@ public class LoginValidate {
         this.repository = new Repository();
     }
 
-    public boolean validateUser(String username, String password) {
+    public boolean isValidUser(String username, String password) {
         ResultSet res = repository.select("SELECT * FROM \"user\" WHERE username = " + "\'" + username + "\'");
         String us = "";
         String pwd = "";
@@ -37,7 +37,7 @@ public class LoginValidate {
         return false;
     }
 
-    public boolean validateSysAdmin(String username, String password) {
+    public boolean isValidSysAdmin(String username, String password) {
         ResultSet res = repository.select("SELECT * FROM sys_admin WHERE username = " + "\'" + username + "\'");
         String us = "";
         String pwd = "";
