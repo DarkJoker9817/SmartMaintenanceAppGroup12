@@ -153,7 +153,7 @@ public class LoginGUI extends javax.swing.JFrame {
         LoginValidate log = new LoginValidate();
         if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
             if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
-                JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
             } else {
                 this.setVisible(false);
                 admin.setLocationRelativeTo(this);
@@ -162,7 +162,7 @@ public class LoginGUI extends javax.swing.JFrame {
         } else {
             if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
                 if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "planner")) {
-                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
                     this.setVisible(false);
                     planner.setLocationRelativeTo(this);
@@ -170,7 +170,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 }
             } else {
                 if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "maintainer")) {
-                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
                     this.setVisible(false);
                     planner.setLocationRelativeTo(this);
