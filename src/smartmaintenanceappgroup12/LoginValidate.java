@@ -24,8 +24,10 @@ public class LoginValidate {
         String us = "";
         String pwd = "";
         try {
-            us = res.getString("username");
-            pwd = res.getString("password");
+            while (res.next()) {
+                us = res.getString("username");
+                pwd = res.getString("password");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -40,8 +42,10 @@ public class LoginValidate {
         String us = "";
         String pwd = "";
         try {
-            us = res.getString("username");
-            pwd = res.getString("password");
+            while (res.next()) {
+                us = res.getString("username");
+                pwd = res.getString("password");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
