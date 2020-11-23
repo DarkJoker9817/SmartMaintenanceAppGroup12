@@ -65,7 +65,7 @@ public class Repository {
         ResultSet res = null;
         try {
             Statement st = conn.createStatement();
-            res = st.executeQuery(query);
+            st.executeUpdate(query);
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
