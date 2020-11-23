@@ -30,6 +30,7 @@ public class Repository {
         try {
             Statement st = conn.createStatement();
             res = st.executeQuery(query);
+            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -41,6 +42,7 @@ public class Repository {
         try {
             Statement st = conn.createStatement();
             res = st.executeQuery(query);
+            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -52,6 +54,7 @@ public class Repository {
         try {
             Statement st = conn.createStatement();
             res = st.executeQuery(query);
+            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -63,6 +66,7 @@ public class Repository {
         try {
             Statement st = conn.createStatement();
             res = st.executeQuery(query);
+            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
