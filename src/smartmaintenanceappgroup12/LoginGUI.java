@@ -86,7 +86,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addComponent(loginButton)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginGUILayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(159, Short.MAX_VALUE)
                 .addGroup(LoginGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginGUILayout.createSequentialGroup()
                         .addGroup(LoginGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -98,7 +98,7 @@ public class LoginGUI extends javax.swing.JFrame {
                                 .addComponent(selectLabel))
                             .addGroup(LoginGUILayout.createSequentialGroup()
                                 .addComponent(passwordLabel)
-                                .addGap(59, 59, 59)
+                                .addGap(18, 18, 18)
                                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(133, 133, 133))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginGUILayout.createSequentialGroup()
@@ -147,6 +147,15 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
+        LoginValidate log= new LoginValidate();
+        if(ComboBoxUsers.getSelectedItem()=="System Administrator"){
+        Boolean b= log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText());
+        System.out.println(b);
+        }
+        else{
+        Boolean b= log.isValidUser(usernameTextField.getText(), passwordField.getText());
+        System.out.println(b);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void ComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxUsersActionPerformed
