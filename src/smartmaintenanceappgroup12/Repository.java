@@ -37,31 +37,31 @@ public class Repository {
         return res;
     }
 
-    public ResultSet update(String query) {
+    public void update(String query) {
         ResultSet res = null;
         try {
             Statement st = conn.createStatement();
-            res = st.executeQuery(query);
+            st.executeUpdate(query);
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return res;
+
     }
 
-    public ResultSet delete(String query) {
+    public void delete(String query) {
         ResultSet res = null;
         try {
             Statement st = conn.createStatement();
-            res = st.executeQuery(query);
+            st.executeUpdate(query);
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return res;
+
     }
 
-    public ResultSet insert(String query) {
+    public void insert(String query) {
         ResultSet res = null;
         try {
             Statement st = conn.createStatement();
@@ -70,7 +70,7 @@ public class Repository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return res;
+
     }
 
 }
