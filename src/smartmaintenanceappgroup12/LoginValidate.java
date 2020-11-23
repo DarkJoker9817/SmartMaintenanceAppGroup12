@@ -19,19 +19,21 @@ public class LoginValidate {
         this.repository = new Repository();
     }
 
-    public boolean isValidUser(String username, String password) {
+    public boolean isValidUser(String username, String password, String role) {
         ResultSet res = repository.select("SELECT * FROM \"user\" WHERE username = " + "\'" + username + "\'");
         String us = "";
         String pwd = "";
+        String rl="";
         try {
             while (res.next()) {
                 us = res.getString("username");
                 pwd = res.getString("password");
+                rl=res.getString("role");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        if (username.equals(us) && password.equals(pwd)) {
+        if (username.equals(us) && password.equals(pwd) && role.equals(rl)) {
             return true;
         }
         return false;

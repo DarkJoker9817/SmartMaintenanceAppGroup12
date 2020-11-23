@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 public class LoginGUI extends javax.swing.JFrame {
 
     private SysAdminGUI admin;
+    private PlannerGUI planner;
+    private MaintainerGUI maintainer;
 
     /**
      * Creates new form LoginGUI
@@ -21,7 +23,8 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         admin = new SysAdminGUI();
-
+        planner = new PlannerGUI();
+        maintainer = new MaintainerGUI();
     }
 
     /**
@@ -142,21 +145,34 @@ public class LoginGUI extends javax.swing.JFrame {
         LoginValidate log = new LoginValidate();
         if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
             if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
-                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
-            }
-            else{
-            this.setVisible(false);
-            admin.setLocationRelativeTo(this);
-            admin.setVisible(true);
+                JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+            } else {
+                this.setVisible(false);
+                admin.setLocationRelativeTo(this);
+                admin.setVisible(true);
             }
         } else {
-            if (!log.isValidUser(usernameTextField.getText(), passwordField.getText())) {
-                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
-            }else{
-                
+            if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
+                if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "planner")) {
+                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+                } else {
+                    this.setVisible(false);
+                    planner.setLocationRelativeTo(this);
+                    planner.setVisible(true);
+                }
+            } else {
+                if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "maintainer")) {
+                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username, password or role");
+                } else {
+                    this.setVisible(false);
+                    planner.setLocationRelativeTo(this);
+                    planner.setVisible(true);
+                }
             }
 
         }
+
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
