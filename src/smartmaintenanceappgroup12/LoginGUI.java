@@ -144,12 +144,16 @@ public class LoginGUI extends javax.swing.JFrame {
             if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
                 JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
             }
+            else{
             this.setVisible(false);
             admin.setLocationRelativeTo(this);
             admin.setVisible(true);
+            }
         } else {
             if (!log.isValidUser(usernameTextField.getText(), passwordField.getText())) {
                 JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
+            }else{
+                
             }
 
         }
