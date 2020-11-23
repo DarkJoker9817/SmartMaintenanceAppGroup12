@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * @author ugobarbato
  */
 public class LoginGUI extends javax.swing.JFrame {
-    
+
     private SysAdminGUI admin;
 
     /**
@@ -21,7 +21,7 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         admin = new SysAdminGUI();
-        
+
     }
 
     /**
@@ -57,12 +57,6 @@ public class LoginGUI extends javax.swing.JFrame {
 
         passwordLabel.setText("PASSWORD");
 
-        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameTextFieldActionPerformed(evt);
-            }
-        });
-
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,11 +65,6 @@ public class LoginGUI extends javax.swing.JFrame {
         });
 
         ComboBoxUsers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "System Administrator", "Maintainer", "Planner" }));
-        ComboBoxUsers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboBoxUsersActionPerformed(evt);
-            }
-        });
 
         selectLabel.setText("Select the type of user you want to login:");
 
@@ -147,34 +136,24 @@ public class LoginGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTextFieldActionPerformed
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
 
         LoginValidate log = new LoginValidate();
         if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-            Boolean b = log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText());
-            if (!b) {
+            if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
                 JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
             }
             this.setVisible(false);
             admin.setLocationRelativeTo(this);
             admin.setVisible(true);
         } else {
-            Boolean b = log.isValidUser(usernameTextField.getText(), passwordField.getText());
-            if (!b) {
+            if (!log.isValidUser(usernameTextField.getText(), passwordField.getText())) {
                 JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
             }
-            
+
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void ComboBoxUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxUsersActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboBoxUsersActionPerformed
 
     /**
      * @param args the command line arguments
