@@ -69,6 +69,7 @@ public class LoginGUI extends javax.swing.JFrame {
 
         selectLabel.setText("LOGIN AS");
 
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/profile.png"))); // NOI18N
 
         javax.swing.GroupLayout LoginGUILayout = new javax.swing.GroupLayout(LoginGUI);
