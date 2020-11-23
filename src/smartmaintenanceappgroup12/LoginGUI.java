@@ -12,12 +12,16 @@ import javax.swing.JOptionPane;
  * @author ugobarbato
  */
 public class LoginGUI extends javax.swing.JFrame {
+    
+    private SysAdminGUI admin;
 
     /**
      * Creates new form LoginGUI
      */
     public LoginGUI() {
         initComponents();
+        admin = new SysAdminGUI();
+        
     }
 
     /**
@@ -149,19 +153,22 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        
+
+        LoginValidate log = new LoginValidate();
+        if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
+            Boolean b = log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText());
+            if (!b) {
+                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
+            }
+            this.setVisible(false);
+            admin.setLocationRelativeTo(this);
+            admin.setVisible(true);
+        } else {
+            Boolean b = log.isValidUser(usernameTextField.getText(), passwordField.getText());
+            if (!b) {
+                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
+            }
             
-        LoginValidate log= new LoginValidate();
-        if(ComboBoxUsers.getSelectedItem()=="System Administrator"){
-        Boolean b= log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText());
-        if(!b)
-            JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
-        }
-        else{
-        Boolean b= log.isValidUser(usernameTextField.getText(), passwordField.getText());
-        if(!b)
-            JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password");
-        
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
