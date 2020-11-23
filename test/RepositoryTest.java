@@ -22,11 +22,13 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testNullPointer() {
-        assertNull(rep.delete(""));
+    public void testSelectNullPointer() {
         assertNull(rep.select(""));
-        assertNull(rep.insert(""));
-        assertNull(rep.update(""));
+    }
+
+    @Test
+    public void testSelectResultSet() {
+        assertNotNull(rep.select("select * from \"user\""));
     }
 
     // TODO add test methods here.
