@@ -38,6 +38,7 @@ public class LoginGUI extends javax.swing.JFrame {
         selectLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Smart Maintenance App");
         setLocation(new java.awt.Point(300, 300));
         setResizable(false);
 
