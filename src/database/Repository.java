@@ -27,10 +27,8 @@ public class Repository {
 
     public ResultSet select(String query) {
         ResultSet res = null;
-        try {
-            Statement st = conn.createStatement();
+        try (Statement st = conn.createStatement()) {
             res = st.executeQuery(query);
-            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -39,10 +37,8 @@ public class Repository {
 
     public void update(String query) {
         ResultSet res = null;
-        try {
-            Statement st = conn.createStatement();
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -51,10 +47,8 @@ public class Repository {
 
     public void delete(String query) {
         ResultSet res = null;
-        try {
-            Statement st = conn.createStatement();
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -63,10 +57,8 @@ public class Repository {
 
     public void insert(String query) {
         ResultSet res = null;
-        try {
-            Statement st = conn.createStatement();
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-            conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
