@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
+import database.Repository;
+import java.sql.SQLException;
 import org.junit.*;
 import static org.junit.Assert.*;
-import smartmaintenanceappgroup12.Repository;
+
 
 /**
  *
@@ -22,12 +24,12 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testSelectNullPointer() {
+    public void testSelectNullPointer() throws SQLException {
         assertNull(rep.select(""));
     }
 
     @Test
-    public void testSelectResultSet() {
+    public void testSelectResultSet() throws SQLException {
         assertNotNull(rep.select("select * from \"user\""));
     }
 
