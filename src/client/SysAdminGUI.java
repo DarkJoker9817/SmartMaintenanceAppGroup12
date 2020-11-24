@@ -6,6 +6,10 @@
 package client;
 
 import database.Repository;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -104,6 +108,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(usersTable);
 
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Update");
 
@@ -150,8 +159,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(viewButton)))
                         .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(247, 247, 247))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(413, 413, 413))
         );
         CrudOperationsTabLayout.setVerticalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,14 +222,29 @@ public class SysAdminGUI extends javax.swing.JFrame {
         row[1] = passwordTextField.getText();
         row[2] = roleComboBox.getSelectedItem();
         
-        model.addRow(row);
-        
-        repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
+        try {
+            repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
+            model.addRow(row);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Username already exists!!", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }//GEN-LAST:event_createButtonActionPerformed
-    
-    private void fillTable(javax.swing.JTable usersTable) {
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         
-    }
+        int i = usersTable.getSelectedRow();
+        String username = (String)model.getValueAt(i, 0);
+        
+        model.removeRow(i);
+        
+        try {
+            repository.delete("delete from \"user\" where username='" + username + "'");
+        } catch (SQLException ex) {
+            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
