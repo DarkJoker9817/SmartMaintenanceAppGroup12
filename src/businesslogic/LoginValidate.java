@@ -5,6 +5,7 @@
  */
 package businesslogic;
 
+import database.Repository;
 import java.sql.*;
 
 /**
