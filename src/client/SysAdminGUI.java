@@ -5,6 +5,9 @@
  */
 package client;
 
+import database.Repository;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author gioca
@@ -14,8 +17,20 @@ public class SysAdminGUI extends javax.swing.JFrame {
     /**
      * Creates new form SysAdminGUI
      */
+    private DefaultTableModel model;
+    Repository repository;
+    
     public SysAdminGUI() {
         initComponents();
+        
+        repository = new Repository();
+        model = new DefaultTableModel();
+        Object[] columns = {"Username","Password","Role"};
+        model.setColumnIdentifiers(columns);
+        usersTable.setModel(model);
+    
+    
+        
     }
 
     /**
@@ -27,23 +42,185 @@ public class SysAdminGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        CrudOperationsTab = new javax.swing.JPanel();
+        Title = new javax.swing.JLabel();
+        usernameTextField = new javax.swing.JTextField();
+        passwordTextField = new javax.swing.JTextField();
+        usernameLabel = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        createButton = new javax.swing.JButton();
+        roleLabel = new javax.swing.JLabel();
+        roleComboBox = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        usersTable = new javax.swing.JTable();
+        deleteButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        viewButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System Administrator");
+
+        Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
+        Title.setText("System Administrator Area");
+
+        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameTextFieldActionPerformed(evt);
+            }
+        });
+
+        usernameLabel.setText("Username");
+
+        passwordLabel.setText("Password");
+
+        jLabel1.setText("What you want to do?");
+
+        jLabel2.setText("Insert Username and Password of the user in the table");
+
+        createButton.setText("Create");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonActionPerformed(evt);
+            }
+        });
+
+        roleLabel.setText("Role");
+
+        roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
+
+        usersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(usersTable);
+
+        deleteButton.setText("Delete");
+
+        updateButton.setText("Update");
+
+        viewButton.setText("View");
+
+        javax.swing.GroupLayout CrudOperationsTabLayout = new javax.swing.GroupLayout(CrudOperationsTab);
+        CrudOperationsTab.setLayout(CrudOperationsTabLayout);
+        CrudOperationsTabLayout.setHorizontalGroup(
+            CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Title)
+                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(jLabel1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(usernameLabel)
+                                            .addComponent(passwordLabel)
+                                            .addComponent(roleLabel))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(passwordTextField)
+                                            .addComponent(usernameTextField)
+                                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                .addGap(103, 103, 103)
+                                .addComponent(createButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(updateButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(viewButton)))
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(247, 247, 247))
+        );
+        CrudOperationsTabLayout.setVerticalGroup(
+            CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Title)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usernameLabel))
+                .addGap(18, 18, 18)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLabel))
+                .addGap(18, 18, 18)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roleLabel)
+                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createButton)
+                    .addComponent(deleteButton)
+                    .addComponent(updateButton)
+                    .addComponent(viewButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(CrudOperationsTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(CrudOperationsTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTextFieldActionPerformed
+
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        Object[] row = new Object[3];
+        row[0] = usernameTextField.getText();
+        row[1] = passwordTextField.getText();
+        row[2] = roleComboBox.getSelectedItem();
+        
+        model.addRow(row);
+        
+        repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
+    }//GEN-LAST:event_createButtonActionPerformed
+    
+    private void fillTable(javax.swing.JTable usersTable) {
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -80,5 +257,21 @@ public class SysAdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CrudOperationsTab;
+    private javax.swing.JLabel Title;
+    private javax.swing.JButton createButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JTextField passwordTextField;
+    private javax.swing.JComboBox<String> roleComboBox;
+    private javax.swing.JLabel roleLabel;
+    private javax.swing.JButton updateButton;
+    private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField usernameTextField;
+    private javax.swing.JTable usersTable;
+    private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
