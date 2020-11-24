@@ -20,19 +20,16 @@ public class LoginValidate {
         this.repository = new Repository();
     }
 
-    public boolean isValidUser(String username, String password, String role) {
-        ResultSet res = repository.select("SELECT * FROM \"user\" WHERE username = " + "\'" + username + "\'");
+    public boolean isValidUser(String username, String password, String role) throws SQLException {
         String us = "";
         String pwd = "";
-        String rl="";
-        try {
+        String rl = "";
+        try (ResultSet res = repository.select("SELECT * FROM \"user\" WHERE username = " + "\'" + username + "\'")) {
             while (res.next()) {
                 us = res.getString("username");
                 pwd = res.getString("password");
-                rl=res.getString("role");
+                rl = res.getString("role");
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         if (username.equals(us) && password.equals(pwd) && role.equals(rl)) {
             return true;
@@ -40,17 +37,14 @@ public class LoginValidate {
         return false;
     }
 
-    public boolean isValidSysAdmin(String username, String password) {
-        ResultSet res = repository.select("SELECT * FROM sys_admin WHERE username = " + "\'" + username + "\'");
+    public boolean isValidSysAdmin(String username, String password) throws SQLException {
         String us = "";
         String pwd = "";
-        try {
+        try (ResultSet res = repository.select("SELECT * FROM sys_admin WHERE username = " + "\'" + username + "\'")) {
             while (res.next()) {
                 us = res.getString("username");
                 pwd = res.getString("password");
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         if (username.equals(us) && password.equals(pwd)) {
             return true;

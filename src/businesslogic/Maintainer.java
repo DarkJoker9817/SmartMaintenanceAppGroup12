@@ -6,13 +6,13 @@ import java.util.List;
  *
  * @author ugobarbato
  */
-public class Maintainer extends User{
-    
+public class Maintainer extends User {
+
     private List<Competence> competences;
-    private MaintenanceProcedure procedure;
+    //private MaintenanceProcedure procedure;
     private int activityID;
     private Availability availability;
-    
+
     public Maintainer(String username, String password) {
         super(username, password);
     }
@@ -21,10 +21,9 @@ public class Maintainer extends User{
         return competences;
     }
 
-    public MaintenanceProcedure getProcedure() {
+    /*public MaintenanceProcedure getProcedure() {
         return procedure;
-    }
-
+    }*/
     public int getActivityID() {
         return activityID;
     }
@@ -37,10 +36,9 @@ public class Maintainer extends User{
         this.competences = competences;
     }
 
-    public void setProcedure(MaintenanceProcedure procedure) {
+    /*public void setProcedure(MaintenanceProcedure procedure) {
         this.procedure = procedure;
-    }
-
+    }*/
     public void setActivityID(int activityID) {
         this.activityID = activityID;
     }
@@ -48,5 +46,5 @@ public class Maintainer extends User{
     public void setAvailability(Availability availability) {
         this.availability = availability;
     }
-    
+
 }

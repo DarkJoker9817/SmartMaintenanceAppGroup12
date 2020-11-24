@@ -7,6 +7,9 @@ package client;
 
 import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -152,33 +155,37 @@ public class LoginGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         LoginValidate log = new LoginValidate();
-        if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-            if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
-                JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
-            } else {
-                this.setVisible(false);
-                admin.setLocationRelativeTo(this);
-                admin.setVisible(true);
-            }
-        } else {
-            if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
-                if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "planner")) {
+        try {
+            if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
+                if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
                     JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
                     this.setVisible(false);
-                    planner.setLocationRelativeTo(this);
-                    planner.setVisible(true);
+                    admin.setLocationRelativeTo(this);
+                    admin.setVisible(true);
                 }
             } else {
-                if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "maintainer")) {
-                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
+                if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
+                    if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "planner")) {
+                        JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        this.setVisible(false);
+                        planner.setLocationRelativeTo(this);
+                        planner.setVisible(true);
+                    }
                 } else {
-                    this.setVisible(false);
-                    planner.setLocationRelativeTo(this);
-                    planner.setVisible(true);
+                    if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "maintainer")) {
+                        JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        this.setVisible(false);
+                        planner.setLocationRelativeTo(this);
+                        planner.setVisible(true);
+                    }
                 }
-            }
 
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(LoginGUI, ex.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
         }
 
 

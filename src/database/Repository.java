@@ -21,46 +21,35 @@ public class Repository {
             Class.forName("org.postgresql.Driver");
             this.conn = DriverManager.getConnection(url, "postgres", "postgres");
         } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+
         }
     }
 
-    public ResultSet select(String query) {
-        ResultSet res = null;
+    public ResultSet select(String query) throws SQLException {
+        ResultSet res;
         try (Statement st = conn.createStatement()) {
             res = st.executeQuery(query);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return res;
     }
 
-    public void update(String query) {
-        ResultSet res = null;
+    public void update(String query) throws SQLException {
         try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
 
     }
 
-    public void delete(String query) {
-        ResultSet res = null;
+    public void delete(String query) throws SQLException {
         try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
 
     }
 
-    public void insert(String query) {
-        ResultSet res = null;
+    public void insert(String query) throws SQLException {
         try (Statement st = conn.createStatement()) {
             st.executeUpdate(query);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
 
     }
