@@ -46,7 +46,7 @@ public class LoginGUI extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         ComboBoxUsers = new javax.swing.JComboBox<>();
         selectLabel = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        iconLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Smart Maintenance App");
@@ -73,8 +73,8 @@ public class LoginGUI extends javax.swing.JFrame {
 
         selectLabel.setText("LOGIN AS");
 
-        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/profile.png"))); // NOI18N
+        iconLabel.setBackground(new java.awt.Color(0, 0, 0));
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/profile.png"))); // NOI18N
 
         javax.swing.GroupLayout LoginGUILayout = new javax.swing.GroupLayout(LoginGUI);
         LoginGUI.setLayout(LoginGUILayout);
@@ -101,7 +101,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addGroup(LoginGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LoginGUILayout.createSequentialGroup()
                         .addGap(232, 232, 232)
-                        .addComponent(jLabel4))
+                        .addComponent(iconLabel))
                     .addGroup(LoginGUILayout.createSequentialGroup()
                         .addGap(251, 251, 251)
                         .addComponent(loginButton)))
@@ -113,7 +113,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(iconLabel)
                 .addGap(18, 18, 18)
                 .addGroup(LoginGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -222,7 +222,7 @@ public class LoginGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxUsers;
     private javax.swing.JPanel LoginGUI;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel iconLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
