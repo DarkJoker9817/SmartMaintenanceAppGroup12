@@ -165,22 +165,29 @@ public class LoginGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         LoginValidate log = new LoginValidate();
+        String username = usernameTextField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
             if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-                if (!log.isValidSysAdmin(usernameTextField.getText(), passwordField.getText())) {
+                if (!log.isValidSysAdmin(username, password)) {
                     JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
                     showUserGUI(admin);
                 }
             } else {
                 if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
-                    if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "planner")) {
+                    if (!log.isValidUser(username, password, "planner")) {
                         JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                     } else {
                         showUserGUI(planner);
                     }
                 } else {
-                    if (!log.isValidUser(usernameTextField.getText(), passwordField.getText(), "maintainer")) {
+                    if (!log.isValidUser(username, password, "maintainer")) {
                         JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                     } else {
                         showUserGUI(maintainer);
