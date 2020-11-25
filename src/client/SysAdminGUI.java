@@ -47,14 +47,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         CrudOperationsTab = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         passwordTextField = new javax.swing.JTextField();
-        usernameLabel = new javax.swing.JLabel();
-        passwordLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         createButton = new javax.swing.JButton();
         roleLabel = new javax.swing.JLabel();
         roleComboBox = new javax.swing.JComboBox<>();
@@ -63,6 +60,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         viewButton = new javax.swing.JButton();
+        passwordLabel = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System Administrator");
@@ -75,14 +75,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 usernameTextFieldActionPerformed(evt);
             }
         });
-
-        usernameLabel.setText("Username");
-
-        passwordLabel.setText("Password");
-
-        jLabel1.setText("What you want to do?");
-
-        jLabel2.setText("Insert Username and Password of the user in the table");
 
         createButton.setText("Create");
         createButton.addActionListener(new java.awt.event.ActionListener() {
@@ -124,95 +116,90 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        passwordLabel.setText("Password");
+
+        usernameLabel.setText("Username");
+
         javax.swing.GroupLayout CrudOperationsTabLayout = new javax.swing.GroupLayout(CrudOperationsTab);
         CrudOperationsTab.setLayout(CrudOperationsTabLayout);
         CrudOperationsTabLayout.setHorizontalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(usernameLabel)
-                                    .addComponent(passwordLabel)
-                                    .addComponent(roleLabel))
-                                .addGap(18, 18, 18)
-                                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(passwordTextField)
-                                    .addComponent(usernameTextField)
-                                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(createButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(updateButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(viewButton)))
-                .addGap(719, 719, 719))
-            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Title)
-                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(jLabel1))))
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(217, 217, 217)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(usernameLabel)
+                    .addComponent(createButton)
+                    .addComponent(passwordLabel)
+                    .addComponent(roleLabel))
+                .addGap(18, 18, 18)
+                .addComponent(deleteButton)
+                .addGap(18, 18, 18)
+                .addComponent(updateButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
+                .addContainerGap(172, Short.MAX_VALUE)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
+                        .addComponent(Title)
+                        .addGap(212, 212, 212))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(viewButton)
+                        .addGap(74, 74, 74))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
+                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(251, 251, 251))))
         );
         CrudOperationsTabLayout.setVerticalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Title)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(Title)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(46, 46, 46)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameLabel))
                 .addGap(18, 18, 18)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel))
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(roleLabel)
                     .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                .addGap(72, 72, 72)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createButton)
                     .addComponent(deleteButton)
-                    .addComponent(updateButton)
-                    .addComponent(viewButton))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(updateButton))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.addTab("tab1", CrudOperationsTab);
+        jTabbedPane1.addTab("tab2", jTabbedPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CrudOperationsTab, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CrudOperationsTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE))
         );
 
         pack();
@@ -272,7 +259,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }     
-    }                                            
+    }
+    
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        int i = usersTable.getSelectedRow();
+    }
 
     /**
      * @param args the command line arguments
@@ -314,9 +305,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel Title;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
     private javax.swing.JComboBox<String> roleComboBox;
