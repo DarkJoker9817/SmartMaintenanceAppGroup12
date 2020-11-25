@@ -25,13 +25,13 @@ public class SysAdminGUI extends javax.swing.JFrame {
      */
     private DefaultTableModel model;
     Repository repository;
-    
+
     public SysAdminGUI() {
         initComponents();
-        
+
         repository = new Repository();
         model = new DefaultTableModel();
-        Object[] columns = {"Username","Password","Role"};
+        Object[] columns = {"Username", "Password", "Role"};
         model.setColumnIdentifiers(columns);
         usersTable.setModel(model);
         fillTable();
@@ -209,39 +209,39 @@ public class SysAdminGUI extends javax.swing.JFrame {
         row[0] = usernameTextField.getText();
         row[1] = passwordTextField.getText();
         row[2] = roleComboBox.getSelectedItem();
-        
-        if (usernameTextField.getText().equals(""))
+
+        if (usernameTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Insert an username", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-        else if (passwordTextField.getText().equals(""))
+        } else if (passwordTextField.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Insert a password", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-        else
+        } else {
             try {
                 repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
                 model.addRow(row);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Username already exists!!", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-                return;
             }
+        }
     }//GEN-LAST:event_createButtonActionPerformed
-                                           
+
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int i = usersTable.getSelectedRow();
-        String username = (String)model.getValueAt(i, 0);
-        
+        String username = (String) model.getValueAt(i, 0);
+
         Object[] row = new Object[3];
         row[0] = usernameTextField.getText();
         row[1] = passwordTextField.getText();
-        row[2] = (String)roleComboBox.getSelectedItem();
-        
+        row[2] = (String) roleComboBox.getSelectedItem();
+
         try {
             repository.update("update \"user\" set username='" + row[0] + "', password='" + row[1] + "', role='" + row[2] + "' where username='" + username + "'");
             model.removeRow(i);
             model.addRow(row);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -254,24 +254,24 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         enableButtons();
-        
+
         int i = usersTable.getSelectedRow();
-        String username = (String)model.getValueAt(i, 0);
-        String password = (String)model.getValueAt(i, 1);
-        String role = (String)model.getValueAt(i, 2);
+        String username = (String) model.getValueAt(i, 0);
+        String password = (String) model.getValueAt(i, 1);
+        String role = (String) model.getValueAt(i, 2);
         usernameTextField.setText(username);
         passwordTextField.setText(password);
         ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
         comboBoxModel.setSelectedItem(role);
-        
+
     }//GEN-LAST:event_usersTableMouseClicked
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {  
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = usersTable.getSelectedRow();
-        String username = (String)model.getValueAt(i, 0);
-        
+        String username = (String) model.getValueAt(i, 0);
+
         model.removeRow(i);
-        
+
         try {
             repository.delete("delete from \"user\" where username='" + username + "'");
         } catch (SQLException ex) {
@@ -279,12 +279,12 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
         disableButtons();
     }
-    
+
     private void fillTable() {
         Object[] row = new Object[3];
-        
+
         try {
-            ResultSet res= repository.select("select * from \"user\"; ");
+            ResultSet res = repository.select("select * from \"user\"; ");
             while (res.next()) {
                 row[0] = res.getString("username");
                 row[1] = res.getString("password");
@@ -295,12 +295,12 @@ public class SysAdminGUI extends javax.swing.JFrame {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void disableButtons() {
         updateButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
-    
+
     private void enableButtons() {
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
@@ -340,7 +340,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CrudOperationsTab;
     private javax.swing.JLabel Title;
