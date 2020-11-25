@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,9 +34,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         Object[] columns = {"Username","Password","Role"};
         model.setColumnIdentifiers(columns);
         usersTable.setModel(model);
-    
-    
-        
+        fillTable();
     }
 
     /**
@@ -47,7 +46,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        usersManagementTabbedPane = new javax.swing.JTabbedPane();
         CrudOperationsTab = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
@@ -59,13 +58,17 @@ public class SysAdminGUI extends javax.swing.JFrame {
         usersTable = new javax.swing.JTable();
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
-        viewButton = new javax.swing.JButton();
         passwordLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System Administrator");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                SysAdminGUI.this.windowActivated(evt);
+            }
+        });
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
         Title.setText("System Administrator Area");
@@ -98,6 +101,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(usersTable);
 
         deleteButton.setText("Delete");
@@ -108,11 +116,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
         });
 
         updateButton.setText("Update");
-
-        viewButton.setText("View");
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewButtonActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
@@ -144,9 +150,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
                         .addGap(212, 212, 212))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(viewButton)
-                        .addGap(74, 74, 74))
+                        .addGap(167, 167, 167))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
                         .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,15 +161,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
         CrudOperationsTabLayout.setVerticalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(Title)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14)
+                .addComponent(Title)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,20 +185,20 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", CrudOperationsTab);
-        jTabbedPane1.addTab("tab2", jTabbedPane2);
+        usersManagementTabbedPane.addTab("Users Management", CrudOperationsTab);
+        usersManagementTabbedPane.addTab("tab2", jTabbedPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(usersManagementTabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE))
+                .addComponent(usersManagementTabbedPane))
         );
 
         pack();
@@ -224,29 +223,44 @@ public class SysAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
-    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        //clear table
-
-        for(int i=0; i<model.getRowCount(); i++){
-            model.removeRow(i);
-        }
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        int i = usersTable.getSelectedRow();
+        String username = (String)model.getValueAt(i, 0);
         
-        //get users
         Object[] row = new Object[3];
+        row[0] = usernameTextField.getText();
+        row[1] = passwordTextField.getText();
+        row[2] = (String)roleComboBox.getSelectedItem();
         
         try {
-            ResultSet res= repository.select("select * from \"user\"; ");
-            while (res.next()) {
-                row[0] = res.getString("username");
-                row[1] = res.getString("password");
-                row[2] = res.getString("role");
-                model.addRow(row);
-            }
+            repository.update("update \"user\" set username='" + row[0] + "', password='" + row[1] + "', role='" + row[2] + "' where username='" + username + "'");
+            model.removeRow(i);
+            model.addRow(row);
+            
         } catch (SQLException ex) {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void windowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowActivated
+        updateButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+    }//GEN-LAST:event_windowActivated
+
+    private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
+        updateButton.setEnabled(true);
+        deleteButton.setEnabled(true);
         
-    }//GEN-LAST:event_viewButtonActionPerformed
+        int i = usersTable.getSelectedRow();
+        String username = (String)model.getValueAt(i, 0);
+        String password = (String)model.getValueAt(i, 1);
+        String role = (String)model.getValueAt(i, 2);
+        usernameTextField.setText(username);
+        passwordTextField.setText(password);
+        ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
+        comboBoxModel.setSelectedItem(role);
+        
+    }//GEN-LAST:event_usersTableMouseClicked
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {  
         int i = usersTable.getSelectedRow();
@@ -261,8 +275,20 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }     
     }
     
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        int i = usersTable.getSelectedRow();
+    private void fillTable() {
+        Object[] row = new Object[3];
+        
+        try {
+            ResultSet res= repository.select("select * from \"user\"; ");
+            while (res.next()) {
+                row[0] = res.getString("username");
+                row[1] = res.getString("password");
+                row[2] = res.getString("role");
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -299,14 +325,13 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CrudOperationsTab;
     private javax.swing.JLabel Title;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
@@ -315,7 +340,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton updateButton;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
+    private javax.swing.JTabbedPane usersManagementTabbedPane;
     private javax.swing.JTable usersTable;
-    private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
