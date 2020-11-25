@@ -240,6 +240,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        updateButton.setEnabled(false);
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void windowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowActivated
