@@ -5,10 +5,7 @@
  */
 package businesslogic.activity;
 
-import businesslogic.MaintenanceProcedure;
-import businesslogic.MaintenanceType;
-import businesslogic.Site;
-import java.util.List;
+
 
 /**
  *
@@ -16,8 +13,6 @@ import java.util.List;
  */
 public class ExtraActivity extends UnplannedActivity {
 
-    public ExtraActivity(int id, List<String> materials, int week, Site site, MaintenanceType type, String description, int estimatedInterventionTime, boolean interruptible, String workspaceNotes, MaintenanceProcedure procedure) {
-        super(id, materials, week, site, type, description, estimatedInterventionTime, interruptible, workspaceNotes, procedure);
-    }
+    
 
 }

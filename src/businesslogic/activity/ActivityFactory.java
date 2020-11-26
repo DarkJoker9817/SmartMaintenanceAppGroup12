@@ -11,6 +11,26 @@ package businesslogic.activity;
  */
 public abstract class ActivityFactory {
 
-    public abstract void createActivity();
+    public enum Category {
+        PLANNED,
+        UNPLANNED
+    }
+
+    public enum CategoryUnplanned {
+        EWO,
+        EXTRA
+    }
+
+    public static MaintenanceActivity make(Category c, CategoryUnplanned unplanned) {
+        ActivityFactory factory = null;
+        if (c == Category.PLANNED) {
+            factory = new PlannedActivityFactory();
+        } else {
+            factory = new UnplannedActivityFactory();
+        }
+        return factory.selectActivity(unplanned);
+    }
+
+    protected abstract MaintenanceActivity selectActivity(CategoryUnplanned unplanned);
 
 }

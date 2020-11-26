@@ -9,11 +9,12 @@ package businesslogic.activity;
  *
  * @author gioca
  */
-public class PlannedActivityFactory extends ActivityFactory{
+public class PlannedActivityFactory extends ActivityFactory {
 
     @Override
-    public void createActivity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected MaintenanceActivity selectActivity(CategoryUnplanned unplanned) {
+        return new PlannedActivity();
+
     }
-    
+
 }

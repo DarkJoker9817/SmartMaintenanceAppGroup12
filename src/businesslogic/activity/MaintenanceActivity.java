@@ -27,16 +27,47 @@ public abstract class MaintenanceActivity {
     private String workspaceNotes;
     private MaintenanceProcedure procedure;
 
-    public MaintenanceActivity(int id, List<String> materials, int week, Site site, MaintenanceType type, String description, int estimatedInterventionTime, boolean interruptible, String workspaceNotes, MaintenanceProcedure procedure) {
+    public MaintenanceActivity() {
+       
+    }
+
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public void setMaterials(List<String> materials) {
         this.materials = materials;
+    }
+
+    public void setWeek(int week) {
         this.week = week;
+    }
+
+    public void setSite(Site site) {
         this.site = site;
+    }
+
+    public void setType(MaintenanceType type) {
         this.type = type;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setEstimatedInterventionTime(int estimatedInterventionTime) {
         this.estimatedInterventionTime = estimatedInterventionTime;
+    }
+
+    public void setInterruptible(boolean interruptible) {
         this.interruptible = interruptible;
+    }
+
+    public void setWorkspaceNotes(String workspaceNotes) {
         this.workspaceNotes = workspaceNotes;
+    }
+
+    public void setProcedure(MaintenanceProcedure procedure) {
         this.procedure = procedure;
     }
 

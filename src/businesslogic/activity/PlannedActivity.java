@@ -5,21 +5,12 @@
  */
 package businesslogic.activity;
 
-import businesslogic.MaintenanceProcedure;
-import businesslogic.MaintenanceType;
-import businesslogic.Site;
-import java.util.List;
+
 
 /**
  *
  * @author gioca
  */
 public class PlannedActivity extends MaintenanceActivity {
-
-    public PlannedActivity(int id, List<String> materials, int week, Site site, MaintenanceType type, String description, int estimatedInterventionTime, boolean interruptible, String workspaceNotes, MaintenanceProcedure procedure) {
-        super(id, materials, week, site, type, description, estimatedInterventionTime, interruptible, workspaceNotes, procedure);
-    }
-    
-    
 
 }
