@@ -9,7 +9,6 @@ import java.util.List;
 public class Maintainer extends User {
 
     private List<Competence> competences;
-    //private MaintenanceProcedure procedure;
     private int activityID;
     private Availability availability;
 
@@ -21,9 +20,6 @@ public class Maintainer extends User {
         return competences;
     }
 
-    /*public MaintenanceProcedure getProcedure() {
-        return procedure;
-    }*/
     public int getActivityID() {
         return activityID;
     }
@@ -36,9 +32,6 @@ public class Maintainer extends User {
         this.competences = competences;
     }
 
-    /*public void setProcedure(MaintenanceProcedure procedure) {
-        this.procedure = procedure;
-    }*/
     public void setActivityID(int activityID) {
         this.activityID = activityID;
     }
