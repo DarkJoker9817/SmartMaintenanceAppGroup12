@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Maintainer extends User {
 
-    private List<Competence> competences;
+    private List<String> competences;
     private int activityID;
     private Availability availability;
 
@@ -16,7 +16,7 @@ public class Maintainer extends User {
         super(username, password);
     }
 
-    public List<Competence> getCompetences() {
+    public List<String> getCompetences() {
         return competences;
     }
 
@@ -28,8 +28,8 @@ public class Maintainer extends User {
         return availability;
     }
 
-    public void setCompetences(List<Competence> competences) {
-        this.competences = competences;
+    public void addCompetence(String competence) {
+        this.competences.add(competence);
     }
 
     public void setActivityID(int activityID) {
