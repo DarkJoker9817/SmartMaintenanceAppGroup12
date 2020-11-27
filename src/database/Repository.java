@@ -19,7 +19,7 @@ public class Repository {
     public Repository() {
         try {
             Class.forName("org.postgresql.Driver");
-            this.conn = DriverManager.getConnection(url, "postgres", "postgres");
+            this.conn = DriverManager.getConnection(url, "postgres", "postgre");
         } catch (SQLException | ClassNotFoundException ex) {
 
         }

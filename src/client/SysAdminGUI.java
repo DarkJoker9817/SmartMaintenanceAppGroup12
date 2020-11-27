@@ -9,8 +9,6 @@ import database.Repository;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +22,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
      * Creates new form SysAdminGUI
      */
     private DefaultTableModel model;
-    Repository repository;
+    private Repository repository;
 
     public SysAdminGUI() {
         initComponents();
@@ -241,17 +239,15 @@ public class SysAdminGUI extends javax.swing.JFrame {
         row[1] = passwordTextField.getText();
         row[2] = roleComboBox.getSelectedItem();
 
-        if (usernameTextField.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Insert an username", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-        } else if (passwordTextField.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Insert a password", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
-                model.addRow(row);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Username already exists!!", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+        if (usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
+            model.addRow(row);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
         clearFields();
     }//GEN-LAST:event_createButtonActionPerformed
@@ -275,7 +271,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             model.addRow(row);
 
         } catch (SQLException ex) {
-            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         disableButtons();
         clearFields();
@@ -308,7 +304,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         try {
             repository.delete("delete from \"user\" where username='" + username + "'");
         } catch (SQLException ex) {
-            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         disableButtons();
         clearFields();
@@ -326,7 +322,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 model.addRow(row);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -359,16 +355,24 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SysAdminGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SysAdminGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SysAdminGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SysAdminGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SysAdminGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SysAdminGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SysAdminGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SysAdminGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
