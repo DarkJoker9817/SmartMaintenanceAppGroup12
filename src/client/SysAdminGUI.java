@@ -28,12 +28,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
     public SysAdminGUI() {
         initComponents();
-
         repository = new Repository();
-        model = new DefaultTableModel();
-        Object[] columns = {"Username", "Password", "Role"};
-        model.setColumnIdentifiers(columns);
-        usersTable.setModel(model);
+        model = (DefaultTableModel) usersTable.getModel();
         fillTable();
     }
 
@@ -46,7 +42,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         usersManagementTabbedPane = new javax.swing.JTabbedPane();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         CrudOperationsTab = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
@@ -60,7 +58,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         updateButton = new javax.swing.JButton();
         passwordLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System Administrator");
@@ -69,6 +66,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 SysAdminGUI.this.windowActivated(evt);
             }
         });
+
+        jPanel1.setBackground(new java.awt.Color(255, 153, 0));
+
+        usersManagementTabbedPane.addTab("tab2", jTabbedPane2);
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
         Title.setText("System Administrator Area");
@@ -92,15 +93,21 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Username", "Password", "Role"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        usersTable.getTableHeader().setReorderingAllowed(false);
         usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usersTableMouseClicked(evt);
@@ -131,74 +138,84 @@ public class SysAdminGUI extends javax.swing.JFrame {
         CrudOperationsTabLayout.setHorizontalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addGap(217, 217, 217)
-                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(usernameLabel)
-                    .addComponent(createButton)
-                    .addComponent(passwordLabel)
-                    .addComponent(roleLabel))
-                .addGap(18, 18, 18)
-                .addComponent(deleteButton)
-                .addGap(18, 18, 18)
-                .addComponent(updateButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
-                .addContainerGap(172, Short.MAX_VALUE)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
-                        .addComponent(Title)
-                        .addGap(212, 212, 212))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
-                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(251, 251, 251))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CrudOperationsTabLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(167, 167, 167))))
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGap(174, 174, 174)
+                        .addComponent(createButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(updateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                .addComponent(Title)
+                                .addGap(99, 99, 99))
+                            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(usernameLabel)
+                                    .addComponent(passwordLabel)
+                                    .addComponent(roleLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(174, 174, 174)))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE))
         );
         CrudOperationsTabLayout.setVerticalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CrudOperationsTabLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(35, 35, 35)
                 .addComponent(Title)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(57, 57, 57)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameLabel))
                 .addGap(18, 18, 18)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordLabel)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLabel))
                 .addGap(18, 18, 18)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(roleLabel)
-                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72)
+                    .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roleLabel))
+                .addGap(64, 64, 64)
                 .addGroup(CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createButton)
                     .addComponent(deleteButton)
+                    .addComponent(createButton)
                     .addComponent(updateButton))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(CrudOperationsTabLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         usersManagementTabbedPane.addTab("Users Management", CrudOperationsTab);
-        usersManagementTabbedPane.addTab("tab2", jTabbedPane2);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(usersManagementTabbedPane)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(usersManagementTabbedPane)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(usersManagementTabbedPane)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(usersManagementTabbedPane))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -317,7 +334,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -346,6 +363,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel Title;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel passwordLabel;
