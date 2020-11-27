@@ -216,6 +216,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
@@ -236,6 +237,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Username already exists!!", "INSERT ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+        clearFields();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
@@ -260,6 +262,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         disableButtons();
+        clearFields();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void windowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowActivated
@@ -292,6 +295,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         disableButtons();
+        clearFields();
     }
 
     private void fillTable() {
@@ -318,6 +322,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private void enableButtons() {
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
+    }
+
+    private void clearFields() {
+        usernameTextField.setText("");
+        passwordTextField.setText("");
     }
 
     /**
