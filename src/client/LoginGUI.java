@@ -7,6 +7,7 @@ package client;
 
 import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
+import java.awt.Color;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 
@@ -48,7 +49,7 @@ public class LoginGUI extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        loginPanel = new javax.swing.JPanel();
         loginLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -87,7 +88,7 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Login");
 
-        jPanel2.setBackground(new java.awt.Color(255, 153, 0));
+        loginPanel.setBackground(new java.awt.Color(255, 153, 0));
 
         loginLabel.setForeground(new java.awt.Color(0, 0, 0));
         loginLabel.setText("                            Login");
@@ -95,16 +96,22 @@ public class LoginGUI extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginLabelMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginLabelMouseExited(evt);
+            }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(loginLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
@@ -132,7 +139,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jSeparator1)
                             .addComponent(jSeparator2)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(62, 62, 62))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginGUILayout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -162,7 +169,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77))
         );
 
@@ -266,6 +273,17 @@ public class LoginGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_loginLabelMouseClicked
 
+    private void loginLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseEntered
+        // TODO add your handling code here:
+        // Change the color of the panel
+        loginPanel.setBackground(new Color(255, 204, 51));
+    }//GEN-LAST:event_loginLabelMouseEntered
+
+    private void loginLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseExited
+        // TODO add your handling code here:
+        loginPanel.setBackground(new Color(255, 153, 0));
+    }//GEN-LAST:event_loginLabelMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -312,10 +330,10 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel loginLabel;
+    private javax.swing.JPanel loginPanel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
