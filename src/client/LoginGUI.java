@@ -239,36 +239,23 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void loginLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseClicked
         // TODO add your handling code here:
-        ComboBoxModel<String> comboBoxModel = ComboBoxUsers.getModel();
         String username = usernameTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
-        System.out.println(comboBoxModel.getElementAt(ComboBoxUsers.getSelectedIndex()));
+        JFrameFactory userGUI = new JFrameFactory();
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-                if (!login.isValidSysAdmin(username, password)) {
-                    JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    showUserGUI(admin);
-                }
-            } else {
-                if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
-                    if (!login.isValidUser(username, password, "planner")) {
-                        JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        showUserGUI(planner);
-                    }
-                } else {
-                    if (!login.isValidUser(username, password, "maintainer")) {
-                        JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        showUserGUI(maintainer);
-                    }
-                }
+            if (login.isValidSysAdmin(username, password) && ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
+                showUserGUI(userGUI.getJFrame((String) ComboBoxUsers.getSelectedItem()));
+                return;
             }
+            if (login.isValidUser(username, password, (String) ComboBoxUsers.getSelectedItem())) {
+                showUserGUI(userGUI.getJFrame((String) ComboBoxUsers.getSelectedItem()));
+                return;
+            }
+            JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(LoginGUI, ex.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
         }
