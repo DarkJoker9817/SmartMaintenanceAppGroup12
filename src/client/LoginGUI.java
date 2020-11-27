@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
 import java.awt.Color;
 import java.sql.SQLException;
+import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 
 /**
@@ -20,12 +21,14 @@ public class LoginGUI extends javax.swing.JFrame {
     private SysAdminGUI admin;
     private PlannerGUI planner;
     private MaintainerGUI maintainer;
+    private LoginValidate login;
 
     /**
      * Creates new form LoginGUI
      */
     public LoginGUI() {
         initComponents();
+        login = new LoginValidate();
         admin = new SysAdminGUI();
         planner = new PlannerGUI();
         maintainer = new MaintainerGUI();
@@ -236,30 +239,30 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void loginLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseClicked
         // TODO add your handling code here:
-        LoginValidate log = new LoginValidate();
+        ComboBoxModel<String> comboBoxModel = ComboBoxUsers.getModel();
         String username = usernameTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
+        System.out.println(comboBoxModel.getElementAt(ComboBoxUsers.getSelectedIndex()));
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         try {
             if (ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-                if (!log.isValidSysAdmin(username, password)) {
+                if (!login.isValidSysAdmin(username, password)) {
                     JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                 } else {
                     showUserGUI(admin);
                 }
             } else {
                 if (ComboBoxUsers.getSelectedItem().equals("Planner")) {
-                    if (!log.isValidUser(username, password, "planner")) {
+                    if (!login.isValidUser(username, password, "planner")) {
                         JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                     } else {
                         showUserGUI(planner);
                     }
                 } else {
-                    if (!log.isValidUser(username, password, "maintainer")) {
+                    if (!login.isValidUser(username, password, "maintainer")) {
                         JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
                     } else {
                         showUserGUI(maintainer);
