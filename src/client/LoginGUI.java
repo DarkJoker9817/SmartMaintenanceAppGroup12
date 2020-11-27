@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
 import java.awt.Color;
 import java.sql.SQLException;
-import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 
 /**
@@ -18,10 +17,7 @@ import javax.swing.JFrame;
  */
 public class LoginGUI extends javax.swing.JFrame {
 
-    private SysAdminGUI admin;
-    private PlannerGUI planner;
-    private MaintainerGUI maintainer;
-    private LoginValidate login;
+    private final LoginValidate login;
 
     /**
      * Creates new form LoginGUI
@@ -29,9 +25,6 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         login = new LoginValidate();
-        admin = new SysAdminGUI();
-        planner = new PlannerGUI();
-        maintainer = new MaintainerGUI();
     }
 
     /**
