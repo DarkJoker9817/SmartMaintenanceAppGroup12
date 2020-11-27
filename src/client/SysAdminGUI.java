@@ -44,7 +44,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         usersManagementTabbedPane = new javax.swing.JTabbedPane();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
         CrudOperationsTab = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
@@ -68,8 +67,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 0));
-
-        usersManagementTabbedPane.addTab("tab2", jTabbedPane2);
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
         Title.setText("System Administrator Area");
@@ -365,7 +362,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
     private javax.swing.JComboBox<String> roleComboBox;
