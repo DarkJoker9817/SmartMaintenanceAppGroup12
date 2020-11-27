@@ -25,7 +25,7 @@ public class Planner extends User {
                                int estimatedInterventionTime, boolean interruptible,
                                String workspaceNotes, MaintenanceProcedure procedure) {
         
-        MaintenanceActivity activity = PlannedActivityFactory.make(ActivityFactory.Category.PLANNED, null);
+        MaintenanceActivity activity = ActivityFactory.make(ActivityFactory.Category.PLANNED, null);
         activity.setId(id);
         activity.setMaterials(materials);
         activity.setWeek(week);
