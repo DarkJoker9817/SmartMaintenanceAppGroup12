@@ -43,7 +43,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        usersManagementTabbedPane = new javax.swing.JTabbedPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         CrudOperationsTab = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
@@ -68,7 +68,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 0));
 
+        CrudOperationsTab.setBackground(new java.awt.Color(255, 255, 255));
+
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
+        Title.setForeground(new java.awt.Color(0, 0, 0));
         Title.setText("System Administrator Area");
 
         usernameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -77,17 +80,22 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        createButton.setBackground(new java.awt.Color(255, 153, 0));
         createButton.setText("Create");
+        createButton.setBorderPainted(false);
         createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createButtonActionPerformed(evt);
             }
         });
 
+        roleLabel.setForeground(new java.awt.Color(0, 0, 0));
         roleLabel.setText("Role");
 
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
 
+        usersTable.setBackground(new java.awt.Color(255, 255, 255));
+        usersTable.setForeground(new java.awt.Color(0, 0, 0));
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -112,6 +120,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(usersTable);
 
+        deleteButton.setBackground(new java.awt.Color(255, 153, 0));
         deleteButton.setText("Delete");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +128,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        updateButton.setBackground(new java.awt.Color(255, 153, 0));
         updateButton.setText("Update");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,8 +136,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        passwordLabel.setForeground(new java.awt.Color(0, 0, 0));
         passwordLabel.setText("Password");
 
+        usernameLabel.setForeground(new java.awt.Color(0, 0, 0));
         usernameLabel.setText("Username");
 
         javax.swing.GroupLayout CrudOperationsTabLayout = new javax.swing.GroupLayout(CrudOperationsTab);
@@ -161,7 +173,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
                                     .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(174, 174, 174)))))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
         );
         CrudOperationsTabLayout.setVerticalGroup(
             CrudOperationsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,17 +203,17 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        usersManagementTabbedPane.addTab("Users Management", CrudOperationsTab);
+        jTabbedPane1.addTab("Users Management", CrudOperationsTab);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(usersManagementTabbedPane)
+            .addComponent(jTabbedPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(usersManagementTabbedPane)
+            .addComponent(jTabbedPane1)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -212,7 +224,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -371,6 +383,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
     private javax.swing.JComboBox<String> roleComboBox;
@@ -378,7 +391,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton updateButton;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
-    private javax.swing.JTabbedPane usersManagementTabbedPane;
     private javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
 }
