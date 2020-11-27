@@ -28,13 +28,13 @@ public abstract class MaintenanceActivity {
     private MaintenanceProcedure procedure;
 
     public MaintenanceActivity() {
-       
-    }
 
-    public void setId(int id) {
+    }
+    
+    public void setId(int id){
         this.id = id;
     }
-
+    
     public void setMaterials(List<String> materials) {
         this.materials = materials;
     }
@@ -111,4 +111,8 @@ public abstract class MaintenanceActivity {
         return procedure;
     }
 
+    @Override
+    public String toString() {
+        return "MaintenanceActivity{" + "id=" + id + ", materials=" + materials + ", week=" + week + ", site=" + site + ", type=" + type + ", description=" + description + ", estimatedInterventionTime=" + estimatedInterventionTime + ", interruptible=" + interruptible + ", workspaceNotes=" + workspaceNotes + ", procedure=" + procedure + '}';
+    }
 }
