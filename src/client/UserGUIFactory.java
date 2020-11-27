@@ -11,9 +11,9 @@ import javax.swing.JFrame;
  *
  * @author gioca
  */
-public class JFrameFactory {
+public class UserGUIFactory {
 
-    public JFrame getJFrame(String gui) {
+    public JFrame getUserGUI(String gui) {
         if (gui.equals("System Administrator")) {
             return new SysAdminGUI();
         }
