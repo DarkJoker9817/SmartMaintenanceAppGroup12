@@ -95,6 +95,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
 
         usersTable.setBackground(new java.awt.Color(255, 255, 255));
+        usersTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         usersTable.setForeground(new java.awt.Color(0, 0, 0));
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,6 +113,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        usersTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        usersTable.setGridColor(new java.awt.Color(255, 255, 255));
+        usersTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         usersTable.getTableHeader().setReorderingAllowed(false);
         usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
