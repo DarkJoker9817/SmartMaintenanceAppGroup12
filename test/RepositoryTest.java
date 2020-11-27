@@ -9,28 +9,33 @@ import java.sql.SQLException;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-
 /**
  *
  * @author gioca
  */
 public class RepositoryTest {
-
+    
     private Repository rep;
-
+    
     @Before
-    public void setUp() {
+    public void setUpDatabase() throws SQLException {
         rep = new Repository();
+        rep.insert("insert into \"user\"(username,password,role) values('pippo','abc','Planner')");
     }
-
+    
     @Test
     public void testSelectNullPointer() throws SQLException {
         assertNull(rep.select(""));
     }
-
+    
     @Test
     public void testSelectResultSet() throws SQLException {
         assertNotNull(rep.select("select * from \"user\""));
+    }
+    
+    @After
+    public void tearDownDatabase() {
+        rep.delete("delete from \"user\"");
     }
 
     // TODO add test methods here.
