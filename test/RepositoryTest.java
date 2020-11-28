@@ -20,12 +20,27 @@ public class RepositoryTest {
     @Before
     public void setUpDatabase() throws SQLException {
         rep = new Repository();
-        rep.insert("insert into \"user\"(username,password,role) values('pippo','abc','Planner')");
+        rep.insert("insert into \"user\"(username,password,role) values('test','abc','Planner')");
     }
 
     @Test
     public void testSelectResultSet() throws SQLException {
         assertNotNull(rep.select("select * from \"user\""));
+    }
+
+    @Test
+    public void deleteRow() throws SQLException {
+        assertEquals(rep.delete("delete from \"user\" where username = 'test'"), 1);
+    }
+
+    @Test
+    public void insertRow() throws SQLException {
+        assertEquals(rep.insert("insert into \"user\"(username,password,role) values('prova','abc','Planner')"), 1);
+    }
+
+    @Test
+    public void updateRow() throws SQLException {
+        assertEquals(rep.update("update \"user\" set username = 'Test' where username = 'test'"), 1);
     }
 
     @After
