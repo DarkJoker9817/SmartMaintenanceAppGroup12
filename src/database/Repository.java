@@ -33,25 +33,28 @@ public class Repository {
         return res;
     }
 
-    public void update(String query) throws SQLException {
+    public int update(String query) throws SQLException {
+        int nRow;
         try (Statement st = conn.createStatement()) {
-            st.executeUpdate(query);
+            nRow = st.executeUpdate(query);
         }
-
+        return nRow;
     }
 
-    public void delete(String query) throws SQLException {
+    public int delete(String query) throws SQLException {
+        int nRow;
         try (Statement st = conn.createStatement()) {
-            st.executeUpdate(query);
+            nRow = st.executeUpdate(query);
         }
-
+        return nRow;
     }
 
-    public void insert(String query) throws SQLException {
+    public int insert(String query) throws SQLException {
+        int nRow;
         try (Statement st = conn.createStatement()) {
-            st.executeUpdate(query);
-        } 
-
+            nRow = st.executeUpdate(query);
+        }
+        return nRow;
     }
 
 }
