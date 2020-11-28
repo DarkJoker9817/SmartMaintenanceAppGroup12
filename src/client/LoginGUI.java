@@ -241,7 +241,7 @@ public class LoginGUI extends javax.swing.JFrame {
             return;
         }
         try {
-            if (login.isValidSysAdmin(username, password) && ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
+            if (login.isValidSysAdmin(username, password) && selectedItem.equals("System Administrator")) {
                 showUserGUI(gui.getUserGUI(selectedItem));
                 return;
             }
