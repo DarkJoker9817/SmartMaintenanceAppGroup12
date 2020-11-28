@@ -84,14 +84,16 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        roleLabel.setForeground(new java.awt.Color(0, 0, 0));
         roleLabel.setText("Role");
 
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
+        roleComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleComboBoxActionPerformed(evt);
+            }
+        });
 
-        usersTable.setBackground(new java.awt.Color(255, 255, 255));
         usersTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        usersTable.setForeground(new java.awt.Color(0, 0, 0));
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -135,10 +137,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        passwordLabel.setForeground(new java.awt.Color(0, 0, 0));
         passwordLabel.setText("Password");
 
-        usernameLabel.setForeground(new java.awt.Color(0, 0, 0));
         usernameLabel.setText("Username");
 
         javax.swing.GroupLayout CrudOperationsTabLayout = new javax.swing.GroupLayout(CrudOperationsTab);
@@ -315,6 +315,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
         enableCreateButton();
 
     }//GEN-LAST:event_usersTableMouseClicked
+
+    private void roleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleComboBoxActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = usersTable.getSelectedRow();

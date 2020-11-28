@@ -8,6 +8,7 @@ package client;
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
 import businesslogic.activity.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,11 +19,13 @@ public class PlannerGUI extends javax.swing.JFrame {
     /**
      * Creates new form PlannerGUI
      */
-        Planner planner;
-        
+    private Planner planner;
+    private DefaultTableModel model;
+
     public PlannerGUI() {
         initComponents();
-        planner= new Planner("pippo", "pippo");
+        planner = new Planner("pippo", "pippo");
+        model = (DefaultTableModel) maintenanceTable.getModel();
     }
 
     /**
@@ -44,12 +47,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         materialsTextField = new javax.swing.JTextField();
         weekTextField = new javax.swing.JTextField();
         siteTextField = new javax.swing.JTextField();
-        typeTextField = new javax.swing.JTextField();
-        descriptionTextField = new javax.swing.JTextField();
         timeTextField = new javax.swing.JTextField();
-        interruptibleTextField = new javax.swing.JTextField();
-        notesTextField = new javax.swing.JTextField();
-        procedureTextField = new javax.swing.JTextField();
         idLabel = new javax.swing.JLabel();
         materialsLabel = new javax.swing.JLabel();
         weekLabel = new javax.swing.JLabel();
@@ -60,6 +58,14 @@ public class PlannerGUI extends javax.swing.JFrame {
         interruptibleLabel = new javax.swing.JLabel();
         notesLabel = new javax.swing.JLabel();
         procedureLabel = new javax.swing.JLabel();
+        interruptibleCheckBox = new javax.swing.JCheckBox();
+        typeComboBox = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        descriptionTextArea = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        notesTextArea = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        procedureTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,10 +74,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         maintenanceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "materials", "week", "site", "type", "description", "time", "interruptible", "notes", "procedure"
@@ -115,15 +118,15 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         updateButton.setText("update");
 
-        materialsTextField.addActionListener(new java.awt.event.ActionListener() {
+        idTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                materialsTextFieldActionPerformed(evt);
+                idTextFieldActionPerformed(evt);
             }
         });
 
-        descriptionTextField.addActionListener(new java.awt.event.ActionListener() {
+        materialsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descriptionTextFieldActionPerformed(evt);
+                materialsTextFieldActionPerformed(evt);
             }
         });
 
@@ -141,11 +144,31 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         timeLabel.setText("time (min)");
 
-        interruptibleLabel.setText("interruptible (yes/no)");
+        interruptibleLabel.setText("interruptible");
 
         notesLabel.setText("notes");
 
         procedureLabel.setText("procedure");
+
+        interruptibleCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                interruptibleCheckBoxActionPerformed(evt);
+            }
+        });
+
+        typeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mechanical", "Electronic", "Electrical", "Hydraulic" }));
+
+        descriptionTextArea.setColumns(20);
+        descriptionTextArea.setRows(5);
+        jScrollPane2.setViewportView(descriptionTextArea);
+
+        notesTextArea.setColumns(20);
+        notesTextArea.setRows(5);
+        jScrollPane3.setViewportView(notesTextArea);
+
+        procedureTextArea.setColumns(20);
+        procedureTextArea.setRows(5);
+        jScrollPane4.setViewportView(procedureTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,50 +184,59 @@ public class PlannerGUI extends javax.swing.JFrame {
                         .addComponent(Title)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(createButton)
-                .addGap(105, 105, 105)
-                .addComponent(deleteButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
-                .addComponent(updateButton)
-                .addGap(122, 122, 122))
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(weekLabel)
-                        .addComponent(materialsLabel)
-                        .addComponent(idLabel))
-                    .addComponent(siteLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(typeLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(idTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-                    .addComponent(materialsTextField)
-                    .addComponent(weekTextField)
-                    .addComponent(siteTextField)
-                    .addComponent(typeTextField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(createButton)
+                        .addGap(105, 105, 105)
+                        .addComponent(deleteButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(timeLabel)
-                            .addComponent(interruptibleLabel)
-                            .addComponent(notesLabel)
-                            .addComponent(procedureLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(notesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(interruptibleTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(timeTextField)
-                            .addComponent(procedureTextField)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(weekLabel)
+                                    .addComponent(materialsLabel)
+                                    .addComponent(idLabel))
+                                .addComponent(siteLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(timeLabel))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(idTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                            .addComponent(materialsTextField)
+                            .addComponent(weekTextField)
+                            .addComponent(siteTextField)
+                            .addComponent(timeTextField))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3)
+                    .addComponent(descriptionLabel)
+                    .addComponent(notesLabel)
+                    .addComponent(jScrollPane2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(descriptionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(updateButton)
+                                .addGap(122, 122, 122))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(procedureLabel)
+                                .addGap(160, 160, 160))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(interruptibleLabel)
+                                    .addComponent(typeLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(interruptibleCheckBox)
+                                    .addComponent(typeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,39 +248,59 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idLabel)
-                    .addComponent(descriptionLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(materialsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(materialsLabel)
-                    .addComponent(timeLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(weekTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(interruptibleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weekLabel)
-                    .addComponent(interruptibleLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(siteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(notesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(siteLabel)
-                    .addComponent(notesLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(procedureTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(typeLabel)
+                    .addComponent(descriptionLabel)
                     .addComponent(procedureLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(updateButton)
-                    .addComponent(deleteButton)
-                    .addComponent(createButton))
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(138, 138, 138)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(siteLabel)
+                                    .addComponent(siteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(typeLabel)
+                                    .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(interruptibleLabel)
+                                    .addComponent(interruptibleCheckBox))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(timeLabel)
+                                    .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(52, 52, 52)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(updateButton)
+                            .addComponent(deleteButton)
+                            .addComponent(createButton))
+                        .addGap(37, 37, 37))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(materialsLabel)
+                                    .addComponent(materialsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(weekLabel)
+                                    .addComponent(weekTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(notesLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78))))
         );
 
         pack();
@@ -260,20 +312,53 @@ public class PlannerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_maintenanceTableMouseClicked
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-    planner.createActivity(1, null, 3, null, MaintenanceType.HYDRAULIC, "prova", 60, true, "sdskdgjnksdg", null);
+        MaintenanceType type = getComboBoxType();
+        planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null);
+        addTableRow();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void descriptionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_descriptionTextFieldActionPerformed
-
     private void materialsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialsTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_materialsTextFieldActionPerformed
+
+    private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idTextFieldActionPerformed
+
+    private void interruptibleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptibleCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_interruptibleCheckBoxActionPerformed
+
+    public MaintenanceType getComboBoxType() {
+        if (typeComboBox.getSelectedItem() == "Mechanical") {
+            return MaintenanceType.MECHANICAL;
+        } else if (typeComboBox.getSelectedItem() == "Electronic") {
+            return MaintenanceType.ELECTRONIC;
+        } else if (typeComboBox.getSelectedItem() == "Electrical") {
+            return MaintenanceType.ELECTRICAL;
+        }
+        return MaintenanceType.HYDRAULIC;
+    }
+
+    public void addTableRow() {
+        Object[] row = new Object[10];
+        row[0] = Integer.parseInt(idTextField.getText());
+        row[1] = null;
+        row[2] = Integer.parseInt(weekTextField.getText());
+        row[3] = null;
+        row[4] = getComboBoxType();
+        row[5] = descriptionTextArea.getText();
+        row[6] = Integer.parseInt(timeTextField.getText());
+        row[7] = interruptibleCheckBox.isSelected();
+        System.out.println(row[7]);
+        row[8] = notesTextArea.getText();
+        row[9] = null;
+        model.addRow(row);
+    }
 
     /**
      * @param args the command line arguments
@@ -315,25 +400,28 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel descriptionLabel;
-    private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JLabel idLabel;
     private javax.swing.JTextField idTextField;
+    private javax.swing.JCheckBox interruptibleCheckBox;
     private javax.swing.JLabel interruptibleLabel;
-    private javax.swing.JTextField interruptibleTextField;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable maintenanceTable;
     private javax.swing.JLabel materialsLabel;
     private javax.swing.JTextField materialsTextField;
     private javax.swing.JLabel notesLabel;
-    private javax.swing.JTextField notesTextField;
+    private javax.swing.JTextArea notesTextArea;
     private javax.swing.JLabel procedureLabel;
-    private javax.swing.JTextField procedureTextField;
+    private javax.swing.JTextArea procedureTextArea;
     private javax.swing.JLabel siteLabel;
     private javax.swing.JTextField siteTextField;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JTextField timeTextField;
+    private javax.swing.JComboBox<String> typeComboBox;
     private javax.swing.JLabel typeLabel;
-    private javax.swing.JTextField typeTextField;
     private javax.swing.JButton updateButton;
     private javax.swing.JLabel weekLabel;
     private javax.swing.JTextField weekTextField;

@@ -66,4 +66,7 @@ public class Planner extends User {
         return scheduledActivity.get(id);
     }
 
+    public Map<Integer, MaintenanceActivity> getScheduledActivity() {
+        return scheduledActivity;
+    }
 }
