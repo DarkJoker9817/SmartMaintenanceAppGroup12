@@ -234,6 +234,7 @@ public class LoginGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = usernameTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
+        String selectedItem = (String) ComboBoxUsers.getSelectedItem();
         UserGUIFactory gui = new UserGUIFactory();
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
@@ -241,11 +242,11 @@ public class LoginGUI extends javax.swing.JFrame {
         }
         try {
             if (login.isValidSysAdmin(username, password) && ComboBoxUsers.getSelectedItem().equals("System Administrator")) {
-                showUserGUI(gui.getUserGUI((String) ComboBoxUsers.getSelectedItem()));
+                showUserGUI(gui.getUserGUI(selectedItem));
                 return;
             }
-            if (login.isValidUser(username, password, (String) ComboBoxUsers.getSelectedItem())) {
-                showUserGUI(gui.getUserGUI((String) ComboBoxUsers.getSelectedItem()));
+            if (login.isValidUser(username, password, selectedItem)) {
+                showUserGUI(gui.getUserGUI(selectedItem));
                 return;
             }
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
