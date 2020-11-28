@@ -72,12 +72,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         Title.setForeground(new java.awt.Color(0, 0, 0));
         Title.setText("System Administrator Area");
 
-        usernameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameTextFieldActionPerformed(evt);
-            }
-        });
-
         createButton.setBackground(new java.awt.Color(255, 153, 0));
         createButton.setText("Create");
         createButton.setBorderPainted(false);
@@ -252,10 +246,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         clearFields();
     }//GEN-LAST:event_createButtonActionPerformed
 
-    private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameTextFieldActionPerformed
-
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
@@ -274,6 +264,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         disableButtons();
+        enableCreateButton();
         clearFields();
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -293,6 +284,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
         ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
         comboBoxModel.setSelectedItem(role);
 
+        enableCreateButton();
+
     }//GEN-LAST:event_usersTableMouseClicked
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,6 +300,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         disableButtons();
+        enableCreateButton();
         clearFields();
     }
 
@@ -323,6 +317,14 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void enableCreateButton() {
+        if (createButton.isEnabled()) {
+            createButton.setEnabled(false);
+        } else {
+            createButton.setEnabled(true);
         }
     }
 
