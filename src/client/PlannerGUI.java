@@ -7,7 +7,9 @@ package client;
 
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
-import businesslogic.activity.*;
+import java.time.LocalDate;
+import java.time.temporal.*;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +29,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         initComponents();
         planner = new Planner("pippo", "pippo");
         model = (DefaultTableModel) maintenanceTable.getModel();
+        setCurrentWeek();
         fillTable();
     }
 
@@ -85,12 +88,6 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         procedureLabel.setForeground(new java.awt.Color(0, 0, 0));
         procedureLabel.setText("Procedure");
-
-        interruptibleCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                interruptibleCheckBoxActionPerformed(evt);
-            }
-        });
 
         typeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mechanical", "Electronic", "Electrical", "Hydraulic" }));
 
@@ -179,18 +176,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
-            }
-        });
-
-        idTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTextFieldActionPerformed(evt);
-            }
-        });
-
-        materialsTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                materialsTextFieldActionPerformed(evt);
             }
         });
 
@@ -365,20 +350,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void materialsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialsTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_materialsTextFieldActionPerformed
-
-    private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTextFieldActionPerformed
-
-    private void interruptibleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptibleCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_interruptibleCheckBoxActionPerformed
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-
         disableButtons();
     }//GEN-LAST:event_formWindowActivated
 
@@ -506,6 +478,13 @@ public class PlannerGUI extends javax.swing.JFrame {
         row2[9] = null;
         model.addRow(row2);
 
+    }
+
+    private void setCurrentWeek() {
+        LocalDate date = LocalDate.now();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        int weekNumber = date.get(woy);
+        System.out.println(weekNumber);
     }
 
     private void fillForm() {
