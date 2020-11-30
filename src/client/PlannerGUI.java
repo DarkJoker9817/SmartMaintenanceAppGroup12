@@ -10,6 +10,8 @@ import businesslogic.Planner;
 import java.time.LocalDate;
 import java.time.temporal.*;
 import java.util.Locale;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,12 +26,14 @@ public class PlannerGUI extends javax.swing.JFrame {
      */
     private Planner planner;
     private DefaultTableModel model;
+    private ComboBoxModel<String> comboBoxModel;
 
     public PlannerGUI() {
         initComponents();
         planner = new Planner("pippo", "pippo");
         model = (DefaultTableModel) maintenanceTable.getModel();
-        setCurrentWeek();
+        weekComboBox.setModel(setCurrentWeek());
+        comboBoxModel = setCurrentWeek();
         fillTable();
     }
 
@@ -54,7 +58,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         notesTextArea = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         procedureTextArea = new javax.swing.JTextArea();
-        weekTextField = new javax.swing.JTextField();
         siteTextField = new javax.swing.JTextField();
         timeTextField = new javax.swing.JTextField();
         idLabel = new javax.swing.JLabel();
@@ -73,6 +76,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         materialsTextField = new javax.swing.JTextField();
         interruptibleLabel = new javax.swing.JLabel();
         notesLabel = new javax.swing.JLabel();
+        weekComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Planner");
@@ -185,6 +189,8 @@ public class PlannerGUI extends javax.swing.JFrame {
         notesLabel.setForeground(new java.awt.Color(0, 0, 0));
         notesLabel.setText("Notes");
 
+        weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -192,20 +198,25 @@ public class PlannerGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(idLabel)
-                            .addComponent(siteLabel)
-                            .addComponent(timeLabel)
-                            .addComponent(typeLabel)
-                            .addComponent(interruptibleLabel)
-                            .addComponent(materialsLabel)
-                            .addComponent(weekLabel))
-                        .addGap(8, 8, 8)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(idLabel)
+                                    .addComponent(siteLabel)
+                                    .addComponent(timeLabel)
+                                    .addComponent(typeLabel)
+                                    .addComponent(interruptibleLabel)
+                                    .addComponent(materialsLabel))
+                                .addGap(8, 8, 8))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(weekLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(weekTextField)
                                     .addComponent(materialsTextField)
                                     .addComponent(siteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(typeComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,8 +260,8 @@ public class PlannerGUI extends javax.swing.JFrame {
                     .addComponent(idLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(weekTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weekLabel))
+                    .addComponent(weekLabel)
+                    .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(materialsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,7 +294,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(procedureLabel))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
             .addComponent(jScrollPane1)
         );
 
@@ -324,7 +335,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         MaintenanceType type = getComboBoxType();
         try {
-            if (planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) == null) {
+            if (planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt((String) weekComboBox.getSelectedItem()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) == null) {
                 addTableRow();
             } else {
                 JOptionPane.showMessageDialog(this, "Activity ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -359,7 +370,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         Integer id = (Integer) model.getValueAt(i, 0);
         MaintenanceType type = getComboBoxType();
         try {
-            if (planner.modifyActivity(id, null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) != null) {
+            if (planner.modifyActivity(id, null, Integer.parseInt((String) weekComboBox.getSelectedItem()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) != null) {
                 modifyTableRow(i);
             } else {
                 JOptionPane.showMessageDialog(this, "Activity ID not found!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -399,7 +410,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         Object[] row = new Object[10];
         row[0] = Integer.parseInt(idTextField.getText());
         row[1] = null;
-        row[2] = Integer.parseInt(weekTextField.getText());
+        row[2] = Integer.parseInt((String) weekComboBox.getSelectedItem());
         row[3] = null;
         row[4] = getComboBoxType();
         row[5] = descriptionTextArea.getText();
@@ -411,7 +422,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     }
 
     private void modifyTableRow(int i) {
-        model.setValueAt(Integer.parseInt(weekTextField.getText()), i, 2);
+        model.setValueAt(Integer.parseInt((String) weekComboBox.getSelectedItem()), i, 2);
         model.setValueAt(getComboBoxType(), i, 4);
         model.setValueAt(descriptionTextArea.getText(), i, 5);
         model.setValueAt(Integer.parseInt(timeTextField.getText()), i, 6);
@@ -441,7 +452,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         idTextField.setText("");
         materialsTextField.setText("");
         siteTextField.setText("");
-        weekTextField.setText("");
+        //weekTextField.setText("");
         timeTextField.setText("");
         notesTextArea.setText("");
         descriptionTextArea.setText("");
@@ -480,11 +491,17 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     }
 
-    private void setCurrentWeek() {
+    private DefaultComboBoxModel<String> setCurrentWeek() {
         LocalDate date = LocalDate.now();
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         int weekNumber = date.get(woy);
-        System.out.println(weekNumber);
+        int i = 0;
+        String[] weekStr = new String[53 - weekNumber];
+        for (int week = weekNumber; week < 53; week++) {
+            weekStr[i] = week + "";
+            i++;
+        }
+        return new DefaultComboBoxModel(weekStr);
     }
 
     private void fillForm() {
@@ -502,7 +519,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         idTextField.setText(String.valueOf(id));
         materialsTextField.setText(materials);
-        weekTextField.setText(String.valueOf(week));
+        weekComboBox.setSelectedItem(String.valueOf(week));
         siteTextField.setText(site);
         setComboBoxType(type);
         descriptionTextArea.setText(description);
@@ -577,7 +594,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> typeComboBox;
     private javax.swing.JLabel typeLabel;
     private javax.swing.JButton updateButton;
+    private javax.swing.JComboBox<String> weekComboBox;
     private javax.swing.JLabel weekLabel;
-    private javax.swing.JTextField weekTextField;
     // End of variables declaration//GEN-END:variables
 }
