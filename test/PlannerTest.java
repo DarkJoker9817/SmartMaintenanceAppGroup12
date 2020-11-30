@@ -33,6 +33,16 @@ public class PlannerTest {
     }
     
     @Test
+    public void testCreateActivityIdemActivity() {
+        assertNotNull(p.createActivity(1, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
+    }
+    
+    @Test
+    public void testCreateActivityIdemActivityNull() {
+        assertNull(p.createActivity(2, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
+    }
+    
+    @Test
     public void testDeleteActivity() {
         p.deleteActivity(1);
         assertEquals(p.getScheduledActivity().size(), 0);
