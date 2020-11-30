@@ -20,7 +20,7 @@ public class Planner extends User {
 
     }
 
-    public void createActivity(int id, List<String> materials, int week, Site site,
+    public MaintenanceActivity createActivity(int id, List<String> materials, int week, Site site,
             MaintenanceType type, String description,
             int estimatedInterventionTime, boolean interruptible,
             String workspaceNotes, MaintenanceProcedure procedure) {
@@ -36,7 +36,7 @@ public class Planner extends User {
         activity.setWorkspaceNotes(workspaceNotes);
         activity.setProcedure(procedure);
 
-        scheduledActivity.put(id, activity);
+        return scheduledActivity.putIfAbsent(id, activity);
     }
 
     public void modifyActivity(int id, List<String> materials, int week, Site site,

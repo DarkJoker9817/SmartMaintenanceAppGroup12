@@ -27,6 +27,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         initComponents();
         planner = new Planner("pippo", "pippo");
         model = (DefaultTableModel) maintenanceTable.getModel();
+        fillTable();
     }
 
     /**
@@ -319,11 +320,14 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         MaintenanceType type = getComboBoxType();
         try {
-            planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null);
+            if (planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) == null) {
+                addTableRow();
+            } else {
+                JOptionPane.showMessageDialog(this, "Activity ID already exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        addTableRow();
         clearFields();
     }//GEN-LAST:event_createButtonActionPerformed
 
@@ -352,8 +356,8 @@ public class PlannerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_interruptibleCheckBoxActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
         disableButtons();
-        fillTable();
     }//GEN-LAST:event_formWindowActivated
 
     public MaintenanceType getComboBoxType() {
