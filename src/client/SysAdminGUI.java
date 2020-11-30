@@ -272,6 +272,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
         clearFields();
+        usersTable.clearSelection();
+        disableButtons();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
@@ -291,8 +293,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
+        usersTable.clearSelection();
         disableButtons();
-        enableCreateButton();
+        //enableCreateButton();
         clearFields();
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -312,7 +315,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
         comboBoxModel.setSelectedItem(role);
 
-        enableCreateButton();
+        //enableCreateButton();
 
     }//GEN-LAST:event_usersTableMouseClicked
 
@@ -324,15 +327,17 @@ public class SysAdminGUI extends javax.swing.JFrame {
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
 
-        model.removeRow(i);
+        //model.removeRow(i);
 
         try {
             repository.delete("delete from \"user\" where username='" + username + "'");
+            model.removeRow(i);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         disableButtons();
-        enableCreateButton();
+        usersTable.clearSelection();
+        //enableCreateButton();
         clearFields();
     }
 
