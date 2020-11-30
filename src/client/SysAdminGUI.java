@@ -70,7 +70,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         CrudOperationsTab.setBackground(new java.awt.Color(255, 255, 255));
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
-        Title.setForeground(new java.awt.Color(0, 0, 0));
         Title.setText("Users Management");
 
         createButton.setBackground(new java.awt.Color(255, 153, 0));
