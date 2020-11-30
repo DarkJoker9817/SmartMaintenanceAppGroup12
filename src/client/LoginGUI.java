@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 public class LoginGUI extends javax.swing.JFrame {
 
     private final LoginValidate login;
+    private UserGUIFactory gui;
 
     /**
      * Creates new form LoginGUI
@@ -25,6 +26,7 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         login = new LoginValidate();
+        gui = new UserGUIFactory();
     }
 
     /**
@@ -235,7 +237,7 @@ public class LoginGUI extends javax.swing.JFrame {
         String username = usernameTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
         String selectedItem = (String) ComboBoxUsers.getSelectedItem();
-        UserGUIFactory gui = new UserGUIFactory();
+
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
             return;
