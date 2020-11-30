@@ -29,6 +29,7 @@ public class Planner extends User {
         activity.setId(id);
         activity.setMaterials(materials);
         activity.setWeek(week);
+        activity.setType(type);
         activity.setSite(site);
         activity.setDescription(description);
         activity.setEstimatedInterventionTime(estimatedInterventionTime);
@@ -39,7 +40,7 @@ public class Planner extends User {
         return scheduledActivity.putIfAbsent(id, activity);
     }
 
-    public void modifyActivity(int id, List<String> materials, int week, Site site,
+    public MaintenanceActivity modifyActivity(int id, List<String> materials, int week, Site site,
             MaintenanceType type, String description,
             int estimatedInterventionTime, boolean interruptible,
             String workspaceNotes, MaintenanceProcedure procedure) {
@@ -48,6 +49,7 @@ public class Planner extends User {
         activity.setId(id);
         activity.setMaterials(materials);
         activity.setWeek(week);
+        activity.setType(type);
         activity.setSite(site);
         activity.setDescription(description);
         activity.setEstimatedInterventionTime(estimatedInterventionTime);
@@ -55,7 +57,7 @@ public class Planner extends User {
         activity.setWorkspaceNotes(workspaceNotes);
         activity.setProcedure(procedure);
 
-        scheduledActivity.replace(id, activity);
+        return scheduledActivity.replace(id, activity);
     }
 
     public void deleteActivity(int id) {

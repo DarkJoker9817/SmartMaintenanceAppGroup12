@@ -124,6 +124,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         });
 
         updateButton.setText("update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         idTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,6 +320,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
         enableButtons();
+        fillForm();
     }//GEN-LAST:event_maintenanceTableMouseClicked
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
@@ -329,18 +335,21 @@ public class PlannerGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         clearFields();
+        disableButtons();
+        maintenanceTable.clearSelection();
+
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int i = maintenanceTable.getSelectedRow();
         Integer id = (Integer) model.getValueAt(i, 0);
-        
+
         model.removeRow(i);
         planner.deleteActivity(id);
-        
+
         disableButtons();
-        enableCreateButton();
         clearFields();
+        maintenanceTable.clearSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void materialsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialsTextFieldActionPerformed
@@ -360,7 +369,25 @@ public class PlannerGUI extends javax.swing.JFrame {
         disableButtons();
     }//GEN-LAST:event_formWindowActivated
 
-    public MaintenanceType getComboBoxType() {
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        int i = maintenanceTable.getSelectedRow();
+        Integer id = (Integer) model.getValueAt(i, 0);
+        MaintenanceType type = getComboBoxType();
+        try {
+            if (planner.modifyActivity(id, null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) != null) {
+                modifyTableRow(i);
+            } else {
+                JOptionPane.showMessageDialog(this, "Activity ID not found!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        clearFields();
+        disableButtons();
+        maintenanceTable.clearSelection();
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
             return MaintenanceType.MECHANICAL;
         } else if (typeComboBox.getSelectedItem() == "Electronic") {
@@ -371,7 +398,19 @@ public class PlannerGUI extends javax.swing.JFrame {
         return MaintenanceType.HYDRAULIC;
     }
 
-    public void addTableRow() {
+    private void setComboBoxType(String type) {
+        if ("MECHANICAL".equals(type)) {
+            typeComboBox.setSelectedItem("Mechanical");
+        } else if ("ELECTRONIC".equals(type)) {
+            typeComboBox.setSelectedItem("Electronic");
+        } else if ("ELECTRICAL".equals(type)) {
+            typeComboBox.setSelectedItem("Electrical");
+        } else {
+            typeComboBox.setSelectedItem("Hydraulic");
+        }
+    }
+
+    private void addTableRow() {
         Object[] row = new Object[10];
         row[0] = Integer.parseInt(idTextField.getText());
         row[1] = null;
@@ -385,7 +424,16 @@ public class PlannerGUI extends javax.swing.JFrame {
         row[9] = null;
         model.addRow(row);
     }
-    
+
+    private void modifyTableRow(int i) {
+        model.setValueAt(Integer.parseInt(weekTextField.getText()), i, 2);
+        model.setValueAt(getComboBoxType(), i, 4);
+        model.setValueAt(descriptionTextArea.getText(), i, 5);
+        model.setValueAt(Integer.parseInt(timeTextField.getText()), i, 6);
+        model.setValueAt(interruptibleCheckBox.isSelected(), i, 7);
+        model.setValueAt(notesTextArea.getText(), i, 8);
+    }
+
     private void enableCreateButton() {
         if (createButton.isEnabled()) {
             createButton.setEnabled(false);
@@ -393,14 +441,14 @@ public class PlannerGUI extends javax.swing.JFrame {
             createButton.setEnabled(true);
         }
     }
-    
+
     private void disableButtons() {
         updateButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
 
     private void enableButtons() {
-        //updateButton.setEnabled(true);
+        updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
     }
 
@@ -415,10 +463,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         procedureTextArea.setText("");
         interruptibleCheckBox.setSelected(false);
     }
-    
+
     private void fillTable() {
         planner.createActivity(1, null, 34, null, MaintenanceType.ELECTRICAL, "Replacement of robot 23 welding cables", 90, true, "The plant is closed on 00/00/00", null);
         planner.createActivity(2, null, 36, null, MaintenanceType.HYDRAULIC, "Replacement of pipe", 60, false, "The plant is closed on 00/00/00", null);
+        planner.getScheduledActivity();
         Object[] row1 = new Object[10];
         row1[0] = planner.getScheduledActivity().get(1).getId();
         row1[1] = planner.getScheduledActivity().get(1).getMaterials();
@@ -443,7 +492,32 @@ public class PlannerGUI extends javax.swing.JFrame {
         row2[8] = planner.getScheduledActivity().get(2).getWorkspaceNotes();
         row2[9] = null;
         model.addRow(row2);
-        
+
+    }
+
+    private void fillForm() {
+        int i = maintenanceTable.getSelectedRow();
+        Integer id = (Integer) model.getValueAt(i, 0);
+        String materials = (String) model.getValueAt(i, 1);
+        Integer week = (Integer) model.getValueAt(i, 2);
+        String site = (String) model.getValueAt(i, 3);
+        String type = String.valueOf(model.getValueAt(i, 4));
+        String description = (String) model.getValueAt(i, 5);
+        Integer time = (Integer) model.getValueAt(i, 6);
+        Boolean interruptible = (Boolean) model.getValueAt(i, 7);
+        String notes = (String) model.getValueAt(i, 8);
+        String procedure = (String) model.getValueAt(i, 9);
+
+        idTextField.setText(String.valueOf(id));
+        materialsTextField.setText(materials);
+        weekTextField.setText(String.valueOf(week));
+        siteTextField.setText(site);
+        setComboBoxType(type);
+        descriptionTextArea.setText(description);
+        timeTextField.setText(String.valueOf(time));
+        interruptibleCheckBox.setSelected(interruptible);
+        notesTextArea.setText(notes);
+        procedureTextArea.setText(procedure);
     }
 
     /**
