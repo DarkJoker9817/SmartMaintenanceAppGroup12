@@ -8,6 +8,7 @@ package client;
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
 import businesslogic.activity.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -68,6 +69,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         procedureTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
         Title.setText("Planner Area");
@@ -216,7 +222,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(updateButton)
@@ -296,7 +302,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                                     .addComponent(weekLabel)
                                     .addComponent(weekTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(notesLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,18 +313,30 @@ public class PlannerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
-
-
+        enableButtons();
     }//GEN-LAST:event_maintenanceTableMouseClicked
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         MaintenanceType type = getComboBoxType();
-        planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null);
+        try {
+            planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt(weekTextField.getText()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         addTableRow();
+        clearFields();
     }//GEN-LAST:event_createButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        int i = maintenanceTable.getSelectedRow();
+        Integer id = (Integer) model.getValueAt(i, 0);
+        
+        model.removeRow(i);
+        planner.deleteActivity(id);
+        
+        disableButtons();
+        enableCreateButton();
+        clearFields();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void materialsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialsTextFieldActionPerformed
@@ -332,6 +350,11 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void interruptibleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptibleCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_interruptibleCheckBoxActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        disableButtons();
+        fillTable();
+    }//GEN-LAST:event_formWindowActivated
 
     public MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
@@ -354,10 +377,69 @@ public class PlannerGUI extends javax.swing.JFrame {
         row[5] = descriptionTextArea.getText();
         row[6] = Integer.parseInt(timeTextField.getText());
         row[7] = interruptibleCheckBox.isSelected();
-        System.out.println(row[7]);
         row[8] = notesTextArea.getText();
         row[9] = null;
         model.addRow(row);
+    }
+    
+    private void enableCreateButton() {
+        if (createButton.isEnabled()) {
+            createButton.setEnabled(false);
+        } else {
+            createButton.setEnabled(true);
+        }
+    }
+    
+    private void disableButtons() {
+        updateButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+    }
+
+    private void enableButtons() {
+        //updateButton.setEnabled(true);
+        deleteButton.setEnabled(true);
+    }
+
+    private void clearFields() {
+        idTextField.setText("");
+        materialsTextField.setText("");
+        siteTextField.setText("");
+        weekTextField.setText("");
+        timeTextField.setText("");
+        notesTextArea.setText("");
+        descriptionTextArea.setText("");
+        procedureTextArea.setText("");
+        interruptibleCheckBox.setSelected(false);
+    }
+    
+    private void fillTable() {
+        planner.createActivity(1, null, 34, null, MaintenanceType.ELECTRICAL, "Replacement of robot 23 welding cables", 90, true, "The plant is closed on 00/00/00", null);
+        planner.createActivity(2, null, 36, null, MaintenanceType.HYDRAULIC, "Replacement of pipe", 60, false, "The plant is closed on 00/00/00", null);
+        Object[] row1 = new Object[10];
+        row1[0] = planner.getScheduledActivity().get(1).getId();
+        row1[1] = planner.getScheduledActivity().get(1).getMaterials();
+        row1[2] = planner.getScheduledActivity().get(1).getWeek();
+        row1[3] = null;
+        row1[4] = planner.getScheduledActivity().get(1).getType();
+        row1[5] = planner.getScheduledActivity().get(1).getDescription();
+        row1[6] = planner.getScheduledActivity().get(1).getEstimatedInterventionTime();
+        row1[7] = planner.getScheduledActivity().get(1).isInterruptible();
+        row1[8] = planner.getScheduledActivity().get(1).getWorkspaceNotes();
+        row1[9] = null;
+        model.addRow(row1);
+        Object[] row2 = new Object[10];
+        row2[0] = planner.getScheduledActivity().get(2).getId();
+        row2[1] = planner.getScheduledActivity().get(2).getMaterials();
+        row2[2] = planner.getScheduledActivity().get(2).getWeek();
+        row2[3] = null;
+        row2[4] = planner.getScheduledActivity().get(2).getType();
+        row2[5] = planner.getScheduledActivity().get(2).getDescription();
+        row2[6] = planner.getScheduledActivity().get(2).getEstimatedInterventionTime();
+        row2[7] = planner.getScheduledActivity().get(2).isInterruptible();
+        row2[8] = planner.getScheduledActivity().get(2).getWorkspaceNotes();
+        row2[9] = null;
+        model.addRow(row2);
+        
     }
 
     /**
