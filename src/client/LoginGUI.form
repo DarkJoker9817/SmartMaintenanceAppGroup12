@@ -69,7 +69,7 @@
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <Component id="usernameTextField" alignment="1" max="32767" attributes="0"/>
                               <Component id="passwordField" alignment="1" max="32767" attributes="0"/>
-                              <Component id="ComboBoxUsers" alignment="1" max="32767" attributes="0"/>
+                              <Component id="comboBoxUsers" alignment="1" max="32767" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                               <Component id="jSeparator2" max="32767" attributes="0"/>
@@ -91,7 +91,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="88" max="32767" attributes="0"/>
-                  <Component id="ComboBoxUsers" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="comboBoxUsers" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -135,7 +135,7 @@
             <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="LoginGUI_passwordField"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="ComboBoxUsers">
+        <Component class="javax.swing.JComboBox" name="comboBoxUsers">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="3">

@@ -41,7 +41,7 @@ public class LoginGUI extends javax.swing.JFrame {
         LoginGUI = new javax.swing.JPanel();
         usernameTextField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
-        ComboBoxUsers = new javax.swing.JComboBox<>();
+        comboBoxUsers = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -67,8 +67,8 @@ public class LoginGUI extends javax.swing.JFrame {
 
         passwordField.setBorder(null);
 
-        ComboBoxUsers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "System Administrator", "Maintainer", "Planner" }));
-        ComboBoxUsers.setBorder(null);
+        comboBoxUsers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "System Administrator", "Maintainer", "Planner" }));
+        comboBoxUsers.setBorder(null);
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Username");
@@ -133,7 +133,7 @@ public class LoginGUI extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(usernameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(passwordField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(ComboBoxUsers, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboBoxUsers, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2)
                             .addComponent(jSeparator1)
                             .addComponent(jSeparator2)
@@ -149,7 +149,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                .addComponent(ComboBoxUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboBoxUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -236,19 +236,19 @@ public class LoginGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = usernameTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
-        String selectedItem = (String) ComboBoxUsers.getSelectedItem();
+        String selectedUser = (String) comboBoxUsers.getSelectedItem();
 
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            if (login.isValidSysAdmin(username, password) && selectedItem.equals("System Administrator")) {
-                showUserGUI(gui.getUserGUI(selectedItem));
+            if (login.isValidSysAdmin(username, password) && selectedUser.equals("System Administrator")) {
+                showUserGUI(gui.getUserGUI(selectedUser));
                 return;
             }
-            if (login.isValidUser(username, password, selectedItem)) {
-                showUserGUI(gui.getUserGUI(selectedItem));
+            if (login.isValidUser(username, password, selectedUser)) {
+                showUserGUI(gui.getUserGUI(selectedUser));
                 return;
             }
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
@@ -304,8 +304,8 @@ public class LoginGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ComboBoxUsers;
     private javax.swing.JPanel LoginGUI;
+    private javax.swing.JComboBox<String> comboBoxUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
