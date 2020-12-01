@@ -90,7 +90,6 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        procedureLabel.setForeground(new java.awt.Color(0, 0, 0));
         procedureLabel.setText("Procedure");
 
         interruptibleCheckBox.setBackground(new java.awt.Color(255, 255, 255));
@@ -110,28 +109,20 @@ public class PlannerGUI extends javax.swing.JFrame {
         procedureTextArea.setBorder(null);
         jScrollPane4.setViewportView(procedureTextArea);
 
-        idLabel.setForeground(new java.awt.Color(0, 0, 0));
         idLabel.setText("ID");
 
-        materialsLabel.setForeground(new java.awt.Color(0, 0, 0));
         materialsLabel.setText("materials");
 
-        weekLabel.setForeground(new java.awt.Color(0, 0, 0));
         weekLabel.setText("week");
 
-        siteLabel.setForeground(new java.awt.Color(0, 0, 0));
         siteLabel.setText("site");
 
-        typeLabel.setForeground(new java.awt.Color(0, 0, 0));
         typeLabel.setText("type");
 
-        descriptionLabel.setForeground(new java.awt.Color(0, 0, 0));
         descriptionLabel.setText("Description");
 
-        timeLabel.setForeground(new java.awt.Color(0, 0, 0));
         timeLabel.setText("time (min)");
 
-        maintenanceTable.setBackground(new java.awt.Color(255, 255, 255));
         maintenanceTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -189,10 +180,8 @@ public class PlannerGUI extends javax.swing.JFrame {
             }
         });
 
-        interruptibleLabel.setForeground(new java.awt.Color(0, 0, 0));
         interruptibleLabel.setText("interruptible");
 
-        notesLabel.setForeground(new java.awt.Color(0, 0, 0));
         notesLabel.setText("Notes");
 
         weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -248,9 +237,9 @@ public class PlannerGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -292,11 +281,11 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descriptionLabel)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deleteButton)
@@ -440,13 +429,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         model.setValueAt(notesTextArea.getText(), i, 8);
     }
 
-    private void enableCreateButton() {
-        if (createButton.isEnabled()) {
-            createButton.setEnabled(false);
-        } else {
-            createButton.setEnabled(true);
-        }
-    }
+
 
     private void disableButtons() {
         updateButton.setEnabled(false);
@@ -470,8 +453,8 @@ public class PlannerGUI extends javax.swing.JFrame {
     }
 
     private void fillTable() {
-        planner.createActivity(1, null, 34, null, MaintenanceType.ELECTRICAL, "Replacement of robot 23 welding cables", 90, true, "The plant is closed on 00/00/00", null);
-        planner.createActivity(2, null, 36, null, MaintenanceType.HYDRAULIC, "Replacement of pipe", 60, false, "The plant is closed on 00/00/00", null);
+        planner.createActivity(1, null, 50, null, MaintenanceType.ELECTRICAL, "Replacement of robot 23 welding cables", 90, true, "The plant is closed on 00/00/00", null);
+        planner.createActivity(2, null, 51, null, MaintenanceType.HYDRAULIC, "Replacement of pipe", 60, false, "The plant is closed on 00/00/00", null);
         planner.getScheduledActivity();
         Object[] row1 = new Object[10];
         row1[0] = planner.getScheduledActivity().get(1).getId();

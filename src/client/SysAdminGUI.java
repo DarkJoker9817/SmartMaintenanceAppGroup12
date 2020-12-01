@@ -345,13 +345,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
     }
 
-    private void enableCreateButton() {
-        if (createButton.isEnabled()) {
-            createButton.setEnabled(false);
-        } else {
-            createButton.setEnabled(true);
-        }
-    }
 
     private void disableButtons() {
         updateButton.setEnabled(false);
