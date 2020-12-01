@@ -29,17 +29,17 @@ public class RepositoryTest {
     }
 
     @Test
-    public void deleteRow() throws SQLException {
+    public void testDeleteRow() throws SQLException {
         assertEquals(rep.delete("delete from \"user\" where username = 'test'"), 1);
     }
 
     @Test
-    public void insertRow() throws SQLException {
+    public void testInsertRow() throws SQLException {
         assertEquals(rep.insert("insert into \"user\"(username,password,role) values('prova','abc','Planner')"), 1);
     }
 
     @Test
-    public void updateRow() throws SQLException {
+    public void testUpdateRow() throws SQLException {
         assertEquals(rep.update("update \"user\" set username = 'Test' where username = 'test'"), 1);
     }
 

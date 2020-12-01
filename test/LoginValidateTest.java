@@ -30,22 +30,22 @@ public class LoginValidateTest {
     }
 
     @Test
-    public void validUser() throws SQLException {
+    public void testValidUser() throws SQLException {
         assertTrue(login.isValidUser("pippo", "abc", "Planner"));
     }
 
     @Test
-    public void notValidUser() throws SQLException {
+    public void testNotValidUser() throws SQLException {
         assertFalse(login.isValidUser("test", "test", "test"));
     }
 
     @Test
-    public void validSysAdmin() throws SQLException {
+    public void testValidSysAdmin() throws SQLException {
         assertTrue(login.isValidSysAdmin("test", "test"));
     }
 
     @Test
-    public void notValidSysAdmin() throws SQLException {
+    public void testNotValidSysAdmin() throws SQLException {
         assertFalse(login.isValidSysAdmin("t", "t"));
     }
 

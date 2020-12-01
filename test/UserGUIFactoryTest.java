@@ -23,7 +23,7 @@ public class UserGUIFactoryTest {
     }
 
     @Test
-    public void notNullJFrame() {
+    public void testNotNullJFrame() {
         assertNotNull(gui.getUserGUI("System Administrator"));
         assertNotNull(gui.getUserGUI("Planner"));
         assertNotNull(gui.getUserGUI("Maintainer"));
@@ -31,7 +31,7 @@ public class UserGUIFactoryTest {
     }
 
     @Test
-    public void nullJFrame() {
+    public void testNullJFrame() {
         assertNull(gui.getUserGUI(""));
     }
     // TODO add test methods here.
