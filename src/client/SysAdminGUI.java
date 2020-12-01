@@ -70,6 +70,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         CrudOperationsTab.setBackground(new java.awt.Color(255, 255, 255));
 
         Title.setFont(new java.awt.Font("Lucida Grande", 3, 24)); // NOI18N
+        Title.setForeground(new java.awt.Color(0, 0, 0));
         Title.setText("Users Management");
 
         createButton.setBackground(new java.awt.Color(255, 153, 0));
@@ -81,6 +82,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        roleLabel.setForeground(new java.awt.Color(0, 0, 0));
         roleLabel.setText("Role");
 
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
@@ -134,8 +136,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        passwordLabel.setForeground(new java.awt.Color(0, 0, 0));
         passwordLabel.setText("Password");
 
+        usernameLabel.setForeground(new java.awt.Color(0, 0, 0));
         usernameLabel.setText("Username");
 
         javax.swing.GroupLayout CrudOperationsTabLayout = new javax.swing.GroupLayout(CrudOperationsTab);
