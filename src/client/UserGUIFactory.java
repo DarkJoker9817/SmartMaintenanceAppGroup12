@@ -13,14 +13,14 @@ import javax.swing.JFrame;
  */
 public class UserGUIFactory {
 
-    public JFrame getUserGUI(String gui) {
-        if (gui.equals("System Administrator")) {
+    public JFrame getUserGUI(String user) {
+        if (user.equals("System Administrator")) {
             return new SysAdminGUI();
         }
-        if (gui.equals("Planner")) {
+        if (user.equals("Planner")) {
             return new PlannerGUI();
         }
-        if (gui.equals("Maintainer")) {
+        if (user.equals("Maintainer")) {
             return new MaintainerGUI();
         }
         return null;

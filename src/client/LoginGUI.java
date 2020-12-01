@@ -260,13 +260,11 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_loginLabelMouseClicked
 
     private void loginLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseEntered
-        // TODO add your handling code here:
-        // Change the color of the panel
+        // Change the color of the panel when mouse entered
         loginPanel.setBackground(new Color(255, 204, 51));
     }//GEN-LAST:event_loginLabelMouseEntered
 
     private void loginLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseExited
-        // TODO add your handling code here:
         loginPanel.setBackground(new Color(255, 153, 0));
     }//GEN-LAST:event_loginLabelMouseExited
 

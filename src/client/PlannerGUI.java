@@ -461,7 +461,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         idTextField.setText("");
         materialsTextField.setText("");
         siteTextField.setText("");
-        //weekTextField.setText("");
         timeTextField.setText("");
         notesTextArea.setText("");
         descriptionTextArea.setText("");
