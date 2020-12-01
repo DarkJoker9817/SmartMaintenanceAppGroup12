@@ -26,7 +26,7 @@ public class LoginValidateTest {
         login = new LoginValidate();
         rep = new Repository();
         rep.insert("insert into \"user\"(username,password,role) values('pippo','abc','Planner')");
-        rep.insert("insert into sys_admin(username,password) values('admin','admin')");
+        rep.insert("insert into sys_admin(username,password) values('test','test')");
     }
 
     @Test
@@ -41,12 +41,12 @@ public class LoginValidateTest {
 
     @Test
     public void validSysAdmin() throws SQLException {
-        assertTrue(login.isValidSysAdmin("admin", "admin"));
+        assertTrue(login.isValidSysAdmin("test", "test"));
     }
 
     @Test
     public void notValidSysAdmin() throws SQLException {
-        assertFalse(login.isValidSysAdmin("test", "test"));
+        assertFalse(login.isValidSysAdmin("t", "t"));
     }
 
     @After
