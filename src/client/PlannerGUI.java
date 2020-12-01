@@ -32,8 +32,8 @@ public class PlannerGUI extends javax.swing.JFrame {
         initComponents();
         planner = new Planner("pippo", "pippo");
         model = (DefaultTableModel) maintenanceTable.getModel();
-        weekComboBox.setModel(setCurrentWeek());
-        comboBoxModel = setCurrentWeek();
+        weekComboBox.setModel(setFromCurrentWeek());
+        comboBoxModel = setFromCurrentWeek();
         fillTable();
     }
 
@@ -500,7 +500,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     }
 
-    private DefaultComboBoxModel<String> setCurrentWeek() {
+    private DefaultComboBoxModel<String> setFromCurrentWeek() {
         LocalDate date = LocalDate.now();
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         int weekNumber = date.get(woy);
