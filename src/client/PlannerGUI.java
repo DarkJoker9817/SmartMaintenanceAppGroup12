@@ -157,6 +157,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         });
         maintenanceTable.setGridColor(new java.awt.Color(255, 255, 255));
         maintenanceTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
+        maintenanceTable.getTableHeader().setReorderingAllowed(false);
         maintenanceTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 maintenanceTableMouseClicked(evt);
