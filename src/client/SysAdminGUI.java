@@ -73,7 +73,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         Title.setForeground(new java.awt.Color(0, 0, 0));
         Title.setText("Users Management");
 
-        createButton.setBackground(new java.awt.Color(255, 153, 0));
+        createButton.setBackground(new java.awt.Color(255, 255, 255));
         createButton.setText("Create");
         createButton.setBorderPainted(false);
         createButton.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +120,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(usersTable);
 
-        deleteButton.setBackground(new java.awt.Color(255, 153, 0));
+        deleteButton.setBackground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("Delete");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +128,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
 
-        updateButton.setBackground(new java.awt.Color(255, 153, 0));
+        updateButton.setBackground(new java.awt.Color(255, 255, 255));
         updateButton.setText("Update");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
