@@ -43,14 +43,24 @@ public class PlannerTest {
     }
     
     @Test
+    public void testModifyActivityNull() {
+        assertNull(p.modifyActivity(3, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
+    }
+    
+    @Test public void testModifyActivity() {
+        assertNotNull(p.modifyActivity(1, null, 0, null, MaintenanceType.MECHANICAL, "test1", 0, true, "test1", null));
+    }
+    
+    @Test
     public void testDeleteActivity() {
         p.deleteActivity(1);
         assertEquals(p.getScheduledActivity().size(), 0);
     }
     
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void testDeleteActivityNotExists() {
+        p.deleteActivity(2);
+        assertEquals(p.getScheduledActivity().size(), 1);
+    }
+    
 }
