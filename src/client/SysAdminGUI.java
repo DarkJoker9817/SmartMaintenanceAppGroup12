@@ -283,7 +283,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
         usersTable.clearSelection();
         disableButtons();
-        //enableCreateButton();
         clearFields();
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -302,9 +301,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         passwordTextField.setText(password);
         ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
         comboBoxModel.setSelectedItem(role);
-
-        //enableCreateButton();
-
     }//GEN-LAST:event_usersTableMouseClicked
 
     private void roleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleComboBoxActionPerformed
@@ -314,9 +310,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
-
-        //model.removeRow(i);
-
         try {
             repository.delete("delete from \"user\" where username='" + username + "'");
             model.removeRow(i);
@@ -325,7 +318,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
         disableButtons();
         usersTable.clearSelection();
-        //enableCreateButton();
         clearFields();
     }
 
@@ -344,7 +336,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void disableButtons() {
         updateButton.setEnabled(false);
