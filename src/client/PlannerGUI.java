@@ -502,6 +502,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         clearFields();
         disableButtons();
         maintenanceTable.clearSelection();
+        listModel.clear();
 
     }//GEN-LAST:event_createButtonActionPerformed
 
@@ -514,10 +515,11 @@ public class PlannerGUI extends javax.swing.JFrame {
             rep.delete("delete from activity where id = '" + id + "'");
             model.removeRow(i);
         } catch (SQLException ex) {
-            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         disableButtons();
+        enableComponents();
         clearFields();
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -537,10 +539,25 @@ public class PlannerGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         clearFields();
+        enableComponents();
         disableButtons();
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    public void enableComponents() {
+        idTextField.setEnabled(true);
+        weekComboBox.setEnabled(true);
+        siteComboBox.setEnabled(true);
+        descriptionTextArea.setEnabled(true);
+        timeTextField.setEnabled(true);
+        interruptibleCheckBox.setEnabled(true);
+        uploadButton.setEnabled(true);
+        typeComboBox.setEnabled(true);
+        addMaterialButton.setEnabled(true);
+        removeMaterialButton.setEnabled(true);
+        listModel.clear();
+
+    }
     private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
         // TODO add your handling code here:
         if (materialTable.getSelectedRow() == -1) {
@@ -652,7 +669,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                 model.addRow(row);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -680,30 +697,29 @@ public class PlannerGUI extends javax.swing.JFrame {
                 Array materials = res.getArray("materials");
                 fillMaterialList(materials);
             }
+            Integer week = (Integer) model.getValueAt(i, 2);
+            String site = (String) model.getValueAt(i, 3);
+            String type = String.valueOf(model.getValueAt(i, 4));
+            String description = (String) model.getValueAt(i, 5);
+            Integer time = (Integer) model.getValueAt(i, 6);
+            Boolean interruptible = (Boolean) model.getValueAt(i, 7);
+            String notes = (String) model.getValueAt(i, 8);
+            String procedure = (String) model.getValueAt(i, 9);
+
+            idTextField.setText(String.valueOf(id));
+            weekComboBox.setSelectedItem(String.valueOf(week));
+            siteComboBox.setSelectedItem(site);
+
+            setComboBoxType(type);
+            descriptionTextArea.setText(description);
+            timeTextField.setText(String.valueOf(time));
+            interruptibleCheckBox.setSelected(interruptible);
+            notesTextArea.setText(notes);
+            fileLabel.setText(procedure);
+            disableNotEditableFields();
         } catch (SQLException ex) {
-            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //String materials = (String) model.getValueAt(i, 1);
-        Integer week = (Integer) model.getValueAt(i, 2);
-        String site = (String) model.getValueAt(i, 3);
-        String type = String.valueOf(model.getValueAt(i, 4));
-        String description = (String) model.getValueAt(i, 5);
-        Integer time = (Integer) model.getValueAt(i, 6);
-        Boolean interruptible = (Boolean) model.getValueAt(i, 7);
-        String notes = (String) model.getValueAt(i, 8);
-        String procedure = (String) model.getValueAt(i, 9);
-
-        idTextField.setText(String.valueOf(id));
-        weekComboBox.setSelectedItem(String.valueOf(week));
-        siteComboBox.setSelectedItem(site);
-
-        setComboBoxType(type);
-        descriptionTextArea.setText(description);
-        timeTextField.setText(String.valueOf(time));
-        interruptibleCheckBox.setSelected(interruptible);
-        notesTextArea.setText(notes);
-        fileLabel.setText(procedure);
-        disableNotEditableFields();
     }
 
     public void fillMaterialList(Array arr) {
