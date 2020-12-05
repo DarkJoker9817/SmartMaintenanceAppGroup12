@@ -13,8 +13,8 @@ import java.sql.*;
  */
 public class Repository {
 
-    private Connection conn;
-    private String url = "jdbc:postgresql://localhost/smart_maintenance_app"; // nome del DataBase
+    private Connection conn;  // the connection to the DataBase
+    private String url = "jdbc:postgresql://localhost/smart_maintenance_app"; // url of the DataBase
 
     public Repository() {
         try {
@@ -25,6 +25,10 @@ public class Repository {
         }
     }
 
+    /*
+     * 
+     * 
+     */
     public ResultSet select(String query) throws SQLException {
         ResultSet res;
         try (Statement st = conn.createStatement()) {
