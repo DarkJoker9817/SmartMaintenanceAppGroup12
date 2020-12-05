@@ -492,8 +492,8 @@ public class PlannerGUI extends javax.swing.JFrame {
         MaintenanceType type = getComboBoxType();
         String materials = getArrayMaterial();
         try {
-            rep.insert("insert into activity(materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
-                    + "values('" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
+            rep.insert("insert into activity(id,materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
+                    + "values('" + Integer.parseInt(idTextField.getText()) + "','" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
                     + descriptionTextArea.getText() + "','" + Integer.parseInt(timeTextField.getText()) + "','" + interruptibleCheckBox.isSelected() + "','" + notesTextArea.getText() + "','" + fileLabel.getText() + "');");
             addTableRow();
         } catch (SQLException | NumberFormatException ex) {
@@ -599,7 +599,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void addTableRow() {
         Object[] row = new Object[10];
         row[0] = Integer.parseInt(idTextField.getText());
-        row[1] = null;
+        row[1] = getArrayMaterial();
         row[2] = Integer.parseInt((String) weekComboBox.getSelectedItem());
         row[3] = siteComboBox.getSelectedItem();
         row[4] = getComboBoxType();

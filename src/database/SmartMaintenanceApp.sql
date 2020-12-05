@@ -46,7 +46,7 @@ create table maintenance_type(
 );
 
 create table activity(
-	id serial,
+	id int primary key,
 	materials text[],
 	week int not null,
 	site text,
