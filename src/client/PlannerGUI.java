@@ -480,7 +480,6 @@ public class PlannerGUI extends javax.swing.JFrame {
             materials += (listModel.getElementAt(i).toString() + (i == listModel.getSize() - 1 ? "" : ","));
         }
         materials += "}";
-        System.out.println(materials);
         return materials;
     }
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
