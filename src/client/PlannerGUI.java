@@ -15,8 +15,6 @@ import java.time.LocalDate;
 import java.time.temporal.*;
 import java.util.*;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
