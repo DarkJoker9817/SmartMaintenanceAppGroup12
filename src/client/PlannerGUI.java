@@ -7,11 +7,20 @@ package client;
 
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
+import database.Repository;
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.*;
+import java.util.*;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,15 +35,19 @@ public class PlannerGUI extends javax.swing.JFrame {
      */
     private Planner planner;
     private DefaultTableModel model;
+    private DefaultListModel listModel;
     private ComboBoxModel<String> comboBoxModel;
+    private ComboBoxModel<String> siteModel;
+    private Repository rep;
 
     public PlannerGUI() {
         initComponents();
         planner = new Planner("pippo", "pippo");
-        model = (DefaultTableModel) maintenanceTable.getModel();
-        weekComboBox.setModel(setFromCurrentWeek());
-        comboBoxModel = setFromCurrentWeek();
+        rep = new Repository();
+        listModel = new DefaultListModel();
+        setAttributes();
         fillTable();
+        fillMaterialTable();
     }
 
     /**
@@ -56,9 +69,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         descriptionTextArea = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         notesTextArea = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        procedureTextArea = new javax.swing.JTextArea();
-        siteTextField = new javax.swing.JTextField();
         timeTextField = new javax.swing.JTextField();
         idLabel = new javax.swing.JLabel();
         materialsLabel = new javax.swing.JLabel();
@@ -73,10 +83,18 @@ public class PlannerGUI extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         idTextField = new javax.swing.JTextField();
-        materialsTextField = new javax.swing.JTextField();
         interruptibleLabel = new javax.swing.JLabel();
         notesLabel = new javax.swing.JLabel();
         weekComboBox = new javax.swing.JComboBox<>();
+        siteComboBox = new javax.swing.JComboBox<>();
+        uploadButton = new javax.swing.JButton();
+        fileLabel = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        materialList = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        materialTable = new javax.swing.JTable();
+        removeMaterialButton = new javax.swing.JButton();
+        addMaterialButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Planner");
@@ -104,11 +122,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         notesTextArea.setRows(5);
         jScrollPane3.setViewportView(notesTextArea);
 
-        procedureTextArea.setColumns(20);
-        procedureTextArea.setRows(5);
-        procedureTextArea.setBorder(null);
-        jScrollPane4.setViewportView(procedureTextArea);
-
         idLabel.setText("ID");
 
         materialsLabel.setText("materials");
@@ -132,7 +145,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false
@@ -186,6 +199,64 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         weekComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        uploadButton.setBackground(new java.awt.Color(255, 255, 255));
+        uploadButton.setText("Upload");
+        uploadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uploadButtonActionPerformed(evt);
+            }
+        });
+
+        fileLabel.setForeground(new java.awt.Color(0, 0, 0));
+        fileLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+
+        materialList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane4.setViewportView(materialList);
+
+        materialTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Material"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        materialTable.setGridColor(new java.awt.Color(255, 255, 255));
+        materialTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
+        materialTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(materialTable);
+
+        removeMaterialButton.setBackground(new java.awt.Color(255, 255, 255));
+        removeMaterialButton.setText("Remove material");
+        removeMaterialButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeMaterialButtonActionPerformed(evt);
+            }
+        });
+
+        addMaterialButton.setBackground(new java.awt.Color(255, 255, 255));
+        addMaterialButton.setText("Add material");
+        addMaterialButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMaterialButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -193,108 +264,147 @@ public class PlannerGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(idLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(idLabel)
-                                    .addComponent(siteLabel)
                                     .addComponent(timeLabel)
-                                    .addComponent(typeLabel)
-                                    .addComponent(materialsLabel))
+                                    .addComponent(typeLabel))
                                 .addGap(8, 8, 8))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGap(33, 33, 33)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(weekLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(siteLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(interruptibleLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(weekComboBox, 0, 158, Short.MAX_VALUE)
-                            .addComponent(materialsTextField)
-                            .addComponent(siteTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(typeComboBox, 0, 158, Short.MAX_VALUE)
-                            .addComponent(idTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(timeTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                            .addComponent(interruptibleCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(createButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(updateButton))
+                            .addComponent(typeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(timeTextField)
+                            .addComponent(siteComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(interruptibleCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addComponent(notesLabel))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGap(37, 37, 37)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(procedureLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(uploadButton)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(createButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(updateButton))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(weekLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(122, 122, 122)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeMaterialButton))
+                            .addComponent(materialsLabel))
+                        .addGap(165, 165, 165)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addMaterialButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 999, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idLabel))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(weekLabel)
-                    .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(materialsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(materialsLabel))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(siteTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(siteLabel))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(timeLabel)
-                    .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(typeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(interruptibleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(interruptibleCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(notesLabel)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(weekLabel)
+                            .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(siteComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(siteLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(timeLabel)
+                            .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(typeLabel))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(interruptibleCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(interruptibleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(notesLabel)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(descriptionLabel)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deleteButton)
-                            .addComponent(createButton)
-                            .addComponent(updateButton))
-                        .addGap(50, 50, 50))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descriptionLabel)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(uploadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(40, 40, 40)
+                                        .addComponent(procedureLabel)))
+                                .addGap(74, 74, 74)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(createButton)
+                                    .addComponent(deleteButton)
+                                    .addComponent(updateButton)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(removeMaterialButton)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(materialsLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(procedureLabel)
-                        .addContainerGap(186, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addMaterialButton)))
+                .addGap(183, 183, 183))
         );
 
         jTabbedPane1.addTab("Activity Management", jPanel2);
@@ -303,9 +413,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,20 +428,75 @@ public class PlannerGUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setAttributes() {
+        model = (DefaultTableModel) maintenanceTable.getModel();
+        weekComboBox.setModel(setFromCurrentWeek());
+        materialList.setModel(listModel);
+        comboBoxModel = setFromCurrentWeek();
+        siteModel = new DefaultComboBoxModel(setSiteComboBox());
+        siteComboBox.setModel(siteModel);
+    }
+
+    private Object[] setSiteComboBox() {
+        List<Object> row = new ArrayList<>();
+        try {
+            ResultSet res = rep.select("select * from site");
+            while (res.next()) {
+                row.add(res.getString("area") + " - " + res.getString("branch_officies"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return row.toArray();
+    }
+
+    private void fillMaterialTable() {
+        DefaultTableModel model = (DefaultTableModel) materialTable.getModel();
+        Object row[] = new Object[1];
+        try {
+            ResultSet res = rep.select("select * from material");
+            while (res.next()) {
+                row[0] = res.getString("name_material");
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
     private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
         enableButtons();
         fillForm();
     }//GEN-LAST:event_maintenanceTableMouseClicked
 
+    private String getArrayMaterial() {
+        String materials = "{";
+        for (int i = 0; i < listModel.getSize(); i++) {
+            materials += (listModel.getElementAt(i).toString() + (i == listModel.getSize() - 1 ? "" : ","));
+        }
+        materials += "}";
+        System.out.println(materials);
+        return materials;
+    }
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         MaintenanceType type = getComboBoxType();
+        String materials = getArrayMaterial();
         try {
+            rep.insert("insert into activity(materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
+                    + "values('" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
+                    + descriptionTextArea.getText() + "','" + Integer.parseInt(timeTextField.getText()) + "','" + interruptibleCheckBox.isSelected() + "','" + notesTextArea.getText() + "','" + fileLabel.getText() + "');");
+            addTableRow();
+        } catch (SQLException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        /*try {
             if (planner.createActivity(Integer.parseInt(idTextField.getText()), null, Integer.parseInt((String) weekComboBox.getSelectedItem()), null, type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()), interruptibleCheckBox.isSelected(), notesTextArea.getText(), null) == null) {
                 addTableRow();
             } else {
@@ -341,7 +504,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
         clearFields();
         disableButtons();
         maintenanceTable.clearSelection();
@@ -382,6 +545,38 @@ public class PlannerGUI extends javax.swing.JFrame {
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
+        // TODO add your handling code here:
+        if (materialTable.getSelectedRow() == -1) {
+            return;
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) materialTable.getModel();
+
+        listModel.addElement(tableModel.getValueAt(materialTable.getSelectedRow(), 0));
+        materialTable.clearSelection();
+    }//GEN-LAST:event_addMaterialButtonActionPerformed
+
+    private void removeMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaterialButtonActionPerformed
+        // TODO add your handling code here:
+        if (materialList.getSelectedIndex() == -1) {
+            return;
+        }
+        listModel.remove(materialList.getSelectedIndex());
+        materialList.clearSelection();
+    }//GEN-LAST:event_removeMaterialButtonActionPerformed
+
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./src/maintenanceprocedure"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            fileLabel.setText(selectedFile.getName() + ".pdf");
+        }
+
+    }//GEN-LAST:event_uploadButtonActionPerformed
+
     private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
             return MaintenanceType.MECHANICAL;
@@ -410,26 +605,27 @@ public class PlannerGUI extends javax.swing.JFrame {
         row[0] = Integer.parseInt(idTextField.getText());
         row[1] = null;
         row[2] = Integer.parseInt((String) weekComboBox.getSelectedItem());
-        row[3] = null;
+        row[3] = siteComboBox.getSelectedItem();
         row[4] = getComboBoxType();
         row[5] = descriptionTextArea.getText();
         row[6] = Integer.parseInt(timeTextField.getText());
         row[7] = interruptibleCheckBox.isSelected();
         row[8] = notesTextArea.getText();
-        row[9] = null;
+        row[9] = fileLabel.getText();
         model.addRow(row);
     }
 
     private void modifyTableRow(int i) {
         model.setValueAt(Integer.parseInt((String) weekComboBox.getSelectedItem()), i, 2);
+        model.setValueAt(siteComboBox.getSelectedItem(), i, 3);
         model.setValueAt(getComboBoxType(), i, 4);
         model.setValueAt(descriptionTextArea.getText(), i, 5);
         model.setValueAt(Integer.parseInt(timeTextField.getText()), i, 6);
         model.setValueAt(interruptibleCheckBox.isSelected(), i, 7);
         model.setValueAt(notesTextArea.getText(), i, 8);
+        model.setValueAt(fileLabel.getText(), i, 9);
+
     }
-
-
 
     private void disableButtons() {
         updateButton.setEnabled(false);
@@ -443,43 +639,14 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void clearFields() {
         idTextField.setText("");
-        materialsTextField.setText("");
-        siteTextField.setText("");
         timeTextField.setText("");
         notesTextArea.setText("");
         descriptionTextArea.setText("");
-        procedureTextArea.setText("");
+        fileLabel.setText("");
         interruptibleCheckBox.setSelected(false);
     }
 
     private void fillTable() {
-        planner.createActivity(1, null, 50, null, MaintenanceType.ELECTRICAL, "Replacement of robot 23 welding cables", 90, true, "The plant is closed on 00/00/00", null);
-        planner.createActivity(2, null, 51, null, MaintenanceType.HYDRAULIC, "Replacement of pipe", 60, false, "The plant is closed on 00/00/00", null);
-        planner.getScheduledActivity();
-        Object[] row1 = new Object[10];
-        row1[0] = planner.getScheduledActivity().get(1).getId();
-        row1[1] = planner.getScheduledActivity().get(1).getMaterials();
-        row1[2] = planner.getScheduledActivity().get(1).getWeek();
-        row1[3] = null;
-        row1[4] = planner.getScheduledActivity().get(1).getType();
-        row1[5] = planner.getScheduledActivity().get(1).getDescription();
-        row1[6] = planner.getScheduledActivity().get(1).getEstimatedInterventionTime();
-        row1[7] = planner.getScheduledActivity().get(1).isInterruptible();
-        row1[8] = planner.getScheduledActivity().get(1).getWorkspaceNotes();
-        row1[9] = null;
-        model.addRow(row1);
-        Object[] row2 = new Object[10];
-        row2[0] = planner.getScheduledActivity().get(2).getId();
-        row2[1] = planner.getScheduledActivity().get(2).getMaterials();
-        row2[2] = planner.getScheduledActivity().get(2).getWeek();
-        row2[3] = null;
-        row2[4] = planner.getScheduledActivity().get(2).getType();
-        row2[5] = planner.getScheduledActivity().get(2).getDescription();
-        row2[6] = planner.getScheduledActivity().get(2).getEstimatedInterventionTime();
-        row2[7] = planner.getScheduledActivity().get(2).isInterruptible();
-        row2[8] = planner.getScheduledActivity().get(2).getWorkspaceNotes();
-        row2[9] = null;
-        model.addRow(row2);
 
     }
 
@@ -510,15 +677,27 @@ public class PlannerGUI extends javax.swing.JFrame {
         String procedure = (String) model.getValueAt(i, 9);
 
         idTextField.setText(String.valueOf(id));
-        materialsTextField.setText(materials);
         weekComboBox.setSelectedItem(String.valueOf(week));
-        siteTextField.setText(site);
+        siteComboBox.setSelectedItem(site);
+
         setComboBoxType(type);
         descriptionTextArea.setText(description);
         timeTextField.setText(String.valueOf(time));
         interruptibleCheckBox.setSelected(interruptible);
         notesTextArea.setText(notes);
-        procedureTextArea.setText(procedure);
+        fileLabel.setText(procedure);
+        disableNotEditableFields();
+    }
+
+    public void disableNotEditableFields() {
+        idTextField.setEnabled(false);
+        weekComboBox.setEnabled(false);
+        siteComboBox.setEnabled(false);
+        descriptionTextArea.setEnabled(false);
+        timeTextField.setEnabled(false);
+        interruptibleCheckBox.setEnabled(false);
+        uploadButton.setEnabled(false);
+        typeComboBox.setEnabled(false);
     }
 
     /**
@@ -557,10 +736,12 @@ public class PlannerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addMaterialButton;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextArea descriptionTextArea;
+    private javax.swing.JLabel fileLabel;
     private javax.swing.JLabel idLabel;
     private javax.swing.JTextField idTextField;
     private javax.swing.JCheckBox interruptibleCheckBox;
@@ -571,21 +752,24 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable maintenanceTable;
+    private javax.swing.JList<String> materialList;
+    private javax.swing.JTable materialTable;
     private javax.swing.JLabel materialsLabel;
-    private javax.swing.JTextField materialsTextField;
     private javax.swing.JLabel notesLabel;
     private javax.swing.JTextArea notesTextArea;
     private javax.swing.JLabel procedureLabel;
-    private javax.swing.JTextArea procedureTextArea;
+    private javax.swing.JButton removeMaterialButton;
+    private javax.swing.JComboBox<String> siteComboBox;
     private javax.swing.JLabel siteLabel;
-    private javax.swing.JTextField siteTextField;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JTextField timeTextField;
     private javax.swing.JComboBox<String> typeComboBox;
     private javax.swing.JLabel typeLabel;
     private javax.swing.JButton updateButton;
+    private javax.swing.JButton uploadButton;
     private javax.swing.JComboBox<String> weekComboBox;
     private javax.swing.JLabel weekLabel;
     // End of variables declaration//GEN-END:variables
