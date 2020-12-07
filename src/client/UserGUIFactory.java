@@ -23,6 +23,9 @@ public class UserGUIFactory {
         if (user.equals("Maintainer")) {
             return new MaintainerGUI();
         }
+        if (user.equals("Login")) {
+            return new LoginGUI();
+        }
         return null;
     }
 
