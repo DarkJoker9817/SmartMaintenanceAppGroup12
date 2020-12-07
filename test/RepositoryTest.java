@@ -18,7 +18,8 @@ public class RepositoryTest {
     private Repository rep;
 
     @Before
-    public void setUpDatabase() throws SQLException {
+    public void setUpDatabase() throws SQLException, ClassNotFoundException {
+        Repository.connect();
         rep = new Repository();
         rep.insert("insert into \"user\"(username,password,role) values('test','abc','Planner')");
     }
@@ -46,6 +47,7 @@ public class RepositoryTest {
     @After
     public void tearDownDatabase() throws SQLException {
         rep.delete("delete from \"user\"");
+        Repository.close();
     }
 
     // TODO add test methods here.

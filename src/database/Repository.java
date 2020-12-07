@@ -13,16 +13,16 @@ import java.sql.*;
  */
 public class Repository {
 
-    private Connection conn;  // the connection to the DataBase
-    private String url = "jdbc:postgresql://localhost/smart_maintenance_app"; // url of the DataBase
+    private static Connection conn;  // the connection to the DataBase
+    private static final String URL = "jdbc:postgresql://localhost/smart_maintenance_app"; // url of the DataBase
 
-    public Repository() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            this.conn = DriverManager.getConnection(url, "postgres", "postgres");
-        } catch (SQLException | ClassNotFoundException ex) {
+    public static void connect() throws ClassNotFoundException, SQLException {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection(URL, "postgres", "postgres");
+    }
 
-        }
+    public static void close() throws SQLException {
+        conn.close();
     }
 
     /*
