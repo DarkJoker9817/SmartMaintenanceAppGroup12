@@ -13,19 +13,20 @@ import javax.swing.JFrame;
  */
 public class GUIFactory {
 
-    public static JFrame getGUI(String user) {
-        if (user.equals("System Administrator")) {
+    public static JFrame getGUI(String gui) {
+        if (gui.equals("System Administrator")) {
             return new SysAdminGUI();
         }
-        if (user.equals("Planner")) {
+        if (gui.equals("Planner")) {
             return new PlannerGUI();
         }
-        if (user.equals("Maintainer")) {
+        if (gui.equals("Maintainer")) {
             return new MaintainerGUI();
         }
-        if (user.equals("Login")) {
+        if (gui.equals("Login")) {
             return new LoginGUI();
         }
+
         return null;
     }
 
