@@ -36,8 +36,10 @@ public class PlannerGUI extends javax.swing.JFrame {
      */
     private Planner planner;
     private DefaultTableModel model;
+    private DefaultTableModel modelSecondTab;
     private DefaultListModel listModel;
     private ComboBoxModel<String> comboBoxModel;
+    private ComboBoxModel<String> comboBoxModelSecondTab;
     private ComboBoxModel<String> siteModel;
     private Repository rep;
 
@@ -99,7 +101,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         activityTable = new javax.swing.JTable();
-        weekComboBox1 = new javax.swing.JComboBox<>();
+        weekComboBoxSecondTab = new javax.swing.JComboBox<>();
         viewButton = new javax.swing.JButton();
         weekLabel1 = new javax.swing.JLabel();
         selectButton = new javax.swing.JButton();
@@ -439,7 +441,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(activityTable);
 
-        weekComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        weekComboBoxSecondTab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         viewButton.setBackground(new java.awt.Color(255, 255, 255));
         viewButton.setText("View");
@@ -470,7 +472,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(weekLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(weekComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(weekComboBoxSecondTab, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(viewButton)))))
                 .addContainerGap(272, Short.MAX_VALUE))
@@ -480,7 +482,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(weekComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weekComboBoxSecondTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(viewButton)
                     .addComponent(weekLabel1))
                 .addGap(18, 18, 18)
@@ -520,9 +522,12 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void setAttributes() {
         model = (DefaultTableModel) maintenanceTable.getModel();
+        modelSecondTab = (DefaultTableModel) activityTable.getModel();
         weekComboBox.setModel(setFromCurrentWeek());
+        weekComboBoxSecondTab.setModel(setFromCurrentWeek());
         materialList.setModel(listModel);
         comboBoxModel = setFromCurrentWeek();
+        comboBoxModelSecondTab= setFromCurrentWeek();
         siteModel = new DefaultComboBoxModel(setSiteComboBox());
         siteComboBox.setModel(siteModel);
     }
@@ -670,9 +675,30 @@ public class PlannerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_uploadButtonActionPerformed
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
-        // TODO add your handling code here:
+        clearTableSecondTab();
+        String week= (String)weekComboBoxSecondTab.getSelectedItem();
+        Object row[]= new Object[4];
+        try {
+            ResultSet res=rep.select("select * from activity where week='"+week+"'");
+            while(res.next()){
+                row[0]=res.getInt("id");
+                row[1]=res.getString("site");
+                row[2]=res.getString("maintenance_type");
+                row[3]=res.getInt("estimated_time");
+                modelSecondTab.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_viewButtonActionPerformed
 
+    private void clearTableSecondTab (){
+        int size= activityTable.getRowCount();
+        for(int i=0; i<size; i++){
+            modelSecondTab.removeRow(i);
+        }
+    }
+    
     private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
             return MaintenanceType.MECHANICAL;
@@ -908,7 +934,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JButton uploadButton;
     private javax.swing.JButton viewButton;
     private javax.swing.JComboBox<String> weekComboBox;
-    private javax.swing.JComboBox<String> weekComboBox1;
+    private javax.swing.JComboBox<String> weekComboBoxSecondTab;
     private javax.swing.JLabel weekLabel;
     private javax.swing.JLabel weekLabel1;
     // End of variables declaration//GEN-END:variables
