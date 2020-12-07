@@ -725,7 +725,8 @@ public class PlannerGUI extends javax.swing.JFrame {
         if (activityTable.getSelectedRow() == -1) {
             return;
         }
-        new ActivityVerificationDialog(this, true).setVisible(true);
+        int id = Integer.parseInt((String) activityTable.getValueAt(activityTable.getSelectedRow(), 0));
+        new ActivityVerificationDialog(this, true, id).setVisible(true);
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void clearTableSecondTab() {

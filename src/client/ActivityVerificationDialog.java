@@ -5,7 +5,12 @@
  */
 package client;
 
+import database.Repository;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,12 +18,16 @@ import java.awt.Color;
  */
 public class ActivityVerificationDialog extends javax.swing.JDialog {
 
+    private Repository rep;
+
     /**
      * Creates new form ActivityVerificationDialog
      */
-    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal) {
+    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
+        rep = new Repository();
         initComponents();
+        initDialog(id);
     }
 
     /**
@@ -394,6 +403,19 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initDialog(int id) {
+        try {
+            ResultSet select = rep.select("select * from activity where id = '" + id + "'");
+            while (select.next()) {
+                weekNumberLabel.setText(String.valueOf(select.getInt("week")));
+                workspaceNotesTextArea.setText(select.getString("workspace_notes"));
+                descriptionTextArea.setText("description");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     private void forwardLabelButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardLabelButtonMouseEntered
         // TODO add your handling code here:
         jPanel11.setBackground(new Color(255, 255, 0));
@@ -434,7 +456,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ActivityVerificationDialog dialog = new ActivityVerificationDialog(new javax.swing.JFrame(), true);
+                ActivityVerificationDialog dialog = new ActivityVerificationDialog(new javax.swing.JFrame(), true, 1);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
