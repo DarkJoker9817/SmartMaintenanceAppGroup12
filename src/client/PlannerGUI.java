@@ -98,11 +98,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         addMaterialButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        activityTable = new javax.swing.JTable();
+        weekComboBox1 = new javax.swing.JComboBox<>();
+        viewButton = new javax.swing.JButton();
+        weekLabel1 = new javax.swing.JLabel();
+        selectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Planner");
@@ -424,7 +424,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        activityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -440,18 +440,22 @@ public class PlannerGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane6.setViewportView(jTable1);
+        jScrollPane6.setViewportView(activityTable);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        weekComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("View");
+        viewButton.setBackground(new java.awt.Color(255, 255, 255));
+        viewButton.setText("View");
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewButtonActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Week");
+        weekLabel1.setText("Week");
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Select");
+        selectButton.setBackground(new java.awt.Color(255, 255, 255));
+        selectButton.setText("Select");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -461,17 +465,17 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(selectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(weekLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(weekComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)))))
+                                .addComponent(viewButton)))))
                 .addContainerGap(355, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -479,13 +483,13 @@ public class PlannerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
+                    .addComponent(weekComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewButton)
+                    .addComponent(weekLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(selectButton)
                 .addContainerGap(232, Short.MAX_VALUE))
         );
 
@@ -667,6 +671,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_uploadButtonActionPerformed
+
+    private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewButtonActionPerformed
 
     private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
@@ -863,6 +871,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable activityTable;
     private javax.swing.JButton addMaterialButton;
     private javax.swing.JButton createButton;
     private javax.swing.JButton deleteButton;
@@ -873,10 +882,6 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JTextField idTextField;
     private javax.swing.JCheckBox interruptibleCheckBox;
     private javax.swing.JLabel interruptibleLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -887,7 +892,6 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable maintenanceTable;
     private javax.swing.JList<String> materialList;
     private javax.swing.JTable materialTable;
@@ -896,6 +900,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea notesTextArea;
     private javax.swing.JLabel procedureLabel;
     private javax.swing.JButton removeMaterialButton;
+    private javax.swing.JButton selectButton;
     private javax.swing.JComboBox<String> siteComboBox;
     private javax.swing.JLabel siteLabel;
     private javax.swing.JLabel timeLabel;
@@ -904,7 +909,10 @@ public class PlannerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel typeLabel;
     private javax.swing.JButton updateButton;
     private javax.swing.JButton uploadButton;
+    private javax.swing.JButton viewButton;
     private javax.swing.JComboBox<String> weekComboBox;
+    private javax.swing.JComboBox<String> weekComboBox1;
     private javax.swing.JLabel weekLabel;
+    private javax.swing.JLabel weekLabel1;
     // End of variables declaration//GEN-END:variables
 }
