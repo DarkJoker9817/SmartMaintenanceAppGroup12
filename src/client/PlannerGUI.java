@@ -496,7 +496,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(selectButton)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Activity Assignement", jPanel3);
@@ -725,7 +725,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         if (activityTable.getSelectedRow() == -1) {
             return;
         }
-        int id = Integer.parseInt((String) activityTable.getValueAt(activityTable.getSelectedRow(), 0));
+        int id = Integer.parseInt(String.valueOf(activityTable.getValueAt(activityTable.getSelectedRow(), 0)));
         new ActivityVerificationDialog(this, true, id).setVisible(true);
     }//GEN-LAST:event_selectButtonActionPerformed
 

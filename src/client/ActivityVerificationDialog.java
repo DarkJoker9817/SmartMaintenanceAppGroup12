@@ -95,6 +95,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        weekNumberLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         weekNumberLabel.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -134,6 +135,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         );
 
         activityLabel.setBackground(new java.awt.Color(51, 51, 51));
+        activityLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         activityLabel.setText("jLabel4");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -409,7 +411,10 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
             while (select.next()) {
                 weekNumberLabel.setText(String.valueOf(select.getInt("week")));
                 workspaceNotesTextArea.setText(select.getString("workspace_notes"));
-                descriptionTextArea.setText("description");
+                descriptionTextArea.setText(select.getString("description"));
+                String[] site = select.getString("site").split("-");
+                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
+                activityLabel.setText(activity);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
