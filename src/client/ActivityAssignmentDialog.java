@@ -67,14 +67,14 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         skillsLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         skillsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         skillsLabel.setText("Skills needed");
-        skillsLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        skillsLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
         skillsLabel.setOpaque(true);
 
         availabilityLabel.setBackground(new java.awt.Color(255, 204, 51));
         availabilityLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         availabilityLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         availabilityLabel.setText("Maintainer AVAILABILITY");
-        availabilityLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        availabilityLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
         availabilityLabel.setOpaque(true);
 
         jScrollPane1.setViewportView(skillsList);
