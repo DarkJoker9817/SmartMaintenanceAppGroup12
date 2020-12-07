@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import client.UserGUIFactory;
+import client.GUIFactory;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,24 +15,17 @@ import static org.junit.Assert.*;
  */
 public class UserGUIFactoryTest {
 
-    UserGUIFactory gui;
-
-    @Before
-    public void setUp() {
-        gui = new UserGUIFactory();
-    }
-
     @Test
     public void testNotNullJFrame() {
-        assertNotNull(gui.getUserGUI("System Administrator"));
-        assertNotNull(gui.getUserGUI("Planner"));
-        assertNotNull(gui.getUserGUI("Maintainer"));
+        assertNotNull(GUIFactory.getGUI("System Administrator"));
+        assertNotNull(GUIFactory.getGUI("Planner"));
+        assertNotNull(GUIFactory.getGUI("Maintainer"));
 
     }
 
     @Test
     public void testNullJFrame() {
-        assertNull(gui.getUserGUI(""));
+        assertNull(GUIFactory.getGUI(""));
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

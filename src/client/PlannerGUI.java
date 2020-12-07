@@ -42,7 +42,6 @@ public class PlannerGUI extends javax.swing.JFrame {
     private ComboBoxModel<String> comboBoxModelSecondTab;
     private ComboBoxModel<String> siteModel;
     private Repository rep;
-    private UserGUIFactory gui;
 
     public PlannerGUI() {
         initComponents();
@@ -439,6 +438,9 @@ public class PlannerGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        activityTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        activityTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
+        activityTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(activityTable);
 
         weekComboBoxSecondTab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -455,6 +457,11 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         selectButton.setBackground(new java.awt.Color(255, 255, 255));
         selectButton.setText("Select");
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -489,11 +496,12 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(selectButton)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Activity Assignement", jPanel3);
 
+        logoutButton.setBackground(new java.awt.Color(255, 153, 0));
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -542,7 +550,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         weekComboBoxSecondTab.setModel(setFromCurrentWeek());
         materialList.setModel(listModel);
         comboBoxModel = setFromCurrentWeek();
-        comboBoxModelSecondTab= setFromCurrentWeek();
+        comboBoxModelSecondTab = setFromCurrentWeek();
         siteModel = new DefaultComboBoxModel(setSiteComboBox());
         siteComboBox.setModel(siteModel);
     }
@@ -691,15 +699,15 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         clearTableSecondTab();
-        String week= (String)weekComboBoxSecondTab.getSelectedItem();
-        Object row[]= new Object[4];
+        String week = (String) weekComboBoxSecondTab.getSelectedItem();
+        Object row[] = new Object[4];
         try {
-            ResultSet res=rep.select("select * from activity where week='"+week+"'");
-            while(res.next()){
-                row[0]=res.getInt("id");
-                row[1]=res.getString("site");
-                row[2]=res.getString("maintenance_type");
-                row[3]=res.getInt("estimated_time");
+            ResultSet res = rep.select("select * from activity where week='" + week + "'");
+            while (res.next()) {
+                row[0] = res.getInt("id");
+                row[1] = res.getString("site");
+                row[2] = res.getString("maintenance_type");
+                row[3] = res.getInt("estimated_time");
                 modelSecondTab.addRow(row);
             }
         } catch (SQLException ex) {
@@ -709,17 +717,24 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
-        gui = new UserGUIFactory();
-        gui.getUserGUI("Login").setVisible(true);
+        GUIFactory.getGUI("Login").setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void clearTableSecondTab (){
-        int size= activityTable.getRowCount();
-        for(int i=0; i<size; i++){
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+        // TODO add your handling code here:
+        if (activityTable.getSelectedRow() == -1) {
+            return;
+        }
+        new ActivityVerificationDialog(this, true).setVisible(true);
+    }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void clearTableSecondTab() {
+        int size = activityTable.getRowCount();
+        for (int i = 0; i < size; i++) {
             modelSecondTab.removeRow(i);
         }
     }
-    
+
     private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
             return MaintenanceType.MECHANICAL;

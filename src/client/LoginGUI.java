@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 public class LoginGUI extends javax.swing.JFrame {
 
     private final LoginValidate login;
-    private UserGUIFactory gui;
 
     /**
      * Creates new form LoginGUI
@@ -26,7 +25,6 @@ public class LoginGUI extends javax.swing.JFrame {
     public LoginGUI() {
         initComponents();
         login = new LoginValidate();
-        gui = new UserGUIFactory();
     }
 
     /**
@@ -244,11 +242,11 @@ public class LoginGUI extends javax.swing.JFrame {
         }
         try {
             if (login.isValidSysAdmin(username, password) && selectedUser.equals("System Administrator")) {
-                showUserGUI(gui.getUserGUI(selectedUser));
+                showUserGUI(GUIFactory.getGUI(selectedUser));
                 return;
             }
             if (login.isValidUser(username, password, selectedUser)) {
-                showUserGUI(gui.getUserGUI(selectedUser));
+                showUserGUI(GUIFactory.getGUI(selectedUser));
                 return;
             }
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
