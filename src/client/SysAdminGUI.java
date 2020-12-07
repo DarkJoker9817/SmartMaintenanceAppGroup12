@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
-import client.UserGUIFactory;
+import client.GUIFactory;
 
 /**
  *
@@ -24,7 +24,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
      */
     private DefaultTableModel model;
     private Repository repository;
-    private UserGUIFactory gui;
 
     public SysAdminGUI() {
         initComponents();
@@ -217,6 +216,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Repository Management", jPanel2);
 
+        logoutButton.setBackground(new java.awt.Color(255, 153, 0));
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,8 +324,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
-        gui = new UserGUIFactory();
-        gui.getUserGUI("Login").setVisible(true);
+        GUIFactory.getGUI("Login").setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {

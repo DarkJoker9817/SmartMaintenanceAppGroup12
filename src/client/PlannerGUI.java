@@ -42,8 +42,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private ComboBoxModel<String> comboBoxModelSecondTab;
     private ComboBoxModel<String> siteModel;
     private Repository rep;
-    private UserGUIFactory gui;
-
+    
     public PlannerGUI() {
         initComponents();
         planner = new Planner("pippo", "pippo");
@@ -494,6 +493,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Activity Assignement", jPanel3);
 
+        logoutButton.setBackground(new java.awt.Color(255, 153, 0));
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -542,11 +542,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         weekComboBoxSecondTab.setModel(setFromCurrentWeek());
         materialList.setModel(listModel);
         comboBoxModel = setFromCurrentWeek();
-        comboBoxModelSecondTab= setFromCurrentWeek();
+        comboBoxModelSecondTab = setFromCurrentWeek();
         siteModel = new DefaultComboBoxModel(setSiteComboBox());
         siteComboBox.setModel(siteModel);
     }
-
+    
     private Object[] setSiteComboBox() {
         List<Object> row = new ArrayList<>();
         try {
@@ -559,7 +559,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
         return row.toArray();
     }
-
+    
     private void fillMaterialTable() {
         DefaultTableModel model = (DefaultTableModel) materialTable.getModel();
         Object row[] = new Object[1];
@@ -572,13 +572,13 @@ public class PlannerGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
-
+        
     }
     private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
         enableButtons();
         fillForm();
     }//GEN-LAST:event_maintenanceTableMouseClicked
-
+    
     private String getArrayMaterial() {
         String materials = "{";
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -608,7 +608,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int i = maintenanceTable.getSelectedRow();
         Integer id = (Integer) model.getValueAt(i, 0);
-
+        
         try {
             //planner.deleteActivity(id);
             rep.delete("delete from activity where id = '" + id + "'");
@@ -616,7 +616,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
+        
         disableButtons();
         enableComponents();
         clearFields();
@@ -642,7 +642,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         disableButtons();
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_updateButtonActionPerformed
-
+    
     public void enableComponents() {
         idTextField.setEnabled(true);
         weekComboBox.setEnabled(true);
@@ -655,7 +655,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         addMaterialButton.setEnabled(true);
         removeMaterialButton.setEnabled(true);
         listModel.clear();
-
+        
     }
     private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
         // TODO add your handling code here:
@@ -663,7 +663,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             return;
         }
         DefaultTableModel tableModel = (DefaultTableModel) materialTable.getModel();
-
+        
         listModel.addElement(tableModel.getValueAt(materialTable.getSelectedRow(), 0));
         materialTable.clearSelection();
     }//GEN-LAST:event_addMaterialButtonActionPerformed
@@ -691,15 +691,15 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         clearTableSecondTab();
-        String week= (String)weekComboBoxSecondTab.getSelectedItem();
-        Object row[]= new Object[4];
+        String week = (String) weekComboBoxSecondTab.getSelectedItem();
+        Object row[] = new Object[4];
         try {
-            ResultSet res=rep.select("select * from activity where week='"+week+"'");
-            while(res.next()){
-                row[0]=res.getInt("id");
-                row[1]=res.getString("site");
-                row[2]=res.getString("maintenance_type");
-                row[3]=res.getInt("estimated_time");
+            ResultSet res = rep.select("select * from activity where week='" + week + "'");
+            while (res.next()) {
+                row[0] = res.getInt("id");
+                row[1] = res.getString("site");
+                row[2] = res.getString("maintenance_type");
+                row[3] = res.getInt("estimated_time");
                 modelSecondTab.addRow(row);
             }
         } catch (SQLException ex) {
@@ -709,13 +709,12 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
-        gui = new UserGUIFactory();
-        gui.getUserGUI("Login").setVisible(true);
+        GUIFactory.getGUI("Login").setVisible(true);
     }//GEN-LAST:event_logoutButtonActionPerformed
-
-    private void clearTableSecondTab (){
-        int size= activityTable.getRowCount();
-        for(int i=0; i<size; i++){
+    
+    private void clearTableSecondTab() {
+        int size = activityTable.getRowCount();
+        for (int i = 0; i < size; i++) {
             modelSecondTab.removeRow(i);
         }
     }
@@ -730,7 +729,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
         return MaintenanceType.HYDRAULIC;
     }
-
+    
     private void setComboBoxType(String type) {
         if ("MECHANICAL".equals(type)) {
             typeComboBox.setSelectedItem("Mechanical");
@@ -742,7 +741,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             typeComboBox.setSelectedItem("Hydraulic");
         }
     }
-
+    
     private void addTableRow() {
         Object[] row = new Object[10];
         row[0] = Integer.parseInt(idTextField.getText());
@@ -757,21 +756,21 @@ public class PlannerGUI extends javax.swing.JFrame {
         row[9] = fileLabel.getText();
         model.addRow(row);
     }
-
+    
     private void modifyTableRow(int i) {
         model.setValueAt(notesTextArea.getText(), i, 8);
     }
-
+    
     private void disableButtons() {
         updateButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
-
+    
     private void enableButtons() {
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
     }
-
+    
     private void clearFields() {
         idTextField.setText("");
         timeTextField.setText("");
@@ -780,7 +779,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         fileLabel.setText("");
         interruptibleCheckBox.setSelected(false);
     }
-
+    
     private void fillTable() {
         try {
             Object[] row = new Object[10];
@@ -801,9 +800,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
+        
     }
-
+    
     private DefaultComboBoxModel<String> setFromCurrentWeek() {
         LocalDate date = LocalDate.now();
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
@@ -816,10 +815,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
         return new DefaultComboBoxModel(weekStr);
     }
-
+    
     private void fillForm() {
         int i = maintenanceTable.getSelectedRow();
-
+        
         Integer id = (Integer) model.getValueAt(i, 0);
         try {
             ResultSet res = rep.select("select * from activity where id='" + id + "'");
@@ -835,11 +834,11 @@ public class PlannerGUI extends javax.swing.JFrame {
             Boolean interruptible = (Boolean) model.getValueAt(i, 7);
             String notes = (String) model.getValueAt(i, 8);
             String procedure = (String) model.getValueAt(i, 9);
-
+            
             idTextField.setText(String.valueOf(id));
             weekComboBox.setSelectedItem(String.valueOf(week));
             siteComboBox.setSelectedItem(site);
-
+            
             setComboBoxType(type);
             descriptionTextArea.setText(description);
             timeTextField.setText(String.valueOf(time));
@@ -851,7 +850,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void fillMaterialList(Array arr) {
         try {
             listModel.clear();
@@ -863,9 +862,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
     public void disableNotEditableFields() {
         idTextField.setEnabled(false);
         weekComboBox.setEnabled(false);
