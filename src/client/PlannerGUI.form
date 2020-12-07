@@ -676,7 +676,7 @@
                                       <Group type="102" attributes="0">
                                           <Component id="weekLabel1" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="weekComboBox1" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="weekComboBoxSecondTab" min="-2" pref="150" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="viewButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -692,7 +692,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="weekComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="weekComboBoxSecondTab" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="viewButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="weekLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -754,7 +754,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JComboBox" name="weekComboBox1">
+                <Component class="javax.swing.JComboBox" name="weekComboBoxSecondTab">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
