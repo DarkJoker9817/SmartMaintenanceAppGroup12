@@ -7,6 +7,7 @@ package client;
 
 import database.Repository;
 import java.awt.Color;
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,17 +21,20 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     private Repository rep;
     private int id;
+    private Frame parent;
+
     /**
      * Creates new form ActivityVerificationDialog
      */
     public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         rep = new Repository();
-        this.id=id;
+        this.id = id;
+        this.parent = parent;
         initComponents();
         initDialog(id);
     }
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,7 +70,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         skillTextArea = new javax.swing.JTextArea();
         jPanel11 = new javax.swing.JPanel();
-        ForwardButton = new javax.swing.JButton();
+        forwardButtonLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Activity Verification");
@@ -285,10 +289,18 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel11.setBackground(new java.awt.Color(255, 204, 0));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        ForwardButton.setText("Forward");
-        ForwardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ForwardButtonActionPerformed(evt);
+        forwardButtonLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        forwardButtonLabel.setForeground(new java.awt.Color(0, 0, 0));
+        forwardButtonLabel.setText("              FORWARD");
+        forwardButtonLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forwardButtonLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                forwardButtonLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                forwardButtonLabelMouseExited(evt);
             }
         });
 
@@ -298,12 +310,15 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ForwardButton, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                .addComponent(forwardButtonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ForwardButton, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(forwardButtonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -393,11 +408,21 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForwardButtonActionPerformed
+    private void forwardButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
-        new ActivityAssignmentDialog(null, true, id).setVisible(true);
-    }//GEN-LAST:event_ForwardButtonActionPerformed
+        new ActivityAssignmentDialog(parent, true, id).setVisible(true);
+    }//GEN-LAST:event_forwardButtonLabelMouseClicked
+
+    private void forwardButtonLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseEntered
+        // TODO add your handling code here:
+        jPanel11.setBackground(new Color(255, 255, 0));
+    }//GEN-LAST:event_forwardButtonLabelMouseEntered
+
+    private void forwardButtonLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseExited
+        // TODO add your handling code here:
+        jPanel11.setBackground(new Color(255, 204, 0));
+    }//GEN-LAST:event_forwardButtonLabelMouseExited
 
     private void initDialog(int id) {
         try {
@@ -415,6 +440,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         }
 
     }
+
     /**
      * @param args the command line arguments
      */
@@ -458,9 +484,9 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ForwardButton;
     private javax.swing.JLabel activityLabel;
     private javax.swing.JTextArea descriptionTextArea;
+    private javax.swing.JLabel forwardButtonLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
