@@ -198,7 +198,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             while (select.next()) {
                 weekNumberLabel.setText(String.valueOf(select.getInt("week")));
                 String[] site = select.getString("site").split("-");
-                String info = String.valueOf(id) + " - " + site[0] + site[1] + " - " + select.getString("type") + " - " + String.valueOf(select.getInt("estimated_time"));
+                String info = String.valueOf(id) + " - " + site[0] + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
                 infoLabel.setText(info);
             }
         } catch (SQLException ex) {
