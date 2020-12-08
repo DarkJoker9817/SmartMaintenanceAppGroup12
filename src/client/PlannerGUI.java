@@ -921,7 +921,13 @@ public class PlannerGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PlannerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        try {
+            Repository.connect();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

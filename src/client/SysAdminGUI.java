@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import client.GUIFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -405,8 +407,15 @@ public class SysAdminGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(SysAdminGUI.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
+        //</editor-fold>
+        try {
+            Repository.connect();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
