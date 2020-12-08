@@ -135,7 +135,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         );
 
         activityLabel.setBackground(new java.awt.Color(51, 51, 51));
-        activityLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        activityLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         activityLabel.setText("jLabel4");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);

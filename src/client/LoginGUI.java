@@ -304,9 +304,8 @@ public class LoginGUI extends javax.swing.JFrame {
                 }
             });
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "" + ex.getClass(), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
