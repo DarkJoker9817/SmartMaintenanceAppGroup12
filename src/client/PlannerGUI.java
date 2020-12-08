@@ -273,19 +273,13 @@ public class PlannerGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(timeLabel)
-                                    .addComponent(typeLabel))
-                                .addGap(8, 8, 8))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(siteLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(interruptibleLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(interruptibleLabel)
+                            .addComponent(siteLabel)
+                            .addComponent(timeLabel)
+                            .addComponent(typeLabel))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(interruptibleCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,61 +290,63 @@ public class PlannerGUI extends javax.swing.JFrame {
                                     .addComponent(timeTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(siteComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 158, Short.MAX_VALUE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(notesLabel))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(procedureLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGap(48, 48, 48)
+                        .addComponent(procedureLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(uploadButton)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(createButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(updateButton))))
+                                .addComponent(updateButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(uploadButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(weekLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(idLabel)
-                                .addGap(5, 5, 5)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(idTextField)
-                            .addComponent(weekComboBox, 0, 158, Short.MAX_VALUE))
-                        .addGap(122, 122, 122)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(weekLabel)
+                                    .addComponent(idLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(weekComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(127, 127, 127))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(descriptionLabel)
+                                    .addComponent(notesLabel))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(11, 11, 11)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(12, 12, 12)))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 178, Short.MAX_VALUE)
                         .addComponent(materialsLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeMaterialButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addMaterialButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(123, 123, 123))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(134, 134, 134)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(329, 329, 329))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(141, 141, 141)
+                                .addComponent(removeMaterialButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addMaterialButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(125, 125, 125))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,21 +395,24 @@ public class PlannerGUI extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
                                 .addComponent(procedureLabel)))
-                        .addGap(74, 74, 74)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(createButton)
+                            .addComponent(updateButton)
                             .addComponent(deleteButton)
-                            .addComponent(updateButton))
-                        .addGap(274, 274, 274))
+                            .addComponent(createButton))
+                        .addGap(330, 330, 330))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(addMaterialButton)
-                                .addComponent(removeMaterialButton)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane4)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addGap(9, 9, 9)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(removeMaterialButton)
+                                    .addComponent(addMaterialButton)))
                             .addComponent(materialsLabel))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -482,7 +481,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                                 .addComponent(weekComboBoxSecondTab, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(viewButton)))))
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +516,9 @@ public class PlannerGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(logoutButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,11 +533,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -582,11 +583,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
 
     }
-    private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
-        enableButtons();
-        fillForm();
-    }//GEN-LAST:event_maintenanceTableMouseClicked
-
     private String getArrayMaterial() {
         String materials = "{";
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -595,61 +591,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         materials += "}";
         return materials;
     }
-    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        MaintenanceType type = getComboBoxType();
-        String materials = getArrayMaterial();
-        try {
-            rep.insert("insert into activity(id,materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
-                    + "values('" + Integer.parseInt(idTextField.getText()) + "','" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
-                    + descriptionTextArea.getText() + "','" + Integer.parseInt(timeTextField.getText()) + "','" + interruptibleCheckBox.isSelected() + "','" + notesTextArea.getText() + "','" + fileLabel.getText() + "');");
-            addTableRow();
-        } catch (SQLException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        clearFields();
-        disableButtons();
-        maintenanceTable.clearSelection();
-        listModel.clear();
-
-    }//GEN-LAST:event_createButtonActionPerformed
-
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int i = maintenanceTable.getSelectedRow();
-        Integer id = (Integer) model.getValueAt(i, 0);
-
-        try {
-            //planner.deleteActivity(id);
-            rep.delete("delete from activity where id = '" + id + "'");
-            model.removeRow(i);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        disableButtons();
-        enableComponents();
-        clearFields();
-        maintenanceTable.clearSelection();
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         disableButtons();
     }//GEN-LAST:event_formWindowActivated
-
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        int i = maintenanceTable.getSelectedRow();
-        Integer id = (Integer) model.getValueAt(i, 0);
-        MaintenanceType type = getComboBoxType();
-        try {
-            rep.update("update activity set workspace_notes = '" + notesTextArea.getText() + "' where id = '" + id + "'");
-            modifyTableRow(i);
-        } catch (NumberFormatException | SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-        clearFields();
-        enableComponents();
-        disableButtons();
-        maintenanceTable.clearSelection();
-    }//GEN-LAST:event_updateButtonActionPerformed
 
     public void enableComponents() {
         idTextField.setEnabled(true);
@@ -665,38 +609,6 @@ public class PlannerGUI extends javax.swing.JFrame {
         listModel.clear();
 
     }
-    private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
-        // TODO add your handling code here:
-        if (materialTable.getSelectedRow() == -1) {
-            return;
-        }
-        DefaultTableModel tableModel = (DefaultTableModel) materialTable.getModel();
-
-        listModel.addElement(tableModel.getValueAt(materialTable.getSelectedRow(), 0));
-        materialTable.clearSelection();
-    }//GEN-LAST:event_addMaterialButtonActionPerformed
-
-    private void removeMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaterialButtonActionPerformed
-        // TODO add your handling code here:
-        if (materialList.getSelectedIndex() == -1) {
-            return;
-        }
-        listModel.remove(materialList.getSelectedIndex());
-        materialList.clearSelection();
-    }//GEN-LAST:event_removeMaterialButtonActionPerformed
-
-    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("./src/maintenanceprocedure"));
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            fileLabel.setText(selectedFile.getName() + ".pdf");
-        }
-
-    }//GEN-LAST:event_uploadButtonActionPerformed
-
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         clearTableSecondTab();
         String week = (String) weekComboBoxSecondTab.getSelectedItem();
@@ -728,6 +640,93 @@ public class PlannerGUI extends javax.swing.JFrame {
         int id = Integer.parseInt(String.valueOf(activityTable.getValueAt(activityTable.getSelectedRow(), 0)));
         new ActivityVerificationDialog(this, true, id).setVisible(true);
     }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
+        // TODO add your handling code here:
+        if (materialTable.getSelectedRow() == -1) {
+            return;
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) materialTable.getModel();
+
+        listModel.addElement(tableModel.getValueAt(materialTable.getSelectedRow(), 0));
+        materialTable.clearSelection();
+    }//GEN-LAST:event_addMaterialButtonActionPerformed
+
+    private void removeMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaterialButtonActionPerformed
+        // TODO add your handling code here:
+        if (materialList.getSelectedIndex() == -1) {
+            return;
+        }
+        listModel.remove(materialList.getSelectedIndex());
+        materialList.clearSelection();
+    }//GEN-LAST:event_removeMaterialButtonActionPerformed
+
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("./src/maintenanceprocedure"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            fileLabel.setText(selectedFile.getName() + ".pdf");
+        }
+    }//GEN-LAST:event_uploadButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        int i = maintenanceTable.getSelectedRow();
+        Integer id = (Integer) model.getValueAt(i, 0);
+        MaintenanceType type = getComboBoxType();
+        try {
+            rep.update("update activity set workspace_notes = '" + notesTextArea.getText() + "' where id = '" + id + "'");
+            modifyTableRow(i);
+        } catch (NumberFormatException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        clearFields();
+        enableComponents();
+        disableButtons();
+        maintenanceTable.clearSelection();
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        int i = maintenanceTable.getSelectedRow();
+        Integer id = (Integer) model.getValueAt(i, 0);
+
+        try {
+            //planner.deleteActivity(id);
+            rep.delete("delete from activity where id = '" + id + "'");
+            model.removeRow(i);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        disableButtons();
+        enableComponents();
+        clearFields();
+        maintenanceTable.clearSelection();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        MaintenanceType type = getComboBoxType();
+        String materials = getArrayMaterial();
+        try {
+            rep.insert("insert into activity(id,materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
+                + "values('" + Integer.parseInt(idTextField.getText()) + "','" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
+                + descriptionTextArea.getText() + "','" + Integer.parseInt(timeTextField.getText()) + "','" + interruptibleCheckBox.isSelected() + "','" + notesTextArea.getText() + "','" + fileLabel.getText() + "');");
+            addTableRow();
+        } catch (SQLException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        clearFields();
+        disableButtons();
+        maintenanceTable.clearSelection();
+        listModel.clear();
+    }//GEN-LAST:event_createButtonActionPerformed
+
+    private void maintenanceTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maintenanceTableMouseClicked
+        enableButtons();
+        fillForm();
+    }//GEN-LAST:event_maintenanceTableMouseClicked
 
     private void clearTableSecondTab() {
         int size = activityTable.getRowCount();
