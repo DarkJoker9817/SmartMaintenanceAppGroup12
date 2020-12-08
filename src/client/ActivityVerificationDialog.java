@@ -19,17 +19,18 @@ import java.util.logging.Logger;
 public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     private Repository rep;
-
+    private int id;
     /**
      * Creates new form ActivityVerificationDialog
      */
     public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         rep = new Repository();
+        this.id=id;
         initComponents();
         initDialog(id);
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +66,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         skillTextArea = new javax.swing.JTextArea();
         jPanel11 = new javax.swing.JPanel();
-        forwardLabelButton = new javax.swing.JLabel();
+        ForwardButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Activity Verification");
@@ -75,7 +76,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("    Week");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -114,7 +114,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Activity to assign");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -155,7 +154,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        workspaceNotesTextArea.setBackground(new java.awt.Color(255, 255, 255));
         workspaceNotesTextArea.setColumns(20);
         workspaceNotesTextArea.setRows(5);
         jScrollPane1.setViewportView(workspaceNotesTextArea);
@@ -165,7 +163,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Workspace Notes");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -186,7 +183,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         );
 
         descriptionTextArea.setEditable(false);
-        descriptionTextArea.setBackground(new java.awt.Color(255, 255, 255));
         descriptionTextArea.setColumns(20);
         descriptionTextArea.setRows(5);
         jScrollPane2.setViewportView(descriptionTextArea);
@@ -216,7 +212,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("<html>Standard<br/>Maintenance<br/>Procedure File<br/>(SMP)</html>");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -240,7 +235,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText(" Intervention description");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -264,7 +258,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("                 Skill needed");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -273,7 +266,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -285,7 +278,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         );
 
         skillTextArea.setEditable(false);
-        skillTextArea.setBackground(new java.awt.Color(255, 255, 255));
         skillTextArea.setColumns(20);
         skillTextArea.setRows(5);
         jScrollPane3.setViewportView(skillTextArea);
@@ -293,16 +285,10 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel11.setBackground(new java.awt.Color(255, 204, 0));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        forwardLabelButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        forwardLabelButton.setForeground(new java.awt.Color(0, 0, 0));
-        forwardLabelButton.setText("             FORWARD");
-        forwardLabelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        forwardLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                forwardLabelButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                forwardLabelButtonMouseExited(evt);
+        ForwardButton.setText("Forward");
+        ForwardButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ForwardButtonActionPerformed(evt);
             }
         });
 
@@ -312,12 +298,12 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(forwardLabelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                .addComponent(ForwardButton, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(forwardLabelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+            .addComponent(ForwardButton, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -354,9 +340,9 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
                                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane3)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)))))
+                                .addGap(37, 37, 37)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -379,15 +365,17 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -405,6 +393,12 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForwardButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ActivityAssignmentDialog(null, true, id).setVisible(true);
+    }//GEN-LAST:event_ForwardButtonActionPerformed
+
     private void initDialog(int id) {
         try {
             ResultSet select = rep.select("select * from activity where id = '" + id + "'");
@@ -421,16 +415,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         }
 
     }
-    private void forwardLabelButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardLabelButtonMouseEntered
-        // TODO add your handling code here:
-        jPanel11.setBackground(new Color(255, 255, 0));
-    }//GEN-LAST:event_forwardLabelButtonMouseEntered
-
-    private void forwardLabelButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardLabelButtonMouseExited
-        // TODO add your handling code here:
-        jPanel11.setBackground(new Color(255, 204, 0));
-    }//GEN-LAST:event_forwardLabelButtonMouseExited
-
     /**
      * @param args the command line arguments
      */
@@ -474,9 +458,9 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ForwardButton;
     private javax.swing.JLabel activityLabel;
     private javax.swing.JTextArea descriptionTextArea;
-    private javax.swing.JLabel forwardLabelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
