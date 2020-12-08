@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
     
     private Repository rep;
+    private DefaultTableModel tableModel;
     
     /**
      * Creates new form ActivityAssignmentDialog
@@ -26,6 +28,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         rep = new Repository();
         initComponents();
         initDialog(id);
+        fillTableMaintainers();
     }
     
     /**
@@ -59,6 +62,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         weekLabel.setOpaque(true);
 
         weekNumberLabel.setBackground(new java.awt.Color(153, 153, 153));
+        weekNumberLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         weekNumberLabel.setForeground(new java.awt.Color(255, 255, 255));
         weekNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         weekNumberLabel.setOpaque(true);
@@ -68,6 +72,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         activityLabel.setOpaque(true);
 
         infoLabel.setBackground(new java.awt.Color(153, 153, 153));
+        infoLabel.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         infoLabel.setForeground(new java.awt.Color(255, 255, 255));
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setOpaque(true);
@@ -90,9 +95,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
         availabilityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Maintainer", "Skills", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -106,7 +109,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        availabilityTable.setShowGrid(false);
+        availabilityTable.setShowGrid(true);
         jScrollPane2.setViewportView(availabilityTable);
         if (availabilityTable.getColumnModel().getColumnCount() > 0) {
             availabilityTable.getColumnModel().getColumn(1).setResizable(false);
@@ -194,57 +197,46 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     
     private void initDialog(int id) {
         try {
-            ResultSet select = rep.select("select * from activity where id = '" + id + "'");
+            ResultSet select = rep.select("select * from activity where id = '"
+                                          + id + "'");
             while (select.next()) {
                 weekNumberLabel.setText(String.valueOf(select.getInt("week")));
                 String[] site = select.getString("site").split("-");
-                String info = String.valueOf(id) + " - " + site[0] + site[1] + " - " + select.getString("type") + " - " + String.valueOf(select.getInt("estimated_time"));
+                String info = String.valueOf(id) + " - " + site[0] + site[1] + 
+                              " - " + select.getString("maintenance_type") + 
+                              " - " + String.valueOf(select.getInt("estimated_time") + "'");
                 infoLabel.setText(info);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    
+    private void fillTableMaintainers() {
+        tableModel = (DefaultTableModel) availabilityTable.getModel();
+        Object[] row = new Object[9];
+        int i = 1;
+        
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ActivityAssignmentDialog dialog = new ActivityAssignmentDialog(new javax.swing.JFrame(), true, 1);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+            ResultSet maintainers = rep.select("select * from maintainer");
+            while (maintainers.next()) {
+                row[0] = maintainers.getString("username");
+                ResultSet res = maintainers.getArray("availability").getResultSet();
+                
+                // questo va bene per la tabella degli orari
+                while (res.next()) {
+                    ResultSet res2 = res.getArray(2).getResultSet();
+                    while(res2.next() && i<9) {
+                        row[i] = res2.getInt(2);
+                        i++;
                     }
-                });
-                dialog.setVisible(true);
+                }
+                
+                tableModel.addRow(row);
             }
-        });
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
