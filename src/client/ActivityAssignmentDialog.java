@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package client;
+
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,10 +17,10 @@ import javax.swing.table.DefaultTableModel;
  * @author ugobarbato
  */
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
-    
+
     private Repository rep;
     private DefaultTableModel tableModel;
-    
+
     /**
      * Creates new form ActivityAssignmentDialog
      */
@@ -30,7 +31,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         initDialog(id);
         fillTableMaintainers();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,7 +110,6 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        availabilityTable.setShowGrid(true);
         jScrollPane2.setViewportView(availabilityTable);
         if (availabilityTable.getColumnModel().getColumnCount() > 0) {
             availabilityTable.getColumnModel().getColumn(1).setResizable(false);
@@ -194,44 +194,44 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void initDialog(int id) {
         try {
             ResultSet select = rep.select("select * from activity where id = '"
-                                          + id + "'");
+                    + id + "'");
             while (select.next()) {
                 weekNumberLabel.setText(String.valueOf(select.getInt("week")));
                 String[] site = select.getString("site").split("-");
-                String info = String.valueOf(id) + " - " + site[0] + site[1] + 
-                              " - " + select.getString("maintenance_type") + 
-                              " - " + String.valueOf(select.getInt("estimated_time") + "'");
+                String info = String.valueOf(id) + " - " + site[0] + site[1]
+                        + " - " + select.getString("maintenance_type")
+                        + " - " + String.valueOf(select.getInt("estimated_time") + "'");
                 infoLabel.setText(info);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void fillTableMaintainers() {
         tableModel = (DefaultTableModel) availabilityTable.getModel();
         Object[] row = new Object[9];
         int i = 1;
-        
+
         try {
             ResultSet maintainers = rep.select("select * from maintainer");
             while (maintainers.next()) {
                 row[0] = maintainers.getString("username");
                 ResultSet res = maintainers.getArray("availability").getResultSet();
-                
+
                 // questo va bene per la tabella degli orari
                 while (res.next()) {
                     ResultSet res2 = res.getArray(2).getResultSet();
-                    while(res2.next() && i<9) {
+                    while (res2.next() && i < 9) {
                         row[i] = res2.getInt(2);
                         i++;
                     }
                 }
-                
+
                 tableModel.addRow(row);
             }
         } catch (SQLException ex) {

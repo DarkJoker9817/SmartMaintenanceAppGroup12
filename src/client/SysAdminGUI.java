@@ -111,6 +111,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             }
         });
         usersTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        usersTable.setGridColor(new java.awt.Color(255, 255, 255));
         usersTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         usersTable.getTableHeader().setReorderingAllowed(false);
         usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
