@@ -7,6 +7,7 @@ package client;
 
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
+import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
 import java.io.File;
 import java.sql.Array;
@@ -41,12 +42,10 @@ public class PlannerGUI extends javax.swing.JFrame {
     private ComboBoxModel<String> comboBoxModel;
     private ComboBoxModel<String> comboBoxModelSecondTab;
     private ComboBoxModel<String> siteModel;
-    private Repository rep;
 
     public PlannerGUI() {
         initComponents();
-        planner = new Planner("pippo", "pippo");
-        rep = new Repository();
+        planner = new Planner();
         listModel = new DefaultListModel();
         setAttributes();
         fillTable();
@@ -534,7 +533,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private Object[] setSiteComboBox() {
         List<Object> row = new ArrayList<>();
         try {
-            ResultSet res = rep.select("select * from site");
+            ResultSet res = planner.getSites();
             while (res.next()) {
                 row.add(res.getString("area") + " - " + res.getString("branch_officies"));
             }
@@ -548,7 +547,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) materialTable.getModel();
         Object row[] = new Object[1];
         try {
-            ResultSet res = rep.select("select * from material");
+            ResultSet res = planner.getMaterialTable();
             while (res.next()) {
                 row[0] = res.getString("name_material");
                 model.addRow(row);
@@ -558,6 +557,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
 
     }
+
     private String getArrayMaterial() {
         String materials = "{";
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -586,10 +586,10 @@ public class PlannerGUI extends javax.swing.JFrame {
     }
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         clearTableSecondTab();
-        String week = (String) weekComboBoxSecondTab.getSelectedItem();
+        int week = Integer.parseInt(weekComboBoxSecondTab.getSelectedItem().toString());
         Object row[] = new Object[4];
         try {
-            ResultSet res = rep.select("select * from activity where week='" + week + "'");
+            ResultSet res = planner.weekSelection(week);
             while (res.next()) {
                 row[0] = res.getInt("id");
                 row[1] = res.getString("site");
@@ -650,9 +650,9 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int i = maintenanceTable.getSelectedRow();
         Integer id = (Integer) model.getValueAt(i, 0);
-        MaintenanceType type = getComboBoxType();
+        String notes = notesTextArea.getText();
         try {
-            rep.update("update activity set workspace_notes = '" + notesTextArea.getText() + "' where id = '" + id + "'");
+            planner.modifyActivity(id, notes);
             modifyTableRow(i);
         } catch (NumberFormatException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -668,8 +668,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         Integer id = (Integer) model.getValueAt(i, 0);
 
         try {
-            //planner.deleteActivity(id);
-            rep.delete("delete from activity where id = '" + id + "'");
+            planner.deleteActivity(id);
             model.removeRow(i);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -685,9 +684,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         MaintenanceType type = getComboBoxType();
         String materials = getArrayMaterial();
         try {
-            rep.insert("insert into activity(id,materials,week,site,maintenance_type,activity_type,description,estimated_time,interruptible,workspace_notes,maintenance_procedure)"
-                + "values('" + Integer.parseInt(idTextField.getText()) + "','" + materials + "','" + Integer.parseInt((String) weekComboBox.getSelectedItem()) + "','" + siteComboBox.getSelectedItem() + "','" + type.toString() + "','" + "Planned" + "','"
-                + descriptionTextArea.getText() + "','" + Integer.parseInt(timeTextField.getText()) + "','" + interruptibleCheckBox.isSelected() + "','" + notesTextArea.getText() + "','" + fileLabel.getText() + "');");
+            planner.createActivity(Integer.parseInt(idTextField.getText()), materials, Integer.parseInt((String) weekComboBox.getSelectedItem()),
+                    siteComboBox.getSelectedItem().toString(), type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()),
+                    interruptibleCheckBox.isSelected(), notesTextArea.getText(), fileLabel.getText());
             addTableRow();
         } catch (SQLException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -774,18 +773,18 @@ public class PlannerGUI extends javax.swing.JFrame {
     private void fillTable() {
         try {
             Object[] row = new Object[10];
-            ResultSet res = rep.select("select * from activity");
-            while (res.next()) {
-                row[0] = res.getInt("id");
-                row[1] = res.getArray("materials");
-                row[2] = res.getInt("week");
-                row[3] = res.getString("site");
-                row[4] = res.getString("maintenance_type");
-                row[5] = res.getString("description");
-                row[6] = res.getInt("estimated_time");
-                row[7] = res.getBoolean("interruptible");
-                row[8] = res.getString("workspace_notes");
-                row[9] = res.getString("maintenance_procedure");
+            Map<Integer, MaintenanceActivity> activities = planner.getScheduledActivity();
+            for (MaintenanceActivity activity : activities.values()) {
+                row[0] = activity.getId();
+                row[1] = activity.getMaterials();
+                row[2] = activity.getWeek();
+                row[3] = activity.getSite();
+                row[4] = activity.getType();
+                row[5] = activity.getDescription();
+                row[6] = activity.getEstimatedInterventionTime();
+                row[7] = activity.isInterruptible();
+                row[8] = activity.getWorkspaceNotes();
+                row[9] = activity.getProcedure();
                 model.addRow(row);
             }
         } catch (SQLException ex) {
@@ -812,7 +811,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         Integer id = (Integer) model.getValueAt(i, 0);
         try {
-            ResultSet res = rep.select("select * from activity where id='" + id + "'");
+            ResultSet res = planner.getMaterials(id);
             while (res.next()) {
                 Array materials = res.getArray("materials");
                 fillMaterialList(materials);

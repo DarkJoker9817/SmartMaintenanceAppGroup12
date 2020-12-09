@@ -5,7 +5,6 @@
  */
 package businesslogic.activity;
 
-import businesslogic.MaintenanceProcedure;
 import businesslogic.MaintenanceType;
 import businesslogic.Site;
 import java.util.List;
@@ -17,15 +16,15 @@ import java.util.List;
 public abstract class MaintenanceActivity {
 
     private int id;
-    private List<String> materials;
+    private String materials;
     private int week;
-    private Site site;
+    private String site;
     private MaintenanceType type;
     private String description;
     private int estimatedInterventionTime;
     private boolean interruptible;
     private String workspaceNotes;
-    private MaintenanceProcedure procedure;
+    private String procedure;
 
     public MaintenanceActivity() {
 
@@ -35,7 +34,7 @@ public abstract class MaintenanceActivity {
         this.id = id;
     }
     
-    public void setMaterials(List<String> materials) {
+    public void setMaterials(String materials) {
         this.materials = materials;
     }
 
@@ -43,7 +42,7 @@ public abstract class MaintenanceActivity {
         this.week = week;
     }
 
-    public void setSite(Site site) {
+    public void setSite(String site) {
         this.site = site;
     }
 
@@ -67,7 +66,7 @@ public abstract class MaintenanceActivity {
         this.workspaceNotes = workspaceNotes;
     }
 
-    public void setProcedure(MaintenanceProcedure procedure) {
+    public void setProcedure(String procedure) {
         this.procedure = procedure;
     }
 
@@ -75,7 +74,7 @@ public abstract class MaintenanceActivity {
         return id;
     }
 
-    public List<String> getMaterials() {
+    public String getMaterials() {
         return materials;
     }
 
@@ -83,7 +82,7 @@ public abstract class MaintenanceActivity {
         return week;
     }
 
-    public Site getSite() {
+    public String getSite() {
         return site;
     }
 
@@ -107,7 +106,7 @@ public abstract class MaintenanceActivity {
         return workspaceNotes;
     }
 
-    public MaintenanceProcedure getProcedure() {
+    public String getProcedure() {
         return procedure;
     }
 
