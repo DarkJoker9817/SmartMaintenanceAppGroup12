@@ -6,8 +6,6 @@
 package businesslogic.activity;
 
 import businesslogic.MaintenanceType;
-import businesslogic.Site;
-import java.util.List;
 
 /**
  *

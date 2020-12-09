@@ -18,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
     
     private Repository rep;
-    private DefaultTableModel tableModel;
+    private DefaultTableModel maintainersTableModel;
+    private DefaultTableModel availabilityTableModel;
     
     /**
      * Creates new form ActivityAssignmentDialog
@@ -28,7 +29,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         rep = new Repository();
         initComponents();
         initDialog(id);
-        fillTableMaintainers();
+        fillTableMaintainers(); 
     }
     
     /**
@@ -51,6 +52,9 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         skillsList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         availabilityTable = new javax.swing.JTable();
+        selectButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        maintainersTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -98,11 +102,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Maintainer", "Skills", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -110,10 +114,17 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             }
         });
         availabilityTable.setShowGrid(true);
+        availabilityTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                availabilityTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(availabilityTable);
         if (availabilityTable.getColumnModel().getColumnCount() > 0) {
+            availabilityTable.getColumnModel().getColumn(0).setResizable(false);
+            availabilityTable.getColumnModel().getColumn(0).setPreferredWidth(70);
             availabilityTable.getColumnModel().getColumn(1).setResizable(false);
-            availabilityTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+            availabilityTable.getColumnModel().getColumn(1).setPreferredWidth(70);
             availabilityTable.getColumnModel().getColumn(2).setResizable(false);
             availabilityTable.getColumnModel().getColumn(2).setPreferredWidth(70);
             availabilityTable.getColumnModel().getColumn(3).setResizable(false);
@@ -124,10 +135,42 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             availabilityTable.getColumnModel().getColumn(5).setPreferredWidth(70);
             availabilityTable.getColumnModel().getColumn(6).setResizable(false);
             availabilityTable.getColumnModel().getColumn(6).setPreferredWidth(70);
-            availabilityTable.getColumnModel().getColumn(7).setResizable(false);
-            availabilityTable.getColumnModel().getColumn(7).setPreferredWidth(70);
-            availabilityTable.getColumnModel().getColumn(8).setResizable(false);
-            availabilityTable.getColumnModel().getColumn(8).setPreferredWidth(70);
+        }
+
+        selectButton.setText("Select");
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectButtonActionPerformed(evt);
+            }
+        });
+
+        maintainersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Maintainer", "Skills"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(maintainersTable);
+        if (maintainersTable.getColumnModel().getColumnCount() > 0) {
+            maintainersTable.getColumnModel().getColumn(1).setResizable(false);
+            maintainersTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -144,22 +187,24 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(skillsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(activityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(41, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(availabilityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(availabilityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
+                        .addComponent(selectButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(activityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,11 +218,13 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(availabilityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(skillsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(skillsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -185,7 +232,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,6 +241,14 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+        
+    }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void availabilityTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availabilityTableMouseClicked
+        selectButton.setEnabled(true);
+    }//GEN-LAST:event_availabilityTableMouseClicked
     
     private void initDialog(int id) {
         try {
@@ -210,29 +265,46 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        selectButton.setEnabled(false);
+        availabilityTable.setCellSelectionEnabled(true);
+        maintainersTable.setRowSelectionAllowed(false);
+        
+        
     }
     
     private void fillTableMaintainers() {
-        tableModel = (DefaultTableModel) availabilityTable.getModel();
-        Object[] row = new Object[9];
-        int i = 1;
-        
+        maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
+        availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
+        Object[] maintainersRow = new Object[2];
         try {
+            int i = 0;
             ResultSet maintainers = rep.select("select * from maintainer");
-            while (maintainers.next()) {
-                row[0] = maintainers.getString("username");
-                ResultSet res = maintainers.getArray("availability").getResultSet();
+            while(maintainers.next()) {
+                maintainersRow[0] = maintainers.getString("username");
+                maintainersTableModel.addRow(maintainersRow);
+                i++;
+            }
+            
+            Object[] availabilitiesRow = new Object[7];
+            
+            i = 0;
+
+        
+            ResultSet availabilities = rep.select("select * from maintainer");
+            while (availabilities.next()) {
+                ResultSet res = availabilities.getArray("availability").getResultSet();
                 
                 // questo va bene per la tabella degli orari
                 while (res.next()) {
                     ResultSet res2 = res.getArray(2).getResultSet();
-                    while(res2.next() && i<9) {
-                        row[i] = res2.getInt(2);
+                    while(res2.next() && i<7) {
+                        availabilitiesRow[i] = res2.getInt(2);
                         i++;
                     }
                 }
                 
-                tableModel.addRow(row);
+                availabilityTableModel.addRow(availabilitiesRow);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,6 +319,9 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable maintainersTable;
+    private javax.swing.JButton selectButton;
     private javax.swing.JLabel skillsLabel;
     private javax.swing.JList<String> skillsList;
     private javax.swing.JLabel weekLabel;
