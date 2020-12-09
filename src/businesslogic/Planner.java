@@ -11,8 +11,7 @@ public class Planner extends User {
 
     private Map<Integer, MaintenanceActivity> scheduledActivity;
 
-    public Planner(String username, String password) {
-        super(username, password);
+    public Planner() {
         scheduledActivity = new HashMap<>();
     }
 

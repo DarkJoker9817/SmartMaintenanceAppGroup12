@@ -12,10 +12,6 @@ public class Maintainer extends User {
     private int activityID;
     private Availability availability;
 
-    public Maintainer(String username, String password) {
-        super(username, password);
-    }
-
     public List<String> getCompetences() {
         return competences;
     }

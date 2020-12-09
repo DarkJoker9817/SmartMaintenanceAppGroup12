@@ -5,15 +5,14 @@
  */
 package client;
 
-import database.Repository;
+import businesslogic.SysAdmin;
+import businesslogic.User;
 import javax.swing.JOptionPane;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.ComboBoxModel;
 import javax.swing.table.DefaultTableModel;
-import client.GUIFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -25,11 +24,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
      * Creates new form SysAdminGUI
      */
     private DefaultTableModel model;
-    private Repository repository;
-
+    private SysAdmin admin;
+    
     public SysAdminGUI() {
+        this.admin = new SysAdmin();
         initComponents();
-        repository = new Repository();
         model = (DefaultTableModel) usersTable.getModel();
         fillTable();
     }
@@ -261,17 +260,17 @@ public class SysAdminGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        Object[] row = new Object[3];
+        String[] row = new String[3];
         row[0] = usernameTextField.getText();
         row[1] = passwordTextField.getText();
-        row[2] = roleComboBox.getSelectedItem();
+        row[2] = (String) roleComboBox.getSelectedItem();
 
         if (usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
-            repository.insert("insert into \"user\"(username, password, role) values('" + row[0] + "','" + row[1] + "','" + row[2] + "')");
+            admin.createUser(row[0], row[1], row[2]);
             model.addRow(row);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
@@ -285,16 +284,15 @@ public class SysAdminGUI extends javax.swing.JFrame {
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
 
-        Object[] row = new Object[3];
+        String[] row = new String[3];
         row[0] = usernameTextField.getText();
         row[1] = passwordTextField.getText();
         row[2] = (String) roleComboBox.getSelectedItem();
 
         try {
-            repository.update("update \"user\" set username='" + row[0] + "', password='" + row[1] + "', role='" + row[2] + "' where username='" + username + "'");
+            admin.updateUser(username, row[0], row[1], row[2]);
             model.removeRow(i);
             model.addRow(row);
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
@@ -333,7 +331,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
         try {
-            repository.delete("delete from \"user\" where username='" + username + "'");
+            admin.deleteUser(username);
             model.removeRow(i);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
@@ -344,16 +342,16 @@ public class SysAdminGUI extends javax.swing.JFrame {
     }
 
     private void fillTable() {
-        Object[] row = new Object[3];
+        String[] row = new String[3];
 
         try {
-            ResultSet res = repository.select("select * from \"user\"; ");
-            while (res.next()) {
-                row[0] = res.getString("username");
-                row[1] = res.getString("password");
-                row[2] = res.getString("role");
+            Map<String, User> usersCollection = admin.getUsers();
+            for(User user: usersCollection.values()) {
+                row[0] = user.getUsername();
+                row[1] = user.getPassword();
+                row[2] = user.getClass().getSimpleName();
                 model.addRow(row);
-            }
+            }  
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
@@ -409,13 +407,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
 
         //</editor-fold>
-        try {
-            Repository.connect();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
