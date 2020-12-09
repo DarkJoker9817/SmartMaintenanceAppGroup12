@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package client;
+
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ugobarbato
  */
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
-    
+
     private Repository rep;
     private DefaultTableModel maintainersTableModel;
     private DefaultTableModel availabilityTableModel;
@@ -31,7 +32,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         initDialog(id);
         fillTableMaintainers(); 
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -253,13 +254,13 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private void initDialog(int id) {
         try {
             ResultSet select = rep.select("select * from activity where id = '"
-                                          + id + "'");
+                    + id + "'");
             while (select.next()) {
                 weekNumberLabel.setText(String.valueOf(select.getInt("week")));
                 String[] site = select.getString("site").split("-");
-                String info = String.valueOf(id) + " - " + site[0] + site[1] + 
-                              " - " + select.getString("maintenance_type") + 
-                              " - " + String.valueOf(select.getInt("estimated_time") + "'");
+                String info = String.valueOf(id) + " - " + site[0] + site[1]
+                        + " - " + select.getString("maintenance_type")
+                        + " - " + String.valueOf(select.getInt("estimated_time") + "'");
                 infoLabel.setText(info);
             }
         } catch (SQLException ex) {
@@ -272,7 +273,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         
         
     }
-    
+
     private void fillTableMaintainers() {
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
         availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();

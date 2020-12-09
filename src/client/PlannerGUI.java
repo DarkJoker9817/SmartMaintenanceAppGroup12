@@ -170,6 +170,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        maintenanceTable.setGridColor(new java.awt.Color(255, 255, 255));
         maintenanceTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         maintenanceTable.getTableHeader().setReorderingAllowed(false);
         maintenanceTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -317,8 +318,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(materialsLabel)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(87, 87, 87)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addMaterialButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,7 +376,6 @@ public class PlannerGUI extends javax.swing.JFrame {
                             .addComponent(deleteButton)
                             .addComponent(updateButton)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,6 +410,7 @@ public class PlannerGUI extends javax.swing.JFrame {
             }
         });
         activityTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        activityTable.setGridColor(new java.awt.Color(255, 255, 255));
         activityTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         activityTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(activityTable);
