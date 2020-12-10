@@ -16,9 +16,7 @@ import static org.junit.Assert.*;
  *
  * @author gioca
  */
-public class UserGUIFactoryTest {
-
-    private Repository rep;
+public class GUIFactoryTest {
 
     @Test
     public void testNotNullJFrame() throws ClassNotFoundException, SQLException {

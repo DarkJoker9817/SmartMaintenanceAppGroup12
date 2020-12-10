@@ -5,6 +5,8 @@
  */
 package client;
 
+import businesslogic.Planner;
+import businesslogic.User;
 import database.Repository;
 import java.awt.Color;
 import java.awt.Frame;
@@ -21,16 +23,18 @@ import javax.swing.JOptionPane;
 public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     private Repository rep;
+    private Planner planner;
     private int id;
     private Frame parent;
 
     /**
      * Creates new form ActivityVerificationDialog
      */
-    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
+    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id, Planner planner) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = Repository.getIstance();
+        this.rep = Repository.getIstance();
         this.id = id;
+        this.planner = planner;
         this.parent = parent;
         initComponents();
         initDialog(id);
@@ -413,6 +417,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
+            planner.modifyActivity(id, workspaceNotesTextArea.getText());
             new ActivityAssignmentDialog(parent, true, id).setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(parent, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
@@ -429,19 +434,15 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel11.setBackground(new Color(255, 204, 0));
     }//GEN-LAST:event_forwardButtonLabelMouseExited
 
-    private void initDialog(int id) {
-        try {
-            ResultSet select = rep.select("select * from activity where id = '" + id + "'");
-            while (select.next()) {
-                weekNumberLabel.setText(String.valueOf(select.getInt("week")));
-                workspaceNotesTextArea.setText(select.getString("workspace_notes"));
-                descriptionTextArea.setText(select.getString("description"));
-                String[] site = select.getString("site").split("-");
-                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
-                activityLabel.setText(activity);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
+    private void initDialog(int id) throws SQLException {
+        ResultSet select = rep.select("select * from activity where id = '" + id + "'");
+        while (select.next()) {
+            weekNumberLabel.setText(String.valueOf(select.getInt("week")));
+            workspaceNotesTextArea.setText(select.getString("workspace_notes"));
+            descriptionTextArea.setText(select.getString("description"));
+            String[] site = select.getString("site").split("-");
+            String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
+            activityLabel.setText(activity);
         }
 
     }

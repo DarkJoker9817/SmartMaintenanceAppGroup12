@@ -6,6 +6,8 @@
 
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
+import database.Repository;
+import java.sql.SQLException;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -14,90 +16,63 @@ import static org.junit.Assert.*;
  * @author ugobarbato
  */
 public class PlannerTest {
+
     private Planner p;
-    
+    private Repository rep;
+
     @Before
-    public void setUp() {
-        p = new Planner("prova", "prova");
-        p.createActivity(1, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null);
+    public void setUp() throws ClassNotFoundException, SQLException {
+        p = new Planner();
+        rep = Repository.getIstance();
+        rep.delete("delete from activity");
+        p.createActivity(1, "{}", 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", "");
     }
-    
-    @After
-    public void tearDown() {
-        p.deleteActivity(1);
-    }
-    
-    /**
-    * 
-    * Tests if an activity is created checking if the size of the map is equal
-    * to 1.
-    */
-    @Test
-    public void testCreateActivity() {
-        assertEquals(p.getScheduledActivity().size(), 1);
-    }
-    
-    /**
-     * 
-     * Tests if an activity that already exists is not created.
-     * createActivity returns null if the activity is inserted in the map, the
-     * previous value otherwise.
-     */
-    @Test
-    public void testCreateActivityIdemActivity() {
-        assertNotNull(p.createActivity(1, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
-    }
-    
+
     /**
      *
-     * Tests if an activity is created.
-     * createActivity returns null if the activity is inserted in the map, the
-     * previous value otherwise.
+     * Tests if an activity is created checking if the size of the map is equal
+     * to 1.
      */
     @Test
-    public void testCreateActivityNull() {
-        assertNull(p.createActivity(2, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
+    public void testCreateActivity() throws SQLException {
+        assertEquals(p.getScheduledActivity().size(), 1);
     }
-    
-    /**
-     * 
-     * Tests if an activity is not modified.
-     * modifyActivity returns null if the activity is not modified, otherwise it
-     * returns the previous value associated with the specified key.
-     */
+
     @Test
-    public void testModifyActivityNull() {
-        assertNull(p.modifyActivity(3, null, 0, null, MaintenanceType.HYDRAULIC, "test", 0, true, "test", null));
+    public void testModifyActivity() throws SQLException {
+        p.modifyActivity(1, "prova");
+        assertEquals(p.getScheduledActivity().size(), 1);
     }
-    
-    /**
-     * 
-     * Tests if an activity is modified.
-     * modifyActivity returns null if the activity is not modified, otherwise it
-     * returns the previous value associated with the specified key.
-     */
-    @Test public void testModifyActivity() {
-        assertNotNull(p.modifyActivity(1, null, 0, null, MaintenanceType.MECHANICAL, "test1", 0, true, "test1", null));
-    }
-    
-    /**
-     * 
-     * Tests if an activity is deleted.
-     */
+
     @Test
-    public void testDeleteActivity() {
+    public void testDeleteActivity() throws SQLException {
         p.deleteActivity(1);
         assertEquals(p.getScheduledActivity().size(), 0);
     }
-    
-    /**
-     * 
-     * Tests if an activity that does not exist is not deleted.
-     */
+
     @Test
-    public void testDeleteActivityNotExists() {
-        p.deleteActivity(2);
-        assertEquals(p.getScheduledActivity().size(), 1);
+    public void testGetMaterialsNotNull() throws SQLException {
+        assertNotNull(p.getMaterials(1));
     }
-    
+
+    @Test
+    public void testGetSitesNotNull() throws SQLException {
+        assertNotNull(p.getSites());
+    }
+
+    @Test
+    public void testGetWeekSelectionNotNull() throws SQLException {
+        assertNotNull(p.weekSelection(0));
+    }
+
+    @Test
+    public void testGetMaterialTableNotNull() throws SQLException {
+        assertNotNull(p.getMaterials(1));
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        rep.delete("delete from activity where id = '1'");
+    }
+
 }
