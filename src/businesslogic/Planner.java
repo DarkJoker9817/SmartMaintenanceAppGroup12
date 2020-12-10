@@ -20,7 +20,7 @@ public class Planner extends User {
         rep = Repository.getIstance();
     }
 
-    public void assignActivity() {
+    public void assignActivity(String username, int activityID) {
 
     }
 
@@ -78,8 +78,8 @@ public class Planner extends User {
     public ResultSet weekSelection(int week) throws SQLException {
         return rep.select("select * from activity where week='" + week + "'");
     }
-    
-    public ResultSet getMaterialTable() throws SQLException{
+
+    public ResultSet getMaterialTable() throws SQLException {
         return rep.select("select * from material");
     }
 
