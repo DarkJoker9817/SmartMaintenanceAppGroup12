@@ -94,13 +94,13 @@ update maintainer set competencies = array_append(competencies,'PAV Certificatio
 update maintainer set competencies = array_append(competencies,'Knowledge of cable types') where username = 'Topolino';
 update maintainer set competencies = array_append(competencies,'Xyz-type robot knowledge') where username = 'Topolino';
 
-update maintainer set availability = '{{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60},
-											{100,60,60,60,60,60,60,60}}';
+update maintainer set availability = '{{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60},
+											{60,60,60,60,60,60,60}}';
 
 select unnest(ma.availability[1][:]) from maintainer as ma where username = 'Topolino';
 ------------------------------------------------------------------------------------
