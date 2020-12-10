@@ -5,6 +5,8 @@
  */
 package client;
 
+import businesslogic.Maintainer;
+import businesslogic.Planner;
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,22 +21,25 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Egidio
  */
-public class MaintainerWeekAvailability extends javax.swing.JDialog {
+public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
     private Repository rep;
     private DefaultTableModel tableModel;
     private DefaultTableModel tableModel2;
+    private Planner planner;
+    private Maintainer maintainer;
 
     /**
      * Creates new form MaintainerWeekAvailability
      */
-    public MaintainerWeekAvailability(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
+    public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
         super(parent, modal);
         rep = Repository.getIstance();
-        tableModel= new DefaultTableModel();
-        tableModel2= new DefaultTableModel();
+        initialization();
         initComponents();
         initDialog(id, username, day);
+        
+        
 
     }
 
@@ -225,6 +230,11 @@ public class MaintainerWeekAvailability extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        hoursTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hoursTableMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(hoursTable);
         if (hoursTable.getColumnModel().getColumnCount() > 0) {
             hoursTable.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -312,7 +322,16 @@ public class MaintainerWeekAvailability extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void initDialog(int id, String username, String day) {
+
+    private void initialization() throws ClassNotFoundException, SQLException{
+        tableModel= new DefaultTableModel();
+        tableModel2= new DefaultTableModel();
+        planner= new Planner();
+        maintainer= new Maintainer();
+        hoursTable.setCellSelectionEnabled(true);
+        maintainerTable.setRowSelectionAllowed(false);
+    }
+    private void initDialog(int id, String username, String day) {
     
     try {
             ResultSet select = rep.select("select * from activity where id = '" + id + "'");
@@ -350,10 +369,21 @@ private void initDialog(int id, String username, String day) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void hoursTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursTableMouseClicked
+        
+        int i=hoursTable.getSelectedColumn();
+        int num=(Integer)tableModel.getValueAt(0,i);
+        num=num/60*100;
+        percentageLabel.setVisible(true);
+        percentageLabel.setText(""+num+"%");
+        
+    }//GEN-LAST:event_hoursTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -372,20 +402,21 @@ private void initDialog(int id, String username, String day) {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailability.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailability.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailability.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailability.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MaintainerWeekAvailability dialog = new MaintainerWeekAvailability(new javax.swing.JFrame(), true);
+                MaintainerWeekAvailabilityDialog dialog = new MaintainerWeekAvailabilityDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
