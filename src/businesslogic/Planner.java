@@ -15,9 +15,9 @@ public class Planner extends User {
     private Map<Integer, MaintenanceActivity> scheduledActivity;
     private Repository rep;
 
-    public Planner() {
+    public Planner() throws ClassNotFoundException, SQLException {
         scheduledActivity = new HashMap<>();
-        rep = new Repository();
+        rep = Repository.getIstance();
     }
 
     public void assignActivity() {

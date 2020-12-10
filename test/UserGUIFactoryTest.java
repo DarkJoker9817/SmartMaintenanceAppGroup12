@@ -18,10 +18,7 @@ import static org.junit.Assert.*;
  */
 public class UserGUIFactoryTest {
 
-    @Before
-    public void setUp() throws SQLException, ClassNotFoundException {
-        Repository.connect();
-    }
+    private Repository rep;
 
     @Test
     public void testNotNullJFrame() {

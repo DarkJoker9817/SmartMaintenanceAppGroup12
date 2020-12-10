@@ -14,11 +14,19 @@ import java.sql.*;
 public class Repository {
 
     private static Connection conn;  // the connection to the DataBase
-    private static final String URL = "jdbc:postgresql://localhost/SmartMaintenanceApp"; // url of the DataBase
+    private static final String URL = "jdbc:postgresql://localhost/smart_maintenance_app"; // url of the DataBase
+    private static Repository repository;
 
-    public static void connect() throws ClassNotFoundException, SQLException {
+    private Repository() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
-        conn = DriverManager.getConnection(URL, "postgres", "password");
+        conn = DriverManager.getConnection(URL, "postgres", "postgres");
+    }
+
+    public static Repository getIstance() throws ClassNotFoundException, SQLException {
+        if (conn == null || conn.isClosed()) {
+            repository = new Repository();
+        }
+        return repository;
     }
 
     public static void close() throws SQLException {

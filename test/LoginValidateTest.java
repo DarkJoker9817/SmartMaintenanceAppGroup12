@@ -22,9 +22,9 @@ public class LoginValidateTest {
     private LoginValidate login;
 
     @Before
-    public void setUp() throws SQLException {
+    public void setUp() throws SQLException, ClassNotFoundException {
         login = new LoginValidate();
-        rep = new Repository();
+        rep = Repository.getIstance();
         rep.insert("insert into \"user\"(username,password,role) values('pippo','abc','Planner')");
         rep.insert("insert into sys_admin(username,password) values('test','test')");
     }

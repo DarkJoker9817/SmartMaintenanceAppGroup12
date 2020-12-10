@@ -19,8 +19,8 @@ public class SysAdmin extends User {
     private Repository rep;
     private Map<String, User> users;
     
-    public SysAdmin() {
-        this.rep = new Repository();
+    public SysAdmin() throws ClassNotFoundException, SQLException {
+        this.rep = Repository.getIstance();
         this.users = new HashMap<>();
     }
     

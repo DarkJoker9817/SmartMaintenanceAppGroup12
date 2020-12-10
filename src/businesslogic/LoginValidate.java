@@ -16,8 +16,8 @@ public class LoginValidate {
 
     private Repository repository;
 
-    public LoginValidate() {
-        this.repository = new Repository();
+    public LoginValidate() throws ClassNotFoundException, SQLException {
+        this.repository = Repository.getIstance();
     }
 
     public boolean isValidUser(String username, String password, String role) throws SQLException {

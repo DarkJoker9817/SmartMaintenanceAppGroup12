@@ -19,8 +19,7 @@ public class RepositoryTest {
 
     @Before
     public void setUpDatabase() throws SQLException, ClassNotFoundException {
-        Repository.connect();
-        rep = new Repository();
+        rep = Repository.getIstance();
         rep.insert("insert into \"user\"(username,password,role) values('test','abc','Planner')");
     }
 

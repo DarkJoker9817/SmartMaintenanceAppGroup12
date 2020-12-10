@@ -25,9 +25,9 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     /**
      * Creates new form ActivityAssignmentDialog
      */
-    public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) {
+    public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = new Repository();
+        rep = Repository.getIstance();
         initComponents();
         initDialog(id);
         fillTableMaintainers(); 

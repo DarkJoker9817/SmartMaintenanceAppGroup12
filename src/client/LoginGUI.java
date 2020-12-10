@@ -7,7 +7,6 @@ package client;
 
 import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
-import database.Repository;
 import java.awt.Color;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -18,14 +17,13 @@ import javax.swing.JFrame;
  */
 public class LoginGUI extends javax.swing.JFrame {
 
-    private final LoginValidate login;
+    private LoginValidate login;
 
     /**
      * Creates new form LoginGUI
      */
     public LoginGUI() {
         initComponents();
-        login = new LoginValidate();
     }
 
     /**
@@ -242,6 +240,7 @@ public class LoginGUI extends javax.swing.JFrame {
             return;
         }
         try {
+            login = new LoginValidate();
             if (login.isValidSysAdmin(username, password) && selectedUser.equals("System Administrator")) {
                 showUserGUI(GUIFactory.getGUI(selectedUser));
                 return;
@@ -251,8 +250,8 @@ public class LoginGUI extends javax.swing.JFrame {
                 return;
             }
             JOptionPane.showMessageDialog(LoginGUI, "Wrong username or password", "Login", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(LoginGUI, ex.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(LoginGUI, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -295,17 +294,12 @@ public class LoginGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        try {
-            Repository.connect();
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new LoginGUI().setVisible(true);
-                }
-            });
-        } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
-        }
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginGUI().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

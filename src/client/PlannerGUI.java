@@ -8,7 +8,6 @@ package client;
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
-import database.Repository;
 import java.io.File;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -43,7 +42,7 @@ public class PlannerGUI extends javax.swing.JFrame {
     private ComboBoxModel<String> comboBoxModelSecondTab;
     private ComboBoxModel<String> siteModel;
 
-    public PlannerGUI() {
+    public PlannerGUI() throws ClassNotFoundException, SQLException {
         initComponents();
         planner = new Planner();
         listModel = new DefaultListModel();
@@ -613,7 +612,11 @@ public class PlannerGUI extends javax.swing.JFrame {
             return;
         }
         int id = Integer.parseInt(String.valueOf(activityTable.getValueAt(activityTable.getSelectedRow(), 0)));
-        new ActivityVerificationDialog(this, true, id).setVisible(true);
+        try {
+            new ActivityVerificationDialog(this, true, id).setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
@@ -894,17 +897,17 @@ public class PlannerGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PlannerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        try {
-            Repository.connect();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PlannerGUI().setVisible(true);
+                try {
+                    new PlannerGUI().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PlannerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

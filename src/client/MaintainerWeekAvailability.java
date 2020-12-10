@@ -28,9 +28,9 @@ public class MaintainerWeekAvailability extends javax.swing.JDialog {
     /**
      * Creates new form MaintainerWeekAvailability
      */
-    public MaintainerWeekAvailability(java.awt.Frame parent, boolean modal, int id, String username, String day) {
+    public MaintainerWeekAvailability(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = new Repository();
+        rep = Repository.getIstance();
         tableModel= new DefaultTableModel();
         tableModel2= new DefaultTableModel();
         initComponents();

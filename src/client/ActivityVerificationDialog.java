@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,9 +27,9 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
     /**
      * Creates new form ActivityVerificationDialog
      */
-    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) {
+    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = new Repository();
+        rep = Repository.getIstance();
         this.id = id;
         this.parent = parent;
         initComponents();
@@ -411,7 +412,11 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
     private void forwardButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
-        new ActivityAssignmentDialog(parent, true, id).setVisible(true);
+        try {
+            new ActivityAssignmentDialog(parent, true, id).setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_forwardButtonLabelMouseClicked
 
     private void forwardButtonLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseEntered
@@ -441,47 +446,6 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ActivityVerificationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ActivityVerificationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ActivityVerificationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ActivityVerificationDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ActivityVerificationDialog dialog = new ActivityVerificationDialog(new javax.swing.JFrame(), true, 1);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
