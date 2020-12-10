@@ -434,19 +434,15 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel11.setBackground(new Color(255, 204, 0));
     }//GEN-LAST:event_forwardButtonLabelMouseExited
 
-    private void initDialog(int id) {
-        try {
-            ResultSet select = rep.select("select * from activity where id = '" + id + "'");
-            while (select.next()) {
-                weekNumberLabel.setText(String.valueOf(select.getInt("week")));
-                workspaceNotesTextArea.setText(select.getString("workspace_notes"));
-                descriptionTextArea.setText(select.getString("description"));
-                String[] site = select.getString("site").split("-");
-                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
-                activityLabel.setText(activity);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
+    private void initDialog(int id) throws SQLException {
+        ResultSet select = rep.select("select * from activity where id = '" + id + "'");
+        while (select.next()) {
+            weekNumberLabel.setText(String.valueOf(select.getInt("week")));
+            workspaceNotesTextArea.setText(select.getString("workspace_notes"));
+            descriptionTextArea.setText(select.getString("description"));
+            String[] site = select.getString("site").split("-");
+            String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
+            activityLabel.setText(activity);
         }
 
     }
