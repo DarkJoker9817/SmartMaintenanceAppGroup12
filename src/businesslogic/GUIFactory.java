@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package businesslogic;
 
+import client.LoginGUI;
+import client.MaintainerGUI;
+import client.PlannerGUI;
+import client.SysAdminGUI;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 

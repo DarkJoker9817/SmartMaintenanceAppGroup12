@@ -5,6 +5,7 @@
  */
 package client;
 
+import businesslogic.GUIFactory;
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;

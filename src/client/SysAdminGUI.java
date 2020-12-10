@@ -5,6 +5,7 @@
  */
 package client;
 
+import businesslogic.GUIFactory;
 import businesslogic.SysAdmin;
 import businesslogic.User;
 import javax.swing.JOptionPane;

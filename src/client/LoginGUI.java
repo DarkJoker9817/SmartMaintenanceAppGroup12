@@ -5,6 +5,7 @@
  */
 package client;
 
+import businesslogic.GUIFactory;
 import javax.swing.JOptionPane;
 import businesslogic.LoginValidate;
 import java.awt.Color;

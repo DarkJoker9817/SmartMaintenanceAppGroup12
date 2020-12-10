@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import client.GUIFactory;
+import businesslogic.GUIFactory;
 import database.Repository;
 import java.sql.SQLException;
 import org.junit.After;
