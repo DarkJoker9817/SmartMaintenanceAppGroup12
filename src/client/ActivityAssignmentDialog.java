@@ -5,6 +5,9 @@
  */
 package client;
 
+import businesslogic.Maintainer;
+import businesslogic.User;
+import businesslogic.UserFactory;
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,7 +117,6 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        availabilityTable.setShowGrid(true);
         availabilityTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 availabilityTableMouseClicked(evt);
@@ -274,41 +276,23 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         
     }
 
-    private void fillTableMaintainers() {
+    private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
         availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
-        Object[] maintainersRow = new Object[2];
-        try {
-            int i = 0;
-            ResultSet maintainers = rep.select("select * from maintainer");
-            while(maintainers.next()) {
-                maintainersRow[0] = maintainers.getString("username");
-                maintainersTableModel.addRow(maintainersRow);
-                i++;
-            }
-            
-            Object[] availabilitiesRow = new Object[7];
-            
-            i = 0;
+        String[] maintainersRow = new String[2];
 
+        Maintainer m = (Maintainer) UserFactory.getUser("Maintainer");
+        Integer[] daysAvailabilities = new Integer[7];
         
-            ResultSet availabilities = rep.select("select * from maintainer");
-            while (availabilities.next()) {
-                ResultSet res = availabilities.getArray("availability").getResultSet();
-                
-                // questo va bene per la tabella degli orari
-                while (res.next()) {
-                    ResultSet res2 = res.getArray(2).getResultSet();
-                    while(res2.next() && i<7) {
-                        availabilitiesRow[i] = res2.getInt(2);
-                        i++;
-                    }
-                }
-                
-                availabilityTableModel.addRow(availabilitiesRow);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
+        
+        int i = 0;
+        ResultSet maintainers = rep.select("select * from maintainer");
+        while(maintainers.next()) {
+            maintainersRow[0] = maintainers.getString("username");
+            maintainersTableModel.addRow(maintainersRow);
+            daysAvailabilities = m.getDaysAvailability(maintainersRow[0]);
+            availabilityTableModel.addRow(daysAvailabilities);
+            i++;
         }
     }
 
