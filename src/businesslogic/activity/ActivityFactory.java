@@ -9,28 +9,25 @@ package businesslogic.activity;
  *
  * @author gioca
  */
-public abstract class ActivityFactory {
+public class ActivityFactory {
 
-    public enum Category {
+    public enum ActivityType {
         PLANNED,
-        UNPLANNED
-    }
-
-    public enum CategoryUnplanned {
         EWO,
         EXTRA
     }
 
-    public static MaintenanceActivity make(Category c, CategoryUnplanned unplanned) {
-        ActivityFactory factory = null;
-        if (c == Category.PLANNED) {
-            factory = new PlannedActivityFactory();
-        } else {
-            factory = new UnplannedActivityFactory();
+    public static MaintenanceActivity getActivity(ActivityType type) {
+        if (type == ActivityType.PLANNED) {
+            return new PlannedActivity();
         }
-        return factory.selectActivity(unplanned);
+        if (type == ActivityType.EWO) {
+            return new EWO();
+        }
+        if (type == ActivityType.EXTRA) {
+            return new ExtraActivity();
+        }
+        return null;
     }
-
-    protected abstract MaintenanceActivity selectActivity(CategoryUnplanned unplanned);
 
 }
