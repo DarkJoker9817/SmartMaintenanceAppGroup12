@@ -5,6 +5,8 @@
  */
 package client;
 
+import businesslogic.Planner;
+import businesslogic.User;
 import database.Repository;
 import java.awt.Color;
 import java.awt.Frame;
@@ -21,16 +23,18 @@ import javax.swing.JOptionPane;
 public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     private Repository rep;
+    private Planner planner;
     private int id;
     private Frame parent;
 
     /**
      * Creates new form ActivityVerificationDialog
      */
-    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
+    public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id, Planner planner) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = Repository.getIstance();
+        this.rep = Repository.getIstance();
         this.id = id;
+        this.planner = planner;
         this.parent = parent;
         initComponents();
         initDialog(id);
@@ -413,6 +417,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.setVisible(false);
         try {
+            planner.modifyActivity(id, workspaceNotesTextArea.getText());
             new ActivityAssignmentDialog(parent, true, id).setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(parent, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);

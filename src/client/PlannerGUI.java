@@ -618,7 +618,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
         int id = Integer.parseInt(String.valueOf(activityTable.getValueAt(activityTable.getSelectedRow(), 0)));
         try {
-            new ActivityVerificationDialog(this, true, id).setVisible(true);
+            new ActivityVerificationDialog(this, true, id, this.planner).setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
