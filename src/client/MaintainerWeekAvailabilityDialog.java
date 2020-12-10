@@ -7,12 +7,9 @@ package client;
 
 import businesslogic.Maintainer;
 import businesslogic.Planner;
-import database.Repository;
-import java.sql.ResultSet;
+import businesslogic.activity.MaintenanceActivity;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.WeekFields;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -23,20 +20,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
-    private Repository rep;
+
     private DefaultTableModel tableModel;
     private DefaultTableModel tableModel2;
     private Planner planner;
     private Maintainer maintainer;
+    
 
     /**
      * Creates new form MaintainerWeekAvailability
      */
     public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = Repository.getIstance();
-        initialization();
         initComponents();
+        initialization();
         initDialog(id, username, day);
         
         
@@ -334,43 +331,40 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void initDialog(int id, String username, String day) {
     
     try {
-            ResultSet select = rep.select("select * from activity where id = '" + id + "'");
-            while (select.next()) {
-                weekNumberLabel.setText(String.valueOf(select.getInt("week")));
+            Map<Integer, MaintenanceActivity> scheduledActivity = planner.getScheduledActivityFromId(id);
+            
+                weekNumberLabel.setText(String.valueOf(scheduledActivity.get(id).getWeek()));
                 dayLabel.setText(day);
-                notesTextArea.setText(select.getString("workspace_notes"));
-                String[] site = select.getString("site").split("-");
-                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + select.getString("maintenance_type") + " - " + String.valueOf(select.getInt("estimated_time"));
+                notesTextArea.setText(String.valueOf(scheduledActivity.get(id).getWorkspaceNotes()));
+                String[] site = scheduledActivity.get(id).getSite().split("-");
+                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.get(id).getType() + " - " + String.valueOf(scheduledActivity.get(id).getEstimatedInterventionTime());
                 activityLabel.setText(activity);
-            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            ResultSet select = rep.select("select * from maintainer where username = '" + username + "'");
+            Integer[][] hours = new Integer[7][7];
+            hours= maintainer.getHoursAvailability(username);
             Object row[]= new Object[2];
-            Object row2[]= new Object[7];
-            int i = 0;
-            while (select.next()) {
-                row[0]=select.getString("username");
-                row[1]=null;
-                ResultSet res = select.getArray("availability").getResultSet();
-                while (res.next()) {
-                    ResultSet res2 = res.getArray(2).getResultSet();
-                    while (res2.next() && i < 7) {
-                        row2[i] = res2.getInt(2);
-                        i++;
-                    }
-                }
-                tableModel.addRow(row);
-                
+            Integer row2[]= new Integer[7];
+            int i=getWeekDayNumber(day);
+            
+            row[0]=username;
+            row[1]=null;
+            
+            for(int j=0; j<7; j++){
+                row2[j]=hours[i][j];
             }
+            tableModel.addRow(row);
+            tableModel2.addRow(row2);
+                      
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        
+        //planner.assignActivity(username, ALLBITS);
         
         
     }//GEN-LAST:event_sendButtonActionPerformed
@@ -385,6 +379,24 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         
     }//GEN-LAST:event_hoursTableMouseClicked
 
+    private int getWeekDayNumber(String day){
+        if("Monday".equals(day)){
+            return 0;
+        } else if ("Tuesday".equals(day)){
+            return 1;
+        }else if("Wednesday".equals(day)){
+            return 2;
+        }else if("Thursday".equals(day)){
+            return 3;
+        }else if("Friday".equals(day)){
+            return 4;
+        }else if("Saturday".equals(day)){
+            return 5;
+        }else{
+        
+        return 6;
+        }
+    }
     /**
      * @param args the command line arguments
      */

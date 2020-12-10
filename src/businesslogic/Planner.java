@@ -102,4 +102,24 @@ public class Planner extends User {
         }
         return scheduledActivity;
     }
+    
+    public Map<Integer, MaintenanceActivity> getScheduledActivityFromId(int id) throws SQLException {
+        ResultSet res = rep.select("select * from activity where id='"+id+"'");
+        
+        while (res.next()) {
+            MaintenanceActivity activity = ActivityFactory.getActivity(ActivityFactory.ActivityType.PLANNED);
+            activity.setId(res.getInt("id"));
+            activity.setMaterials(res.getArray("materials").toString());
+            activity.setWeek(res.getInt("week"));
+            activity.setSite(res.getString("site"));
+            activity.setType(this.getMaintenanceType(res.getString("maintenance_type")));
+            activity.setDescription(res.getString("description"));
+            activity.setEstimatedInterventionTime(res.getInt("estimated_time"));
+            activity.setInterruptible(res.getBoolean("interruptible"));
+            activity.setWorkspaceNotes(res.getString("workspace_notes"));
+            activity.setProcedure(res.getString("maintenance_procedure"));
+            this.scheduledActivity.put(res.getInt("id"), activity);
+        }
+        return scheduledActivity;
+    }
 }
