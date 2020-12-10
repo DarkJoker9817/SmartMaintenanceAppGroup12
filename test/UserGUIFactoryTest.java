@@ -21,7 +21,7 @@ public class UserGUIFactoryTest {
     private Repository rep;
 
     @Test
-    public void testNotNullJFrame() {
+    public void testNotNullJFrame() throws ClassNotFoundException, SQLException {
         assertNotNull(GUIFactory.getGUI("System Administrator"));
         assertNotNull(GUIFactory.getGUI("Planner"));
         assertNotNull(GUIFactory.getGUI("Maintainer"));
@@ -29,7 +29,7 @@ public class UserGUIFactoryTest {
     }
 
     @Test
-    public void testNullJFrame() {
+    public void testNullJFrame() throws ClassNotFoundException, SQLException {
         assertNull(GUIFactory.getGUI(""));
     }
 
