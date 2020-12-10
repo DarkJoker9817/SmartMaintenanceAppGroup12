@@ -5,6 +5,7 @@
  */
 package client;
 
+import java.sql.SQLException;
 import javax.swing.JFrame;
 
 /**
@@ -13,7 +14,7 @@ import javax.swing.JFrame;
  */
 public class GUIFactory {
 
-    public static JFrame getGUI(String gui) {
+    public static JFrame getGUI(String gui) throws ClassNotFoundException, SQLException {
         if (gui.equals("System Administrator")) {
             return new SysAdminGUI();
         }

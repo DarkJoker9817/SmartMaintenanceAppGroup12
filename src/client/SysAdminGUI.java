@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,8 +27,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
      */
     private DefaultTableModel model;
     private SysAdmin admin;
-    
-    public SysAdminGUI() {
+
+    public SysAdminGUI() throws ClassNotFoundException, SQLException {
         this.admin = new SysAdmin();
         initComponents();
         model = (DefaultTableModel) usersTable.getModel();
@@ -273,8 +275,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
         try {
             admin.createUser(row[0], row[1], row[2]);
             model.addRow(row);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
         clearFields();
         usersTable.clearSelection();
@@ -294,7 +296,7 @@ public class SysAdminGUI extends javax.swing.JFrame {
             admin.updateUser(username, row[0], row[1], row[2]);
             model.removeRow(i);
             model.addRow(row);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
         usersTable.clearSelection();
@@ -325,7 +327,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
-        GUIFactory.getGUI("Login").setVisible(true);
+        try {
+            GUIFactory.getGUI("Login").setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,13 +353,13 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
         try {
             Map<String, User> usersCollection = admin.getUsers();
-            for(User user: usersCollection.values()) {
+            for (User user : usersCollection.values()) {
                 row[0] = user.getUsername();
                 row[1] = user.getPassword();
                 row[2] = user.getClass().getSimpleName();
                 model.addRow(row);
-            }  
-        } catch (SQLException ex) {
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -408,11 +414,16 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
 
         //</editor-fold>
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SysAdminGUI().setVisible(true);
+                try {
+                    new SysAdminGUI().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(SysAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

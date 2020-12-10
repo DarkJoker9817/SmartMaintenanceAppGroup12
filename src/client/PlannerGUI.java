@@ -603,7 +603,11 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
-        GUIFactory.getGUI("Login").setVisible(true);
+        try {
+            GUIFactory.getGUI("Login").setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed

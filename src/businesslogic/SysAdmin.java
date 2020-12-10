@@ -24,7 +24,7 @@ public class SysAdmin extends User {
         this.users = new HashMap<>();
     }
     
-    public void createUser(String username, String password, String role) throws SQLException {
+    public void createUser(String username, String password, String role) throws SQLException, ClassNotFoundException {
         User user = UserFactory.getUser(role);
         user.setPassword(password);
         user.setUsername(username);
@@ -34,7 +34,7 @@ public class SysAdmin extends User {
         users.put(username, user);
     }
     
-    public void updateUser(String oldUsername, String newUsername, String password, String role) throws SQLException {
+    public void updateUser(String oldUsername, String newUsername, String password, String role) throws SQLException, ClassNotFoundException {
         rep.update("update \"user\" set username='" + newUsername + "', password='" + password + "', role='" + role + "' where username='" + oldUsername + "'");
         
         users.remove(oldUsername);
@@ -52,7 +52,7 @@ public class SysAdmin extends User {
         users.remove(username);
     }
 
-    public Map<String, User> getUsers() throws SQLException {
+    public Map<String, User> getUsers() throws SQLException, ClassNotFoundException {
         ResultSet res = rep.select("select * from \"user\"; ");
         
         while(res.next()) {

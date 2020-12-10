@@ -5,13 +5,15 @@
  */
 package businesslogic;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author ugobarbato
  */
 public class UserFactory {
     
-    public static User getUser(String role) {
+    public static User getUser(String role) throws ClassNotFoundException, SQLException {
         if (role.equals("Planner")) {
             return new Planner();
         }
