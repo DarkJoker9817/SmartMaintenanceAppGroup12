@@ -121,4 +121,18 @@ public class Planner extends User {
         }
         return activity;
     }
+    
+    public List<Maintainer> getMaintainers() throws SQLException, ClassNotFoundException {
+        List<Maintainer> maintainersList = new ArrayList();
+        
+        
+        ResultSet res = rep.select("select * from maintainer");
+        while(res.next()) {
+            Maintainer m = new Maintainer();
+            m.setUsername(res.getString("username"));
+            m.setAvailability(m.getHoursAvailability(m.getUsername()));
+            maintainersList.add(m);
+        }
+        return maintainersList;
+    }
 }
