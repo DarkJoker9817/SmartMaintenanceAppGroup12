@@ -819,19 +819,18 @@ public class PlannerGUI extends javax.swing.JFrame {
 
         Integer id = (Integer) model.getValueAt(i, 0);
         try {
-            ResultSet res = planner.getMaterials(id);
-            while (res.next()) {
-                Array materials = res.getArray("materials");
-                fillMaterialList(materials);
-            }
-            Integer week = (Integer) model.getValueAt(i, 2);
-            String site = (String) model.getValueAt(i, 3);
-            String type = String.valueOf(model.getValueAt(i, 4));
-            String description = (String) model.getValueAt(i, 5);
-            Integer time = (Integer) model.getValueAt(i, 6);
-            Boolean interruptible = (Boolean) model.getValueAt(i, 7);
-            String notes = (String) model.getValueAt(i, 8);
-            String procedure = (String) model.getValueAt(i, 9);
+            Array materials = planner.getMaterials(id);
+            MaintenanceActivity activity = planner.getScheduledActivityFromId(id);
+            fillMaterialList(materials);
+
+            Integer week = activity.getWeek();
+            String site = activity.getSite();
+            String type = activity.getType().toString();
+            String description = activity.getDescription();
+            Integer time = activity.getEstimatedInterventionTime();
+            Boolean interruptible = activity.isInterruptible();
+            String notes = activity.getWorkspaceNotes();
+            String procedure = activity.getProcedure();
 
             idTextField.setText(String.valueOf(id));
             weekComboBox.setSelectedItem(String.valueOf(week));

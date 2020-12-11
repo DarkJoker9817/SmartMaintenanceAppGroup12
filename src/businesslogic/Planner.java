@@ -3,6 +3,7 @@ package businesslogic;
 import businesslogic.activity.*;
 import java.util.*;
 import database.Repository;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,8 +21,9 @@ public class Planner extends User {
         rep = Repository.getIstance();
     }
 
-    public void assignActivity(String username, int activityID) {
-
+    public void assignActivity(String username, int activityID, String day, int hour) throws SQLException {
+        rep.insert("insert into assigned_activity(maintainer_username,assigned_activity_id ,assigned_activity_day ,assigned_activity_hour) "
+                + "values('" + username + "','" + activityID + "','" + day + "'" + hour + "')");
     }
 
     public MaintenanceActivity createActivity(int id, String materials, int week, String site,
@@ -66,9 +68,13 @@ public class Planner extends User {
         return MaintenanceType.HYDRAULIC;
     }
 
-    public ResultSet getMaterials(int id) throws SQLException {
+    public Array getMaterials(int id) throws SQLException {
         ResultSet res = rep.select("select * from activity where id='" + id + "'");
-        return res;
+        Array materials = null;
+        while (res.next()) {
+            materials = res.getArray("materials");
+        }
+        return materials;
     }
 
     public ResultSet getSites() throws SQLException {

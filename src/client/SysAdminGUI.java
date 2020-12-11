@@ -90,11 +90,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         roleLabel.setText("Role");
 
         roleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maintainer", "Planner" }));
-        roleComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roleComboBoxActionPerformed(evt);
-            }
-        });
 
         usersTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         usersTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -321,10 +316,6 @@ public class SysAdminGUI extends javax.swing.JFrame {
         ComboBoxModel<String> comboBoxModel = roleComboBox.getModel();
         comboBoxModel.setSelectedItem(role);
     }//GEN-LAST:event_usersTableMouseClicked
-
-    private void roleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roleComboBoxActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);

@@ -5,13 +5,15 @@
  */
 package client;
 
+import businesslogic.GUIFactory;
 import businesslogic.Maintainer;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,24 +22,30 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
-
     private DefaultTableModel tableModel;
     private DefaultTableModel tableModel2;
     private Planner planner;
     private Maintainer maintainer;
-    
+    private String username;
+    private int id;
+    private String day;
 
     /**
      * Creates new form MaintainerWeekAvailability
      */
     public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
         super(parent, modal);
+        this.username = username;
+        this.day = day;
+        this.id = id;
         initComponents();
         initialization();
-        initDialog(id, username, day);
-        
-        
+        initDialog();
 
+    }
+
+    private MaintainerWeekAvailabilityDialog(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -320,83 +328,124 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void initialization() throws ClassNotFoundException, SQLException{
-        tableModel= new DefaultTableModel();
-        tableModel2= new DefaultTableModel();
-        planner= new Planner();
-        maintainer= new Maintainer();
+    private void initialization() throws ClassNotFoundException, SQLException {
+        tableModel = new DefaultTableModel();
+        tableModel2 = new DefaultTableModel();
+        planner = new Planner();
+        maintainer = new Maintainer();
         hoursTable.setCellSelectionEnabled(true);
         maintainerTable.setRowSelectionAllowed(false);
     }
-    private void initDialog(int id, String username, String day) {
-    
-    try {
+
+    private void initDialog() {
+        try {
             MaintenanceActivity scheduledActivity = planner.getScheduledActivityFromId(id);
-            
-                weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
-                dayLabel.setText(day);
-                notesTextArea.setText(String.valueOf(scheduledActivity.getWorkspaceNotes()));
-                String[] site = scheduledActivity.getSite().split("-");
-                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.getType() + " - " + String.valueOf(scheduledActivity.getEstimatedInterventionTime());
-                activityLabel.setText(activity);
-            
+
+            weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
+            dayLabel.setText(day);
+            notesTextArea.setText(String.valueOf(scheduledActivity.getWorkspaceNotes()));
+            String[] site = scheduledActivity.getSite().split("-");
+            String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.getType() + " - " + String.valueOf(scheduledActivity.getEstimatedInterventionTime());
+            activityLabel.setText(activity);
+
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             Integer[][] hours = new Integer[7][7];
-            hours= maintainer.getHoursAvailability(username);
-            Object row[]= new Object[2];
-            Integer row2[]= new Integer[7];
-            int i=getWeekDayNumber(day);
-            
-            row[0]=username;
-            row[1]=null;
-            
-            for(int j=0; j<7; j++){
-                row2[j]=hours[i][j];
+            hours = maintainer.getHoursAvailability(username);
+            Object row[] = new Object[2];
+            Integer row2[] = new Integer[7];
+            int i = getWeekDayNumber(day);
+
+            row[0] = username;
+            row[1] = null;
+
+            for (int j = 0; j < 7; j++) {
+                row2[j] = hours[i][j];
             }
             tableModel.addRow(row);
             tableModel2.addRow(row2);
-                      
+
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        sendButton.setEnabled(false);
     }
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        //planner.assignActivity(username, ALLBITS);
-        
-        
+        int i = hoursTable.getSelectedColumn();
+        try {
+            planner.assignActivity(username, id, day, getDayHour((Integer) tableModel.getValueAt(0, i)));
+            JOptionPane.showMessageDialog(rootPane, "Activity Successfully Assigned");
+            showPlannerGUI(GUIFactory.getGUI("Planner"));
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void hoursTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursTableMouseClicked
-        
-        int i=hoursTable.getSelectedColumn();
-        int num=(Integer)tableModel.getValueAt(0,i);
-        num=num/60*100;
+
+        int i = hoursTable.getSelectedColumn();
+        int num = (Integer) tableModel.getValueAt(0, i);
+        num = num / 60 * 100;
         percentageLabel.setVisible(true);
-        percentageLabel.setText(""+num+"%");
-        
+        percentageLabel.setText("" + num + "%");
+        sendButton.setEnabled(true);
+
     }//GEN-LAST:event_hoursTableMouseClicked
 
-    private int getWeekDayNumber(String day){
-        if("Monday".equals(day)){
+    private int getWeekDayNumber(String day) {
+        if ("Monday".equals(day)) {
             return 0;
-        } else if ("Tuesday".equals(day)){
+        } else if ("Tuesday".equals(day)) {
             return 1;
-        }else if("Wednesday".equals(day)){
+        } else if ("Wednesday".equals(day)) {
             return 2;
-        }else if("Thursday".equals(day)){
+        } else if ("Thursday".equals(day)) {
             return 3;
-        }else if("Friday".equals(day)){
+        } else if ("Friday".equals(day)) {
             return 4;
-        }else if("Saturday".equals(day)){
+        } else if ("Saturday".equals(day)) {
             return 5;
-        }else{
-        
-        return 6;
+        } else {
+
+            return 6;
         }
     }
+
+    private int getDayHour(int column) {
+        if (column == 0) {
+            return 8;
+        } else if (column == 1) {
+            return 9;
+        } else if (column == 2) {
+            return 10;
+        } else if (column == 3) {
+            return 11;
+        } else if (column == 4) {
+            return 14;
+        } else if (column == 5) {
+            return 15;
+        } else {
+            return 16;
+        }
+    }
+
+    private void showPlannerGUI(JFrame userGUI) {
+        this.setVisible(false);
+        userGUI.setLocationRelativeTo(this);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                userGUI.setVisible(true);
+            }
+        });
+
+    }
+
     /**
      * @param args the command line arguments
      */
