@@ -7,6 +7,7 @@ drop table if exists material cascade;
 drop table if exists maintenance_procedure cascade;
 drop table if exists maintenance_type cascade;
 drop table if exists activity cascade;
+drop table if exists assigned_activity cascade;
 drop function if exists insert_maintainer cascade;
 
 create table "user"(
@@ -23,8 +24,16 @@ create table sys_admin (
 create table maintainer(
 	username text primary key,
 	availability int[][],
-	competencies text[],
-	assigned_activity_id integer[]
+	competencies text[]
+);
+
+create table assigned_activity(
+	maintainer_username text,
+	assigned_activity_id integer,
+	assigned_activity_day text,
+	assigned_activity_hour integer,
+	foreign key(maintainer_username) references maintainer(username),
+	primary key(maintainer_username,assigned_activity_id)
 );
 
 create table site(
@@ -114,6 +123,7 @@ select * from material;
 select * from site;
 select * from maintainer;
 select * from activity;
+select * from assigned_activity;
 
 delete from "user";
 delete from activity;
