@@ -65,7 +65,7 @@
                       <Group type="102" attributes="0">
                           <Component id="availabilityLabel" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="selectButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="forwardButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="activityLabel" min="-2" pref="150" max="-2" attributes="0"/>
@@ -96,7 +96,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="availabilityLabel" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
                       <Component id="skillsLabel" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
-                      <Component id="selectButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="forwardButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -281,12 +281,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="selectButton">
+        <Component class="javax.swing.JButton" name="forwardButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select"/>
+            <Property name="text" type="java.lang.String" value="Forward"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="forwardButtonActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">

@@ -6,13 +6,16 @@
 package client;
 
 import businesslogic.Maintainer;
+import businesslogic.Planner;
 import businesslogic.User;
 import businesslogic.UserFactory;
+import businesslogic.activity.ActivityFactory;
+import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,16 +27,18 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private Repository rep;
     private DefaultTableModel maintainersTableModel;
     private DefaultTableModel availabilityTableModel;
+    private Planner planner;
+    private Maintainer maintainer;
+    private MaintenanceActivity scheduledActivity;
     
     /**
      * Creates new form ActivityAssignmentDialog
      */
     public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        rep = Repository.getIstance();
         initComponents();
+        initialize();
         initDialog(id);
-        fillTableMaintainers(); 
     }
 
     /**
@@ -56,7 +61,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         skillsList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         availabilityTable = new javax.swing.JTable();
-        selectButton = new javax.swing.JButton();
+        forwardButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         maintainersTable = new javax.swing.JTable();
 
@@ -140,10 +145,10 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             availabilityTable.getColumnModel().getColumn(6).setPreferredWidth(70);
         }
 
-        selectButton.setText("Select");
-        selectButton.addActionListener(new java.awt.event.ActionListener() {
+        forwardButton.setText("Forward");
+        forwardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectButtonActionPerformed(evt);
+                forwardButtonActionPerformed(evt);
             }
         });
 
@@ -198,7 +203,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(availabilityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectButton))
+                        .addComponent(forwardButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(activityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -222,7 +227,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(availabilityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(skillsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectButton))
+                    .addComponent(forwardButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
@@ -245,68 +250,62 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+    public void initialize() throws ClassNotFoundException, SQLException {
+        rep = Repository.getIstance();
+        planner =  new Planner();
+        maintainer = new Maintainer();
+        maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
+        availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
+        fillTableMaintainers();
         
-    }//GEN-LAST:event_selectButtonActionPerformed
+    }
+    private void forwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButtonActionPerformed
+        
+    }//GEN-LAST:event_forwardButtonActionPerformed
 
     private void availabilityTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availabilityTableMouseClicked
-        selectButton.setEnabled(true);
+        forwardButton.setEnabled(true);
     }//GEN-LAST:event_availabilityTableMouseClicked
     
-    private void initDialog(int id) {
-        try {
-            ResultSet select = rep.select("select * from activity where id = '"
-                    + id + "'");
-            while (select.next()) {
-                weekNumberLabel.setText(String.valueOf(select.getInt("week")));
-                String[] site = select.getString("site").split("-");
-                String info = String.valueOf(id) + " - " + site[0] + site[1]
-                        + " - " + select.getString("maintenance_type")
-                        + " - " + String.valueOf(select.getInt("estimated_time") + "'");
-                infoLabel.setText(info);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void initDialog(int id) throws SQLException {
+        scheduledActivity = planner.getScheduledActivityFromId(id);
+        weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
+        String[] site = scheduledActivity.getSite().split("-");
+        String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] +
+                          " - " + scheduledActivity.getType() + " - " + 
+                          String.valueOf(scheduledActivity.getEstimatedInterventionTime() + "'");
+        infoLabel.setText(activity);
         
-        selectButton.setEnabled(false);
+        forwardButton.setEnabled(false);
         availabilityTable.setCellSelectionEnabled(true);
-        maintainersTable.setRowSelectionAllowed(false);
-        
-        
+        maintainersTable.setRowSelectionAllowed(false);  
     }
 
     private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
-        maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
-        availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
+        
         String[] maintainersRow = new String[2];
-
-        Maintainer m = (Maintainer) UserFactory.getUser("Maintainer");
-        Integer[] daysAvailabilities = new Integer[7];
+        List<Maintainer> maintainersList = new ArrayList<>();
         
-        
-        int i = 0;
-        ResultSet maintainers = rep.select("select * from maintainer");
-        while(maintainers.next()) {
-            maintainersRow[0] = maintainers.getString("username");
+        maintainersList = planner.getMaintainers();
+        for(Maintainer m : maintainersList) {
+            maintainersRow[0] = m.getUsername();
             maintainersTableModel.addRow(maintainersRow);
-            daysAvailabilities = m.getDaysAvailability(maintainersRow[0]);
-            availabilityTableModel.addRow(daysAvailabilities);
-            i++;
+            availabilityTableModel.addRow(m.getDaysAvailability(maintainersRow[0]));
         }
+        
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
     private javax.swing.JLabel availabilityLabel;
     private javax.swing.JTable availabilityTable;
+    private javax.swing.JButton forwardButton;
     private javax.swing.JLabel infoLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable maintainersTable;
-    private javax.swing.JButton selectButton;
     private javax.swing.JLabel skillsLabel;
     private javax.swing.JList<String> skillsList;
     private javax.swing.JLabel weekLabel;

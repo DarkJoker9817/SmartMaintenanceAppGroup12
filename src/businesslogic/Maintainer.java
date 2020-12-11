@@ -4,6 +4,7 @@ import java.util.List;
 import database.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,8 +13,8 @@ import java.sql.SQLException;
 public class Maintainer extends User {
 
     private List<String> competences;
-    private int activityID;
     private Repository rep;
+    private Integer[][] availability;
 
     public Maintainer() throws ClassNotFoundException, SQLException {
         rep = Repository.getIstance();
@@ -23,18 +24,18 @@ public class Maintainer extends User {
         return competences;
     }
 
-    public int getActivityID() {
-        return activityID;
+    public void setCompetences(List<String> competences) {
+        this.competences = competences;
     }
 
+    public void setAvailability(Integer[][] availability) {
+        this.availability = availability;
+    }
+    
     public void addCompetence(String competence) {
         this.competences.add(competence);
     }
-
-    public void setActivityID(int activityID) {
-        this.activityID = activityID;
-    }
-
+    
     public Integer[][] getHoursAvailability(String username) throws SQLException {
         Integer[][] matrix = new Integer[7][7];
 
@@ -70,4 +71,6 @@ public class Maintainer extends User {
         }
         return days;
     }
-}
+    
+    
+}   
