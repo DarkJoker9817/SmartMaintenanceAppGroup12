@@ -13,21 +13,21 @@ import static org.junit.Assert.*;
  * @author gioca
  */
 public class ActivityFactoryTest {
-    
+
     @Test
-    public void getPlannedActivity() {
+    public void testGetPlannedActivity() {
         assertNotNull(ActivityFactory.getActivity(ActivityFactory.ActivityType.PLANNED));
     }
-    
+
     @Test
-    public void getUnplannedActivity() {
+    public void testGetUnplannedActivity() {
         assertNotNull(ActivityFactory.getActivity(ActivityFactory.ActivityType.EWO));
         assertNotNull(ActivityFactory.getActivity(ActivityFactory.ActivityType.EXTRA));
     }
-    
+
     @Test
-    public void getNullActivity() {
+    public void testGetNullActivity() {
         assertNull(ActivityFactory.getActivity(null));
     }
-    
+
 }
