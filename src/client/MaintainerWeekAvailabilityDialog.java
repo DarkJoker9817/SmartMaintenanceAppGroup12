@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Egidio
  */
 public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
-
+    
     private DefaultTableModel tableModel;
     private DefaultTableModel tableModel2;
     private Planner planner;
@@ -42,10 +42,6 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         initialization();
         initDialog();
 
-    }
-
-    private MaintainerWeekAvailabilityDialog(JFrame jFrame, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -97,7 +93,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         setBackground(new java.awt.Color(255, 153, 0));
         setForeground(new java.awt.Color(255, 153, 0));
         setResizable(false);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 0));
 
@@ -132,7 +128,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
         maintainerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Maintainer", "skills"
@@ -214,7 +210,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
         hoursTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "8-9", "9-10", "10-11", "11-12", "14-15", "15-16", "16-17"
@@ -246,19 +242,14 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             hoursTable.getColumnModel().getColumn(1).setPreferredWidth(35);
             hoursTable.getColumnModel().getColumn(2).setResizable(false);
             hoursTable.getColumnModel().getColumn(2).setPreferredWidth(35);
-            hoursTable.getColumnModel().getColumn(2).setHeaderValue("10-11");
             hoursTable.getColumnModel().getColumn(3).setResizable(false);
             hoursTable.getColumnModel().getColumn(3).setPreferredWidth(35);
-            hoursTable.getColumnModel().getColumn(3).setHeaderValue("11-12");
             hoursTable.getColumnModel().getColumn(4).setResizable(false);
             hoursTable.getColumnModel().getColumn(4).setPreferredWidth(35);
-            hoursTable.getColumnModel().getColumn(4).setHeaderValue("14-15");
             hoursTable.getColumnModel().getColumn(5).setResizable(false);
             hoursTable.getColumnModel().getColumn(5).setPreferredWidth(35);
-            hoursTable.getColumnModel().getColumn(5).setHeaderValue("15-16");
             hoursTable.getColumnModel().getColumn(6).setResizable(false);
             hoursTable.getColumnModel().getColumn(6).setPreferredWidth(35);
-            hoursTable.getColumnModel().getColumn(6).setHeaderValue("16-17");
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -270,7 +261,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                     .addComponent(notesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,14 +314,14 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1);
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void initialization() throws ClassNotFoundException, SQLException {
-        tableModel = new DefaultTableModel();
-        tableModel2 = new DefaultTableModel();
+        tableModel = (DefaultTableModel) maintainerTable.getModel();
+        tableModel2 = (DefaultTableModel) hoursTable.getModel();
         planner = new Planner();
         maintainer = new Maintainer();
         hoursTable.setCellSelectionEnabled(true);
@@ -348,18 +339,14 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.getType() + " - " + String.valueOf(scheduledActivity.getEstimatedInterventionTime());
             activityLabel.setText(activity);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+        
             Integer[][] hours = new Integer[7][7];
             hours = maintainer.getHoursAvailability(username);
-            Object row[] = new Object[2];
+            String row[] = new String[2];
             Integer row2[] = new Integer[7];
             int i = getWeekDayNumber(day);
-
+            
             row[0] = username;
-            row[1] = null;
 
             for (int j = 0; j < 7; j++) {
                 row2[j] = hours[i][j];
@@ -376,7 +363,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         int i = hoursTable.getSelectedColumn();
         try {
-            planner.assignActivity(username, id, day, getDayHour((Integer) tableModel.getValueAt(0, i)));
+            planner.assignActivity(username, id, day, getDayHour((Integer) tableModel2.getValueAt(0, i)));
             JOptionPane.showMessageDialog(rootPane, "Activity Successfully Assigned");
             showPlannerGUI(GUIFactory.getGUI("Planner"));
 
@@ -390,7 +377,8 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void hoursTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursTableMouseClicked
 
         int i = hoursTable.getSelectedColumn();
-        int num = (Integer) tableModel.getValueAt(0, i);
+        System.out.println(i);
+        int num = (Integer) tableModel2.getValueAt(0, i);
         num = num / 60 * 100;
         percentageLabel.setVisible(true);
         percentageLabel.setText("" + num + "%");
@@ -444,49 +432,6 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             }
         });
 
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                MaintainerWeekAvailabilityDialog dialog = new MaintainerWeekAvailabilityDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

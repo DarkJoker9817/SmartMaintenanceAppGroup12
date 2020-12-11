@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +32,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private Planner planner;
     private Maintainer maintainer;
     private MaintenanceActivity scheduledActivity;
+    private int id;
     
     /**
      * Creates new form ActivityAssignmentDialog
@@ -39,6 +42,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         initComponents();
         initialize();
         initDialog(id);
+        this.id = id;
     }
 
     /**
@@ -260,7 +264,19 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         
     }
     private void forwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButtonActionPerformed
+        this.setVisible(false);
+        int row = availabilityTable.getSelectedRow();
+        int column = availabilityTable.getSelectedColumn();
+        String nameDay = availabilityTable.getColumnName(column);
+        String username = (String) maintainersTableModel.getValueAt(row, 0);
         
+        try {
+            new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay).setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_forwardButtonActionPerformed
 
     private void availabilityTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availabilityTableMouseClicked

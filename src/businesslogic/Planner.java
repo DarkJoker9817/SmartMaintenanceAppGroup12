@@ -23,7 +23,7 @@ public class Planner extends User {
 
     public void assignActivity(String username, int activityID, String day, int hour) throws SQLException {
         rep.insert("insert into assigned_activity(maintainer_username,assigned_activity_id ,assigned_activity_day ,assigned_activity_hour) "
-                + "values('" + username + "','" + activityID + "','" + day + "'" + hour + "')");
+                + "values('" + username + "','" + activityID + "','" + day + "','" + hour + "')");
     }
 
     public MaintenanceActivity createActivity(int id, String materials, int week, String site,
