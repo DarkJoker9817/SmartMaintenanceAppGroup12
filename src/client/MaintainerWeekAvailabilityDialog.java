@@ -5,13 +5,15 @@
  */
 package client;
 
+import businesslogic.GUIFactory;
 import businesslogic.Maintainer;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +27,9 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private DefaultTableModel tableModel2;
     private Planner planner;
     private Maintainer maintainer;
+    private String username;
+    private int id;
+    private String day;
     
 
     /**
@@ -32,12 +37,19 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
      */
     public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
         super(parent, modal);
+        this.username= username;
+        this.day=day;
+        this.id=id;
         initComponents();
         initialization();
-        initDialog(id, username, day);
+        initDialog();
         
         
 
+    }
+
+    private MaintainerWeekAvailabilityDialog(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -328,8 +340,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         hoursTable.setCellSelectionEnabled(true);
         maintainerTable.setRowSelectionAllowed(false);
     }
-    private void initDialog(int id, String username, String day) {
-    
+    private void initDialog() {
     try {
             MaintenanceActivity scheduledActivity = planner.getScheduledActivityFromId(id);
             
@@ -362,9 +373,19 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ActivityVerificationDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        sendButton.setEnabled(false);
     }
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        //planner.assignActivity(username, ALLBITS);
+        int i=hoursTable.getSelectedColumn();
+        try {
+            planner.assignActivity(username, id, day, getDayHour((Integer)tableModel.getValueAt(0,i)));
+            JOptionPane.showMessageDialog(rootPane, "Activity Successfully Assigned");
+            showPlannerGUI(GUIFactory.getGUI("Planner"));
+            
+        } catch (SQLException | ClassNotFoundException ex ) {
+            Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_sendButtonActionPerformed
@@ -376,6 +397,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         num=num/60*100;
         percentageLabel.setVisible(true);
         percentageLabel.setText(""+num+"%");
+        sendButton.setEnabled(true);
         
     }//GEN-LAST:event_hoursTableMouseClicked
 
@@ -397,6 +419,36 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         return 6;
         }
     }
+    
+    private int getDayHour(int column){
+        if(column==0){
+            return 8;
+        }else if(column==1){
+            return 9;
+        }else if(column==2){
+            return 10;
+        }else if(column==3){
+            return 11;
+        }else if(column==4){
+            return 14;
+        }else if(column==5){
+            return 15;
+        }else{
+            return 16;
+        }
+    }
+    
+    private void showPlannerGUI(JFrame userGUI) {
+        this.setVisible(false);
+        userGUI.setLocationRelativeTo(this);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                userGUI.setVisible(true);
+            }
+        });
+
+    }
+    
     /**
      * @param args the command line arguments
      */
