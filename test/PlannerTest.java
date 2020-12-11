@@ -49,6 +49,23 @@ public class PlannerTest {
         p.deleteActivity(1);
         assertEquals(p.getScheduledActivity().size(), 0);
     }
+    
+    @Test
+    public void testCreateActivityFromId() throws SQLException {
+        assertNotNull(p.getScheduledActivityFromId(1));
+    }
+    
+    @Test
+    public void testModifyActivityFromId() throws SQLException {
+        p.modifyActivity(1, "prova");
+        assertNotNull(p.getScheduledActivityFromId(1));
+    }
+
+    @Test
+    public void testDeleteActivityFromId() throws SQLException {
+        p.deleteActivity(1);
+        assertNull(p.getScheduledActivityFromId(1));
+    }
 
     @Test
     public void testGetMaterialsNotNull() throws SQLException {
