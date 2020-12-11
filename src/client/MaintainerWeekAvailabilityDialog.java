@@ -331,13 +331,13 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void initDialog(int id, String username, String day) {
     
     try {
-            Map<Integer, MaintenanceActivity> scheduledActivity = planner.getScheduledActivityFromId(id);
+            MaintenanceActivity scheduledActivity = planner.getScheduledActivityFromId(id);
             
-                weekNumberLabel.setText(String.valueOf(scheduledActivity.get(id).getWeek()));
+                weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
                 dayLabel.setText(day);
-                notesTextArea.setText(String.valueOf(scheduledActivity.get(id).getWorkspaceNotes()));
-                String[] site = scheduledActivity.get(id).getSite().split("-");
-                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.get(id).getType() + " - " + String.valueOf(scheduledActivity.get(id).getEstimatedInterventionTime());
+                notesTextArea.setText(String.valueOf(scheduledActivity.getWorkspaceNotes()));
+                String[] site = scheduledActivity.getSite().split("-");
+                String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + scheduledActivity.getType() + " - " + String.valueOf(scheduledActivity.getEstimatedInterventionTime());
                 activityLabel.setText(activity);
             
         } catch (SQLException ex) {
