@@ -373,9 +373,9 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             }
             planner.assignActivity(username, id, day, getDayHour(i), activity.getEstimatedInterventionTime(), minutesAvailable, i);
             JOptionPane.showMessageDialog(rootPane, "Activity Successfully Assigned");
-            showPlannerGUI(GUIFactory.getGUI("Planner"));
+            this.setVisible(false);
 
-        } catch (SQLException | ClassNotFoundException | TimeExceededException ex) {
+        } catch (SQLException | TimeExceededException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -409,17 +409,6 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         } else {
             return 16;
         }
-    }
-
-    private void showPlannerGUI(JFrame userGUI) {
-        this.setVisible(false);
-        userGUI.setLocationRelativeTo(this);
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                userGUI.setVisible(true);
-            }
-        });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
