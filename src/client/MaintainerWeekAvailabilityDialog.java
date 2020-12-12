@@ -9,6 +9,7 @@ import businesslogic.GUIFactory;
 import businesslogic.Maintainer;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
+import exceptions.TimeExceededException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -346,7 +347,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             hours = maintainer.getHoursAvailability(username);
             String row[] = new String[2];
             Integer row2[] = new Integer[7];
-            int i = getWeekDayNumber(day);
+            int i = planner.getWeekDayNumber(day);
             
             row[0] = username;
 
@@ -365,12 +366,17 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         int i = hoursTable.getSelectedColumn();
         try {
-            planner.assignActivity(username, id, day, getDayHour((Integer) tableModel2.getValueAt(0, i)));
+            MaintenanceActivity activity = planner.getScheduledActivityFromId(id);
+            int minutesAvailable = (Integer) tableModel2.getValueAt(0, i);
+            if(minutesAvailable < activity.getEstimatedInterventionTime()) {
+                throw new TimeExceededException("Impossible to assign activity at this time!");
+            }
+            planner.assignActivity(username, id, day, getDayHour(i), activity.getEstimatedInterventionTime(), minutesAvailable, i);
             JOptionPane.showMessageDialog(rootPane, "Activity Successfully Assigned");
             showPlannerGUI(GUIFactory.getGUI("Planner"));
 
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(MaintainerWeekAvailabilityDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | ClassNotFoundException | TimeExceededException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -379,32 +385,13 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private void hoursTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursTableMouseClicked
 
         int i = hoursTable.getSelectedColumn();
-        int num = (Integer) tableModel2.getValueAt(0, i);
-        num = num / 60 * 100;
+        float num = Float.parseFloat(tableModel2.getValueAt(0, i).toString());
+        num = (int) (num / 60 * 100);
         percentageLabel.setVisible(true);
         percentageLabel.setText("" + num + "%");
         sendButton.setEnabled(true);
 
     }//GEN-LAST:event_hoursTableMouseClicked
-
-    private int getWeekDayNumber(String day) {
-        if ("Monday".equals(day)) {
-            return 0;
-        } else if ("Tuesday".equals(day)) {
-            return 1;
-        } else if ("Wednesday".equals(day)) {
-            return 2;
-        } else if ("Thursday".equals(day)) {
-            return 3;
-        } else if ("Friday".equals(day)) {
-            return 4;
-        } else if ("Saturday".equals(day)) {
-            return 5;
-        } else {
-
-            return 6;
-        }
-    }
 
     private int getDayHour(int column) {
         if (column == 0) {

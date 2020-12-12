@@ -63,11 +63,11 @@ public class Maintainer extends User {
         Integer[] days = new Integer[7];
 
         for (int i = 0; i < 7; i++) {
-            int counter = 0;
+            float counter = 0;
             for (int j = 0; j < 7; j++) {
                 counter += matrix[i][j];
             }
-            days[i] = (counter / 420) * 100;
+            days[i] = (int) ((counter / 420) * 100);
         }
         return days;
     }

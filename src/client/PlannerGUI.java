@@ -9,6 +9,7 @@ import businesslogic.GUIFactory;
 import businesslogic.MaintenanceType;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
+import exceptions.TimeExceededException;
 import java.io.File;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -692,11 +693,14 @@ public class PlannerGUI extends javax.swing.JFrame {
         MaintenanceType type = getComboBoxType();
         String materials = getArrayMaterial();
         try {
+            if (Integer.parseInt(timeTextField.getText()) > 60) {
+                throw new TimeExceededException("The minutes must be less than 60'!");
+            }
             planner.createActivity(Integer.parseInt(idTextField.getText()), materials, Integer.parseInt((String) weekComboBox.getSelectedItem()),
                     siteComboBox.getSelectedItem().toString(), type, descriptionTextArea.getText(), Integer.parseInt(timeTextField.getText()),
                     interruptibleCheckBox.isSelected(), notesTextArea.getText(), fileLabel.getText());
             addTableRow();
-        } catch (SQLException | NumberFormatException ex) {
+        } catch (SQLException | NumberFormatException | TimeExceededException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         clearFields();

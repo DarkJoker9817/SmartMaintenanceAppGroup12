@@ -21,10 +21,12 @@ public class Planner extends User {
         rep = Repository.getIstance();
     }
 
-    public void assignActivity(String username, int activityID, String day, int hour) throws SQLException {
+    public void assignActivity(String username, int activityID, String day, int hour, int assignedMinutes, int availableMinutes, int column) throws SQLException {
         rep.insert("insert into assigned_activity(maintainer_username,assigned_activity_id ,assigned_activity_day ,assigned_activity_hour) "
                 + "values('" + username + "','" + activityID + "','" + day + "','" + hour + "')");
         rep.update("update activity set assigned = true where id = " + activityID + "");
+        int row = this.getWeekDayNumber(day);
+        rep.update("update maintainer set availability[" + (row + 1) + "][" + (column + 1) + "]=" + (availableMinutes-assignedMinutes) + "where username ='" + username + "'");
     }
 
     public MaintenanceActivity createActivity(int id, String materials, int week, String site,
@@ -143,5 +145,24 @@ public class Planner extends User {
             maintainersList.add(m);
         }
         return maintainersList;
+    }
+    
+    public int getWeekDayNumber(String day) {
+        if ("Monday".equals(day)) {
+            return 0;
+        } else if ("Tuesday".equals(day)) {
+            return 1;
+        } else if ("Wednesday".equals(day)) {
+            return 2;
+        } else if ("Thursday".equals(day)) {
+            return 3;
+        } else if ("Friday".equals(day)) {
+            return 4;
+        } else if ("Saturday".equals(day)) {
+            return 5;
+        } else {
+
+            return 6;
+        }
     }
 }
