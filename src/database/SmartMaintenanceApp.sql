@@ -8,7 +8,7 @@ drop table if exists maintenance_procedure cascade;
 drop table if exists maintenance_type cascade;
 drop table if exists activity cascade;
 drop table if exists assigned_activity cascade;
-drop function if exists insert_maintainer cascade;
+drop function if exists insert_competencies cascade;
 
 create table "user"(
 	username text primary key,
@@ -69,18 +69,18 @@ create table activity(
 	assigned boolean default false
 );
 
-create function insert_maintainer() returns trigger as $insert_maintainer$
+create function insert_competencies() returns trigger as $insert_competencies$
 	begin
-		if new.role = 'Maintainer' then
-			insert into maintainer(username) values(new.username);
-		end if;
+		update activity 
+				set competencies ='{PAV Certification,Electrical Maintenance,Knowledge of cable types,Xyz-type robot knowledge,Knowledge of VHDL}' 
+				where id = new.id;
 		return new;
 	end;
-$insert_maintainer$ language plpgsql;
+$insert_competencies$ language plpgsql;
 
-create trigger check_user
-	after insert on "user"
-	for each row execute procedure insert_maintainer();
+create trigger insert_activity
+	after insert on activity
+	for each row execute procedure insert_competencies();
 
 insert into sys_admin(username, password) values ('admin','admin'); 
 
@@ -112,12 +112,11 @@ update maintainer set availability = '{{60,60,60,60,60,60,60},
 											{60,60,60,60,60,60,60},
 											{60,60,60,60,60,60,60}}';
 
-select unnest(ma.availability[1][:]) from maintainer as ma where username = 'Topolino';
+
 ------------------------------------------------------------------------------------
-insert into maintainer(username) values('Pippo');
 insert into material(name_material) values('Martello'),('Viti'),('Cacciavite'),('Tubo');
 insert into site(area,branch_officies) values('Fisciano','Molding'),('Nusco','Carpentry'),('Morra','Painting');
-
+				
 select * from sys_admin;
 select * from "user";
 select * from material;
@@ -130,4 +129,3 @@ delete from "user";
 delete from activity;
 delete from assigned_activity;
 delete from maintainer;
-delete from "user" where username = 'Pippo';
