@@ -12,6 +12,7 @@ import database.Repository;
 import java.awt.Color;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -440,7 +441,10 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         String[] site = activity.getSite().split("-");
         String activityToAssign = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + activity.getType().toString() + " - " + activity.getEstimatedInterventionTime();
         activityLabel.setText(activityToAssign);
-
+        String[] competencies = activity.getCompetences();
+        for(String c : competencies) {
+            skillTextArea.append(c + "\n");
+        }
     }
 
 

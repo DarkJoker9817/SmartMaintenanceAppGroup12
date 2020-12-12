@@ -879,7 +879,7 @@ public class PlannerGUI extends javax.swing.JFrame {
         addMaterialButton.setEnabled(false);
         removeMaterialButton.setEnabled(false);
     }
-
+    
     /**
      * @param args the command line arguments
      */
