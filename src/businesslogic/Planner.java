@@ -24,6 +24,7 @@ public class Planner extends User {
     public void assignActivity(String username, int activityID, String day, int hour) throws SQLException {
         rep.insert("insert into assigned_activity(maintainer_username,assigned_activity_id ,assigned_activity_day ,assigned_activity_hour) "
                 + "values('" + username + "','" + activityID + "','" + day + "','" + hour + "')");
+        rep.update("update activity set assigned = true where id = " + activityID + "");
     }
 
     public MaintenanceActivity createActivity(int id, String materials, int week, String site,
@@ -43,6 +44,7 @@ public class Planner extends User {
         activity.setInterruptible(interruptible);
         activity.setWorkspaceNotes(workspaceNotes);
         activity.setProcedure(procedure);
+        activity.setAssigned(false);
 
         return scheduledActivity.putIfAbsent(id, activity);
     }
@@ -82,7 +84,7 @@ public class Planner extends User {
     }
 
     public ResultSet weekSelection(int week) throws SQLException {
-        return rep.select("select * from activity where week='" + week + "'");
+        return rep.select("select * from activity where week='" + week + "' and assigned = false");
     }
 
     public ResultSet getMaterialTable() throws SQLException {
@@ -95,7 +97,7 @@ public class Planner extends User {
         while (res.next()) {
             MaintenanceActivity activity = ActivityFactory.getActivity(ActivityFactory.ActivityType.PLANNED);
             activity.setId(res.getInt("id"));
-            activity.setMaterials(res.getArray("materials").toString());
+            activity.setMaterials(res.getArray("materials") == null ? "{}" : res.getArray("materials").toString());
             activity.setWeek(res.getInt("week"));
             activity.setSite(res.getString("site"));
             activity.setType(this.getMaintenanceType(res.getString("maintenance_type")));
@@ -104,6 +106,7 @@ public class Planner extends User {
             activity.setInterruptible(res.getBoolean("interruptible"));
             activity.setWorkspaceNotes(res.getString("workspace_notes"));
             activity.setProcedure(res.getString("maintenance_procedure"));
+            activity.setAssigned(res.getBoolean("assigned"));
             this.scheduledActivity.put(res.getInt("id"), activity);
         }
         return scheduledActivity;
@@ -124,16 +127,16 @@ public class Planner extends User {
             activity.setInterruptible(res.getBoolean("interruptible"));
             activity.setWorkspaceNotes(res.getString("workspace_notes"));
             activity.setProcedure(res.getString("maintenance_procedure"));
+            activity.setAssigned(res.getBoolean("assigned"));
         }
         return activity;
     }
-    
+
     public List<Maintainer> getMaintainers() throws SQLException, ClassNotFoundException {
         List<Maintainer> maintainersList = new ArrayList();
-        
-        
+
         ResultSet res = rep.select("select * from maintainer");
-        while(res.next()) {
+        while (res.next()) {
             Maintainer m = new Maintainer();
             m.setUsername(res.getString("username"));
             m.setAvailability(m.getHoursAvailability(m.getUsername()));

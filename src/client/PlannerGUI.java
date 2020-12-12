@@ -152,14 +152,14 @@ public class PlannerGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "materials", "week", "site", "type", "description", "time", "interruptible", "notes", "procedure"
+                "ID", "materials", "week", "site", "type", "description", "time", "interruptible", "notes", "procedure", "Assigned"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -780,7 +780,7 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     private void fillTable() {
         try {
-            Object[] row = new Object[10];
+            Object[] row = new Object[11];
             Map<Integer, MaintenanceActivity> activities = planner.getScheduledActivity();
             for (MaintenanceActivity activity : activities.values()) {
                 row[0] = activity.getId();
@@ -793,6 +793,7 @@ public class PlannerGUI extends javax.swing.JFrame {
                 row[7] = activity.isInterruptible();
                 row[8] = activity.getWorkspaceNotes();
                 row[9] = activity.getProcedure();
+                row[10] = activity.isAssigned();
                 model.addRow(row);
             }
         } catch (SQLException ex) {

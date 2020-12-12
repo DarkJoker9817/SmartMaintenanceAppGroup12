@@ -65,7 +65,8 @@ create table activity(
 	interruptible bool not null,
 	workspace_notes text,
 	maintenance_procedure text,
-	competencies text[]
+	competencies text[],
+	assigned boolean default false
 );
 
 create function insert_maintainer() returns trigger as $insert_maintainer$
@@ -127,7 +128,6 @@ select * from assigned_activity;
 
 delete from "user";
 delete from activity;
+delete from assigned_activity;
 delete from maintainer;
 delete from "user" where username = 'Pippo';
-
-update "user" set username = 'Luigi' where id = 1;

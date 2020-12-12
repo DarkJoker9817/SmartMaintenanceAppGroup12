@@ -23,9 +23,18 @@ public abstract class MaintenanceActivity {
     private boolean interruptible;
     private String workspaceNotes;
     private String procedure;
+    private boolean assigned;
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
     }
 
     public void setMaterials(String materials) {
