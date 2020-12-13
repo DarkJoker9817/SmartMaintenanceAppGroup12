@@ -140,9 +140,9 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jScrollPane1" min="-2" pref="162" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" min="-2" pref="43" max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" min="-2" pref="43" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jScrollPane4" pref="51" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="sendButton" min="-2" pref="40" max="-2" attributes="0"/>
@@ -256,7 +256,7 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
             </Component>
@@ -422,12 +422,15 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="hoursTableMouseClicked"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;    public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){&#xa;        Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);&#xa;&#xa;        float valueFloat = Float.parseFloat(getModel().getValueAt(rowIndex,columnIndex).toString());&#xa;        float min = 60;&#xa;&#xa;        int value = (int) ((valueFloat/min) *100);&#xa;&#xa;        if(value == 100){&#xa;            componenet.setBackground(new Color(0,102,51));&#xa;            componenet.setForeground(Color.BLACK);&#xa;        }else if(value &gt;= 80 &amp;&amp; value &lt; 100){&#xa;            componenet.setBackground(new Color(0,204,51));&#xa;            componenet.setForeground(Color.BLACK);&#xa;        }else if(value &gt;= 50 &amp;&amp; value &lt; 80){&#xa;            componenet.setBackground(new Color(255,255,0));&#xa;            componenet.setForeground(Color.BLACK);&#xa;        }else if(value &gt;= 20 &amp;&amp; value &lt; 50){&#xa;            componenet.setBackground(new Color(255,153,0));&#xa;            componenet.setForeground(Color.BLACK);&#xa;        }else if(value &gt; 0 &amp;&amp; value &lt; 20){&#xa;            componenet.setBackground(new Color(255,153,0));&#xa;            componenet.setForeground(Color.BLACK);&#xa;        } else if(value == 0){&#xa;            componenet.setBackground(Color.RED);&#xa;            componenet.setForeground(Color.BLACK);&#xa;        }&#xa;&#xa;        return componenet;&#xa;    }&#xa;&#xa;}&#xa;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

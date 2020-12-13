@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  * @author gioca
  */
 public class ActivityVerificationDialog extends javax.swing.JDialog {
-
+    
     private Repository rep;
     private Planner planner;
     private int id;
@@ -416,7 +416,10 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         this.setVisible(false);
         try {
             planner.modifyActivity(id, workspaceNotesTextArea.getText());
-            new ActivityAssignmentDialog(null, true, id).setVisible(true);
+            ActivityAssignmentDialog dialog = new ActivityAssignmentDialog(null, true, id);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "" + ex.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
@@ -431,10 +434,10 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         jPanel11.setBackground(new Color(255, 204, 0));
     }//GEN-LAST:event_forwardButtonLabelMouseExited
-
+    
     private void initDialog(int id) throws SQLException {
         MaintenanceActivity activity = planner.getScheduledActivityFromId(id);
-
+        
         weekNumberLabel.setText(activity.getWeek() + "");
         workspaceNotesTextArea.setText(activity.getWorkspaceNotes());
         descriptionTextArea.setText(activity.getDescription());
@@ -442,7 +445,7 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         String activityToAssign = String.valueOf(id) + " - " + site[0] + " " + site[1] + " - " + activity.getType().toString() + " - " + activity.getEstimatedInterventionTime();
         activityLabel.setText(activityToAssign);
         String[] competencies = activity.getCompetences();
-        for(String c : competencies) {
+        for (String c : competencies) {
             skillTextArea.append(c + "\n");
         }
     }

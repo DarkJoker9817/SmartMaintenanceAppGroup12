@@ -29,7 +29,7 @@ import javax.swing.table.TableCellRenderer;
  * @author ugobarbato
  */
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
-
+    
     private Repository rep;
     private DefaultTableModel maintainersTableModel;
     private DefaultTableModel availabilityTableModel;
@@ -38,13 +38,13 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private Maintainer maintainer;
     private MaintenanceActivity scheduledActivity;
     private int id;
-    
+
     /**
      * Creates new form ActivityAssignmentDialog
      */
     public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
-        planner =  new Planner();
+        planner = new Planner();
         maintainer = new Maintainer();
         this.id = id;
         initComponents();
@@ -81,19 +81,23 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
                 if(getSelectedRow() == rowIndex && getSelectedColumn() == columnIndex){
                     componenet.setBackground(Color.WHITE);
-                }else if(value == 100){
+                    componenet.setForeground(Color.BLACK);
+                }else  if(value == 100){
                     componenet.setBackground(new Color(0,102,51));
                     componenet.setForeground(Color.BLACK);
-                }else if(value > 50 && value < 100){
+                }else if(value >= 80 && value < 100){
                     componenet.setBackground(new Color(0,204,51));
                     componenet.setForeground(Color.BLACK);
-                }else if(value > 20 && value <= 50){
+                }else if(value >= 50 && value < 80){
                     componenet.setBackground(new Color(255,255,0));
                     componenet.setForeground(Color.BLACK);
-                }else if(value > 0 && value <=20 ){
+                }else if(value >= 20 && value < 50){
                     componenet.setBackground(new Color(255,153,0));
                     componenet.setForeground(Color.BLACK);
-                }else if(value == 0){
+                }else if(value > 0 && value < 20){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                } else if(value == 0){
                     componenet.setBackground(Color.RED);
                     componenet.setForeground(Color.BLACK);
                 }
@@ -104,7 +108,46 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         ;
         forwardButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        maintainersTable = new javax.swing.JTable();
+        maintainersTable = new javax.swing.JTable()
+        {
+            @Override
+            public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){
+                Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);
+                int value = 0;
+                if(columnIndex != 0){
+                    String[] valueStr = getModel().getValueAt(rowIndex,columnIndex).toString().split("/");
+                    float num = Float.parseFloat(valueStr[0]);
+                    float den = Float.parseFloat(valueStr[1]);
+                    value = (int) ((num/den) *100);
+                }
+                if(value == 100 && columnIndex != 0){
+                    componenet.setBackground(new Color(0,102,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 80 && value < 100) && columnIndex != 0){
+                    componenet.setBackground(new Color(0,204,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 50 && value < 80) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,255,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 20 && value < 50) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value > 0 && value < 20) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                } else if(value == 0 && columnIndex!= 0){
+                    componenet.setBackground(Color.RED);
+                    componenet.setForeground(Color.BLACK);
+                }else{
+                    componenet.setBackground(Color.WHITE);
+                    componenet.setForeground(Color.BLACK);
+                }
+
+                return componenet;
+            }
+
+        }
+        ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -163,6 +206,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        availabilityTable.getTableHeader().setReorderingAllowed(false);
         availabilityTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 availabilityTableMouseClicked(evt);
@@ -216,6 +260,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        maintainersTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(maintainersTable);
         if (maintainersTable.getColumnModel().getColumnCount() > 0) {
             maintainersTable.getColumnModel().getColumn(1).setResizable(false);
@@ -306,10 +351,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         String username = (String) maintainersTableModel.getValueAt(row, 0);
         
         try {
-            new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay).setVisible(true);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            MaintainerWeekAvailabilityDialog dialog = new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_forwardButtonActionPerformed
@@ -322,27 +368,27 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         scheduledActivity = planner.getScheduledActivityFromId(id);
         weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
         String[] site = scheduledActivity.getSite().split("-");
-        String activity = String.valueOf(id) + " - " + site[0] + " " + site[1] +
-                          " - " + scheduledActivity.getType() + " - " + 
-                          String.valueOf(scheduledActivity.getEstimatedInterventionTime() + "'");
+        String activity = String.valueOf(id) + " - " + site[0] + " " + site[1]
+                + " - " + scheduledActivity.getType() + " - "
+                + String.valueOf(scheduledActivity.getEstimatedInterventionTime() + "'");
         infoLabel.setText(activity);
         
         forwardButton.setEnabled(false);
         availabilityTable.setCellSelectionEnabled(true);
-        maintainersTable.setRowSelectionAllowed(false); 
+        maintainersTable.setRowSelectionAllowed(false);        
         String[] competencies = scheduledActivity.getCompetences();
-        for(String c : competencies) {
+        for (String c : competencies) {
             skillsListModel.addElement(c);
         }
     }
-
+    
     private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
         
         String[] maintainersRow = new String[2];
         List<Maintainer> maintainersList = new ArrayList<>();
         
         maintainersList = planner.getMaintainers();
-        for(Maintainer m : maintainersList) {
+        for (Maintainer m : maintainersList) {
             maintainersRow[0] = m.getUsername();
             maintainersRow[1] = skillsAchieved(scheduledActivity.getCompetences(), m.getCompetences()) + "/" + scheduledActivity.getCompetences().length;
             maintainersTableModel.addRow(maintainersRow);
@@ -354,10 +400,10 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private int skillsAchieved(String[] activityCompetencies, String[] maintainerCompetencies) {
         int counter = 0;
         
-        for(int i=0; i < activityCompetencies.length; i++) {
-            for(int j=0; j < maintainerCompetencies.length; j++){
-                if (maintainerCompetencies[j].equals(activityCompetencies[i])){
-                        counter++;
+        for (int i = 0; i < activityCompetencies.length; i++) {
+            for (int j = 0; j < maintainerCompetencies.length; j++) {
+                if (maintainerCompetencies[j].equals(activityCompetencies[i])) {
+                    counter++;
                 }
             }
         }

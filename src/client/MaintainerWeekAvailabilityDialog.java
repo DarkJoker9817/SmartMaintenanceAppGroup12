@@ -10,12 +10,15 @@ import businesslogic.Maintainer;
 import businesslogic.Planner;
 import businesslogic.activity.MaintenanceActivity;
 import exceptions.TimeExceededException;
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -73,7 +76,42 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         percentageLabel = new javax.swing.JLabel();
         availabilityLabel = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        hoursTable = new javax.swing.JTable();
+        hoursTable = new javax.swing.JTable()
+        {
+            @Override
+            public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){
+                Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);
+
+                float valueFloat = Float.parseFloat(getModel().getValueAt(rowIndex,columnIndex).toString());
+                float min = 60;
+
+                int value = (int) ((valueFloat/min) *100);
+
+                if(value == 100){
+                    componenet.setBackground(new Color(0,102,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value >= 80 && value < 100){
+                    componenet.setBackground(new Color(0,204,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value >= 50 && value < 80){
+                    componenet.setBackground(new Color(255,255,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value >= 20 && value < 50){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value > 0 && value < 20){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                } else if(value == 0){
+                    componenet.setBackground(Color.RED);
+                    componenet.setForeground(Color.BLACK);
+                }
+
+                return componenet;
+            }
+
+        }
+        ;
 
         jLabel1.setText("jLabel1");
 
@@ -149,6 +187,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        maintainerTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(maintainerTable);
         if (maintainerTable.getColumnModel().getColumnCount() > 0) {
             maintainerTable.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -232,6 +271,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        hoursTable.getTableHeader().setReorderingAllowed(false);
         hoursTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 hoursTableMouseClicked(evt);
@@ -309,9 +349,9 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(51, Short.MAX_VALUE))
