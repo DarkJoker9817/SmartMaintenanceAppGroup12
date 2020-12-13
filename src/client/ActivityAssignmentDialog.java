@@ -12,6 +12,8 @@ import businesslogic.UserFactory;
 import businesslogic.activity.ActivityFactory;
 import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -64,7 +67,36 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         skillsList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        availabilityTable = new javax.swing.JTable();
+        availabilityTable = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){
+                Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);
+
+                int value = Integer.parseInt(getModel().getValueAt(rowIndex,columnIndex).toString());
+
+                if(getSelectedRow() == rowIndex && getSelectedColumn() == columnIndex){
+                    componenet.setBackground(Color.WHITE);
+                }else if(value == 100){
+                    componenet.setBackground(new Color(0,102,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value > 50 && value < 100){
+                    componenet.setBackground(new Color(0,204,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value > 20 && value <= 50){
+                    componenet.setBackground(new Color(255,255,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value > 0 && value <=20 ){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if(value == 0){
+                    componenet.setBackground(Color.RED);
+                    componenet.setForeground(Color.BLACK);
+                }
+
+                return componenet;
+            }
+        }
+        ;
         forwardButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         maintainersTable = new javax.swing.JTable();
