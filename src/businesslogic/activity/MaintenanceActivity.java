@@ -6,6 +6,7 @@
 package businesslogic.activity;
 
 import businesslogic.MaintenanceType;
+import java.util.List;
 
 /**
  *
@@ -24,6 +25,7 @@ public abstract class MaintenanceActivity {
     private String workspaceNotes;
     private String procedure;
     private boolean assigned;
+    private String[] competences;
 
     public void setId(int id) {
         this.id = id;
@@ -113,4 +115,11 @@ public abstract class MaintenanceActivity {
         return procedure;
     }
 
+    public String[] getCompetences() {
+        return competences;
+    }
+
+    public void setCompetences(String[] competences) {
+        this.competences = competences;
+    }
 }

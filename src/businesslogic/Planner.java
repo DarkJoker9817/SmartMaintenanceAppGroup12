@@ -130,6 +130,7 @@ public class Planner extends User {
             activity.setWorkspaceNotes(res.getString("workspace_notes"));
             activity.setProcedure(res.getString("maintenance_procedure"));
             activity.setAssigned(res.getBoolean("assigned"));
+            activity.setCompetences(res.getArray("competencies").toString().replaceAll("\\{", "").replaceAll("\\}","").split(","));
         }
         return activity;
     }
@@ -142,6 +143,7 @@ public class Planner extends User {
             Maintainer m = new Maintainer();
             m.setUsername(res.getString("username"));
             m.setAvailability(m.getHoursAvailability(m.getUsername()));
+            m.setCompetences(res.getArray("competencies").toString().replaceAll("\\{", "").replaceAll("\\}","").split(","));
             maintainersList.add(m);
         }
         return maintainersList;
@@ -164,5 +166,5 @@ public class Planner extends User {
 
             return 6;
         }
-    }
+    }    
 }

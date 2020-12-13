@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -32,6 +33,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private Repository rep;
     private DefaultTableModel maintainersTableModel;
     private DefaultTableModel availabilityTableModel;
+    private DefaultListModel skillsListModel;
     private Planner planner;
     private Maintainer maintainer;
     private MaintenanceActivity scheduledActivity;
@@ -42,10 +44,13 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
      */
     public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
+        planner =  new Planner();
+        maintainer = new Maintainer();
+        this.id = id;
         initComponents();
         initialize();
         initDialog(id);
-        this.id = id;
+        fillTableMaintainers();
     }
 
     /**
@@ -288,12 +293,10 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
     public void initialize() throws ClassNotFoundException, SQLException {
         rep = Repository.getIstance();
-        planner =  new Planner();
-        maintainer = new Maintainer();
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
         availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
-        fillTableMaintainers();
-        
+        skillsListModel = new DefaultListModel();
+        skillsList.setModel(skillsListModel);        
     }
     private void forwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButtonActionPerformed
         this.setVisible(false);
@@ -326,7 +329,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         
         forwardButton.setEnabled(false);
         availabilityTable.setCellSelectionEnabled(true);
-        maintainersTable.setRowSelectionAllowed(false);  
+        maintainersTable.setRowSelectionAllowed(false); 
+        String[] competencies = scheduledActivity.getCompetences();
+        for(String c : competencies) {
+            skillsListModel.addElement(c);
+        }
     }
 
     private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
@@ -337,12 +344,25 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         maintainersList = planner.getMaintainers();
         for(Maintainer m : maintainersList) {
             maintainersRow[0] = m.getUsername();
+            maintainersRow[1] = skillsAchieved(scheduledActivity.getCompetences(), m.getCompetences()) + "/" + scheduledActivity.getCompetences().length;
             maintainersTableModel.addRow(maintainersRow);
             availabilityTableModel.addRow(m.getDaysAvailability(maintainersRow[0]));
         }
         
     }
     
+    private int skillsAchieved(String[] activityCompetencies, String[] maintainerCompetencies) {
+        int counter = 0;
+        
+        for(int i=0; i < activityCompetencies.length; i++) {
+            for(int j=0; j < maintainerCompetencies.length; j++){
+                if (maintainerCompetencies[j].equals(activityCompetencies[i])){
+                        counter++;
+                }
+            }
+        }
+        return counter;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
     private javax.swing.JLabel availabilityLabel;

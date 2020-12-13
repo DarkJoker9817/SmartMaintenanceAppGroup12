@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Maintainer extends User {
 
-    private List<String> competences;
+    private String[] competences;
     private Repository rep;
     private Integer[][] availability;
 
@@ -20,11 +20,11 @@ public class Maintainer extends User {
         rep = Repository.getIstance();
     }
 
-    public List<String> getCompetences() {
+    public String[] getCompetences() {
         return competences;
     }
 
-    public void setCompetences(List<String> competences) {
+    public void setCompetences(String[] competences) {
         this.competences = competences;
     }
 
@@ -32,9 +32,6 @@ public class Maintainer extends User {
         this.availability = availability;
     }
     
-    public void addCompetence(String competence) {
-        this.competences.add(competence);
-    }
     
     public Integer[][] getHoursAvailability(String username) throws SQLException {
         Integer[][] matrix = new Integer[7][7];
