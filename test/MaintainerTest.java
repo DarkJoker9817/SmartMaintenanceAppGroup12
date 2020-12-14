@@ -5,8 +5,6 @@
  */
 
 import businesslogic.Maintainer;
-import businesslogic.MaintenanceType;
-import businesslogic.Planner;
 import database.Repository;
 import java.sql.SQLException;
 import org.junit.*;
