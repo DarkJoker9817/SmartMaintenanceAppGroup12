@@ -7,12 +7,8 @@ package client;
 
 import businesslogic.Maintainer;
 import businesslogic.Planner;
-import businesslogic.User;
-import businesslogic.UserFactory;
-import businesslogic.activity.ActivityFactory;
 import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -272,9 +268,10 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         int column = availabilityTable.getSelectedColumn();
         String nameDay = availabilityTable.getColumnName(column);
         String username = (String) maintainersTableModel.getValueAt(row, 0);
+        String skills =(String)maintainersTableModel.getValueAt(row, 1);
         
         try {
-            new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay).setVisible(true);
+            new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay, skills).setVisible(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
