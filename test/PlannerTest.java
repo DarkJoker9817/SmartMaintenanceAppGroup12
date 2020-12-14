@@ -87,6 +87,22 @@ public class PlannerTest {
         assertNotNull(p.getMaterials(1));
     }
 
+    @Test
+    public void testGetMaintainerNotNull() throws SQLException, ClassNotFoundException {
+        assertNotNull(p.getMaintainers());
+    }
+    
+    @Test
+    public void testGetWeekDayNumberNotNull() throws SQLException {
+        assertNotNull(p.getWeekDayNumber("prova"));
+    }
+    
+    @Test
+    public void testAssignActivity() throws SQLException {
+        p.assignActivity("Pippo", 1, "prova", 0, 0, 0, 0);
+        assertNotNull(p.getScheduledActivity());
+    }
+    
     @After
     public void tearDown() throws SQLException {
         rep.delete("delete from activity where id = '1'");
