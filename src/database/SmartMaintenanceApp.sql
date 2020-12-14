@@ -32,7 +32,7 @@ create table assigned_activity(
 	assigned_activity_id integer,
 	assigned_activity_day text,
 	assigned_activity_hour integer,
-	foreign key(maintainer_username) references maintainer(username),
+	foreign key(maintainer_username) references maintainer(username) on delete cascade on update cascade,
 	primary key(maintainer_username,assigned_activity_id)
 );
 
@@ -114,9 +114,13 @@ update maintainer set availability = '{{60,60,60,60,60,60,60},
 
 
 ------------------------------------------------------------------------------------
+
+------ Initial setup for table Material and Site -----------------------------------
+
 insert into material(name_material) values('Martello'),('Viti'),('Cacciavite'),('Tubo');
 insert into site(area,branch_officies) values('Fisciano','Molding'),('Nusco','Carpentry'),('Morra','Painting');
-				
+
+------------------------------------------------------------------------------------
 select * from sys_admin;
 select * from "user";
 select * from material;
