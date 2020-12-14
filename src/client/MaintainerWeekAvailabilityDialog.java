@@ -15,7 +15,6 @@ import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -33,15 +32,17 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private String username;
     private int id;
     private String day;
+    private String skills;
 
     /**
      * Creates new form MaintainerWeekAvailability
      */
-    public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day) throws ClassNotFoundException, SQLException {
+    public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day, String skills) throws ClassNotFoundException, SQLException {
         super(parent, modal);
         this.username = username;
         this.day = day;
         this.id = id;
+        this.skills=skills;
         initComponents();
         initialization();
         initDialog();
@@ -390,6 +391,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
             int i = planner.getWeekDayNumber(day);
             
             row[0] = username;
+            row[1]= skills;
 
             for (int j = 0; j < 7; j++) {
                 row2[j] = hours[i][j];

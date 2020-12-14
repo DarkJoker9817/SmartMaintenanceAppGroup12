@@ -19,7 +19,7 @@ public class Repository {
 
     private Repository() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
-        conn = DriverManager.getConnection(URL, "postgres", "password");
+        conn = DriverManager.getConnection(URL, "postgres", "postgres");
     }
 
     public static Repository getIstance() throws ClassNotFoundException, SQLException {

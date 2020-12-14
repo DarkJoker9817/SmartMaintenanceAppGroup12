@@ -7,9 +7,6 @@ package client;
 
 import businesslogic.Maintainer;
 import businesslogic.Planner;
-import businesslogic.User;
-import businesslogic.UserFactory;
-import businesslogic.activity.ActivityFactory;
 import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
 import java.awt.Color;
@@ -29,7 +26,7 @@ import javax.swing.table.TableCellRenderer;
  * @author ugobarbato
  */
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
-    
+
     private Repository rep;
     private DefaultTableModel maintainersTableModel;
     private DefaultTableModel availabilityTableModel;
@@ -341,7 +338,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
         availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
         skillsListModel = new DefaultListModel();
-        skillsList.setModel(skillsListModel);        
+        skillsList.setModel(skillsListModel);
     }
     private void forwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButtonActionPerformed
         this.setVisible(false);
@@ -349,9 +346,10 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         int column = availabilityTable.getSelectedColumn();
         String nameDay = availabilityTable.getColumnName(column);
         String username = (String) maintainersTableModel.getValueAt(row, 0);
-        
+        String skills = (String) maintainersTableModel.getValueAt(row, 1);
+
         try {
-            MaintainerWeekAvailabilityDialog dialog = new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay);
+            MaintainerWeekAvailabilityDialog dialog = new MaintainerWeekAvailabilityDialog(null, true, id, username, nameDay, skills);
             dialog.pack();
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
@@ -363,7 +361,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
     private void availabilityTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availabilityTableMouseClicked
         forwardButton.setEnabled(true);
     }//GEN-LAST:event_availabilityTableMouseClicked
-    
+
     private void initDialog(int id) throws SQLException {
         scheduledActivity = planner.getScheduledActivityFromId(id);
         weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
@@ -372,21 +370,21 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
                 + " - " + scheduledActivity.getType() + " - "
                 + String.valueOf(scheduledActivity.getEstimatedInterventionTime() + "'");
         infoLabel.setText(activity);
-        
+
         forwardButton.setEnabled(false);
         availabilityTable.setCellSelectionEnabled(true);
-        maintainersTable.setRowSelectionAllowed(false);        
+        maintainersTable.setRowSelectionAllowed(false);
         String[] competencies = scheduledActivity.getCompetences();
         for (String c : competencies) {
             skillsListModel.addElement(c);
         }
     }
-    
+
     private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
-        
+
         String[] maintainersRow = new String[2];
         List<Maintainer> maintainersList = new ArrayList<>();
-        
+
         maintainersList = planner.getMaintainers();
         for (Maintainer m : maintainersList) {
             maintainersRow[0] = m.getUsername();
@@ -394,12 +392,12 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             maintainersTableModel.addRow(maintainersRow);
             availabilityTableModel.addRow(m.getDaysAvailability(maintainersRow[0]));
         }
-        
+
     }
-    
+
     private int skillsAchieved(String[] activityCompetencies, String[] maintainerCompetencies) {
         int counter = 0;
-        
+
         for (int i = 0; i < activityCompetencies.length; i++) {
             for (int j = 0; j < maintainerCompetencies.length; j++) {
                 if (maintainerCompetencies[j].equals(activityCompetencies[i])) {
