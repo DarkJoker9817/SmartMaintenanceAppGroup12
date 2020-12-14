@@ -69,7 +69,46 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         weekLabel = new javax.swing.JLabel();
         weekNumberLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        maintainerTable = new javax.swing.JTable();
+        maintainerTable = new javax.swing.JTable()
+        {
+            @Override
+            public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){
+                Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);
+                int value = 0;
+                if(columnIndex != 0){
+                    String[] valueStr = getModel().getValueAt(rowIndex,columnIndex).toString().split("/");
+                    float num = Float.parseFloat(valueStr[0]);
+                    float den = Float.parseFloat(valueStr[1]);
+                    value = (int) ((num/den) *100);
+                }
+                if(value == 100 && columnIndex != 0){
+                    componenet.setBackground(new Color(0,102,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 80 && value < 100) && columnIndex != 0){
+                    componenet.setBackground(new Color(0,204,51));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 50 && value < 80) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,255,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value >= 20 && value < 50) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                }else if((value > 0 && value < 20) && columnIndex != 0){
+                    componenet.setBackground(new Color(255,153,0));
+                    componenet.setForeground(Color.BLACK);
+                } else if(value == 0 && columnIndex!= 0){
+                    componenet.setBackground(Color.RED);
+                    componenet.setForeground(Color.BLACK);
+                }else{
+                    componenet.setBackground(Color.WHITE);
+                    componenet.setForeground(Color.BLACK);
+                }
+
+                return componenet;
+            }
+
+        }
+        ;
         sendButton = new javax.swing.JButton();
         activityToAssignLabel = new javax.swing.JLabel();
         activityLabel = new javax.swing.JLabel();
