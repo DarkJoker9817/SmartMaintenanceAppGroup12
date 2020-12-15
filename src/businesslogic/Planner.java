@@ -12,15 +12,39 @@ import java.sql.SQLException;
  * @author ugobarbato
  */
 public class Planner extends User {
-
+    
+    /**
+     * scheuledActivity: A data structure representing the activities scheduled from a planner
+     * rep: A Repository object representing the database
+     */
     private Map<Integer, MaintenanceActivity> scheduledActivity;
     private Repository rep;
 
+    /**
+     * 
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public Planner() throws ClassNotFoundException, SQLException {
         scheduledActivity = new HashMap<>();
         rep = Repository.getIstance();
     }
 
+    /**
+     * Assign the activity to the maintainer.
+     * First is performed an insert in the assigned_activity table in repository,
+     * then update activity setting it as assigned and finally updates maintainer's availability's matrix.
+     * 
+     * @param username a String representing the username of the Maintainer to whom 
+     *                 to assign the activity
+     * @param activityID an Integer representing the ID of the activity to assign
+     * @param day a String representing the day of the weeek
+     * @param hour an Integer representing the hour of the day
+     * @param assignedMinutes an integer representing the estimated time of the activity
+     * @param availableMinutes an integer representing the available time of the Maintainer
+     * @param column an intenger representing the column index in the availability's matrix
+     * @throws SQLException 
+     */
     public void assignActivity(String username, int activityID, String day, int hour, int assignedMinutes, int availableMinutes, int column) throws SQLException {
         rep.insert("insert into assigned_activity(maintainer_username,assigned_activity_id ,assigned_activity_day ,assigned_activity_hour) "
                 + "values('" + username + "','" + activityID + "','" + day + "','" + hour + "')");
@@ -29,6 +53,22 @@ public class Planner extends User {
         rep.update("update maintainer set availability[" + (row + 1) + "][" + (column + 1) + "]=" + (availableMinutes-assignedMinutes) + "where username ='" + username + "'");
     }
 
+    /**
+     * Create a new maintenance activity.
+     * First the new activity is inserted in the database, then it is instatiated a new activity.
+     * @param id an Integer representing the ID of the activity to create
+     * @param materials a String representing a list of materials necessary to the activity
+     * @param week an Integer representing the week in which to perform the activity
+     * @param site a String representing the site where to perform the activity
+     * @param type a MaintenanceType Object representing the type of the activity
+     * @param description a String representing the informations about the activity
+     * @param estimatedInterventionTime an Integer representing the estimated time to perform the activity
+     * @param interruptible a boolean representing if an activity is interruptible
+     * @param workspaceNotes a String representing additional notes on the workplace
+     * @param procedure a String representing the name of the file in which is contained the steps of the procedure
+     * @return a MaintenanceActivity object representing the created activity
+     * @throws SQLException 
+     */
     public MaintenanceActivity createActivity(int id, String materials, int week, String site,
             MaintenanceType type, String description,
             int estimatedInterventionTime, boolean interruptible,
@@ -51,16 +91,33 @@ public class Planner extends User {
         return scheduledActivity.putIfAbsent(id, activity);
     }
 
+    /**
+     * Modify workspace note of the activity.
+     * @param id an integer representing the ID of the activity to update
+     * @param workspaceNotes a String representing the modified workspace notes
+     * @throws SQLException 
+     */
     public void modifyActivity(int id, String workspaceNotes) throws SQLException {
         scheduledActivity.get(id).setWorkspaceNotes(workspaceNotes);
         rep.update("update activity set workspace_notes = '" + workspaceNotes + "' where id = '" + id + "'");
     }
 
+    /**
+     * Delete an activity. First delete it from the database, then delete it from
+     *                     the data structure of the scheduled activities
+     * @param id an Integer representing the ID of the activity to delete
+     * @throws SQLException 
+     */
     public void deleteActivity(int id) throws SQLException {
         rep.delete("delete from activity where id = '" + id + "'");
         scheduledActivity.remove(id);
     }
 
+    /**
+     * 
+     * @param maintenanceType a String representing the name of the type of activity
+     * @return a MaintenanceType Object representing the type of the activity
+     */
     private MaintenanceType getMaintenanceType(String maintenanceType) {
         if (maintenanceType.equals("Mechanical")) {
             return MaintenanceType.MECHANICAL;
@@ -72,6 +129,12 @@ public class Planner extends User {
         return MaintenanceType.HYDRAULIC;
     }
 
+    /**
+     * 
+     * @param id an Integer representing the ID of the activity
+     * @return an Array Object in which are contained the materials necessary for the activity
+     * @throws SQLException 
+     */
     public Array getMaterials(int id) throws SQLException {
         ResultSet res = rep.select("select * from activity where id='" + id + "'");
         Array materials = null;
@@ -81,18 +144,41 @@ public class Planner extends User {
         return materials;
     }
 
+    /**
+     * 
+     * @return a ResultSet Object containing the sites
+     * @throws SQLException 
+     */
     public ResultSet getSites() throws SQLException {
         return rep.select("select * from site");
     }
 
+    /**
+     * Select from the database all the activities to be performed in the specified week.
+     * @param week an Integer representing the week
+     * @return a ResultSet Object containing the activities
+     * @throws SQLException 
+     */
     public ResultSet weekSelection(int week) throws SQLException {
         return rep.select("select * from activity where week='" + week + "' and assigned = false");
     }
 
+    /**
+     * Select from the database all the materials.
+     * @return a ResultSet Object containing the materials
+     * @throws SQLException 
+     */
     public ResultSet getMaterialTable() throws SQLException {
         return rep.select("select * from material");
     }
 
+    /**
+     * Get all the activities scheduled from a planner.
+     * First select the activities from the database, then instantiate them and
+     * put them in the data structure.
+     * @return a Map object representing the activities scheduled from a planner
+     * @throws SQLException 
+     */
     public Map<Integer, MaintenanceActivity> getScheduledActivity() throws SQLException {
         ResultSet res = rep.select("select * from activity");
 
@@ -114,6 +200,14 @@ public class Planner extends User {
         return scheduledActivity;
     }
 
+    /**
+     * Get a specific activity.
+     * First select the activity with the specific ID from the database, then
+     * instantiate it.
+     * @param id an Integer representing the ID of an activity
+     * @return a MaintenanceActivity Object representing the specific activity
+     * @throws SQLException 
+     */
     public MaintenanceActivity getScheduledActivityFromId(int id) throws SQLException {
         ResultSet res = rep.select("select * from activity where id='" + id + "'");
         MaintenanceActivity activity = null;
@@ -135,6 +229,14 @@ public class Planner extends User {
         return activity;
     }
 
+    /**
+     * Get a list of Maintainers.
+     * First select all the maintainers from the database, then instantiate them
+     * and add them to the list.
+     * @return a List of Maintainer Object 
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public List<Maintainer> getMaintainers() throws SQLException, ClassNotFoundException {
         List<Maintainer> maintainersList = new ArrayList();
 
@@ -149,6 +251,11 @@ public class Planner extends User {
         return maintainersList;
     }
     
+    /**
+     * Get the number of the corresponding day name.
+     * @param day a String representing the name of the day
+     * @return an Integer representing the number of the day in the week
+     */
     public int getWeekDayNumber(String day) {
         if ("Monday".equals(day)) {
             return 0;

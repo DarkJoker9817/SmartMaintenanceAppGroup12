@@ -13,11 +13,18 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 
 /**
- *
+ * 
  * @author gioca
  */
 public class GUIFactory {
 
+    /**
+     * 
+     * @param gui a String representing the type of gui you want to instantiate
+     * @return a JFrame UserGUI object
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public static JFrame getGUI(String gui) throws ClassNotFoundException, SQLException {
         if (gui.equals("System Administrator")) {
             return new SysAdminGUI();

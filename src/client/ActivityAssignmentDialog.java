@@ -37,6 +37,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ActivityAssignmentDialog
+     * @param parent
+     * @param modal
+     * @param id
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     public ActivityAssignmentDialog(java.awt.Frame parent, boolean modal, int id) throws ClassNotFoundException, SQLException {
         super(parent, modal);
@@ -332,6 +337,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     private void initialize() throws ClassNotFoundException, SQLException {
         rep = Repository.getIstance();
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
@@ -339,6 +349,11 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         skillsListModel = new DefaultListModel();
         skillsList.setModel(skillsListModel);
     }
+    
+    /**
+     * Show the next dialog on click of mouse
+     * @param evt 
+     */
     private void forwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardButtonActionPerformed
         this.setVisible(false);
         int row = availabilityTable.getSelectedRow();
@@ -356,11 +371,20 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             Logger.getLogger(ActivityAssignmentDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_forwardButtonActionPerformed
-
+    
+    /**
+     * Enable the forward button when click on the availability table
+     * @param evt 
+     */
     private void availabilityTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availabilityTableMouseClicked
         forwardButton.setEnabled(true);
     }//GEN-LAST:event_availabilityTableMouseClicked
 
+    /**
+     * Initialize the dialog with the activity information and maintainers availability
+     * @param id
+     * @throws SQLException 
+     */
     private void initDialog(int id) throws SQLException {
         scheduledActivity = planner.getScheduledActivityFromId(id);
         weekNumberLabel.setText(String.valueOf(scheduledActivity.getWeek()));
@@ -378,7 +402,12 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
             skillsListModel.addElement(c);
         }
     }
-
+    
+    /**
+     * Fill the maintainers table 
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     private void fillTableMaintainers() throws ClassNotFoundException, SQLException {
 
         String[] maintainersRow = new String[2];
@@ -393,7 +422,13 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         }
 
     }
-
+    
+    /**
+     * 
+     * @param activityCompetencies the competencies assigned to a maintainer
+     * @param maintainerCompetencies the competencies required to perform an activity
+     * @return the skill achieved of a maintainer based on the competencies required for an activity 
+     */
     private int skillsAchieved(String[] activityCompetencies, String[] maintainerCompetencies) {
         int counter = 0;
 
@@ -406,6 +441,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         }
         return counter;
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
     private javax.swing.JLabel availabilityLabel;
