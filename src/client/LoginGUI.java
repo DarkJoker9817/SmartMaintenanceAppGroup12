@@ -229,7 +229,14 @@ public class LoginGUI extends javax.swing.JFrame {
         });
 
     }
-
+/**
+ * Gets the values inserted into the username, password and role fields.
+ * If one of these fields is empty, it shows a MessageDialog
+ * Otherwise it calls LoginValidate() to see if the association between username, password and role are correct.
+ * if LoginValidate() is true, then it calls the GUI associated to the specific role.
+ * if LoginValidate() is false or throws an Exception, then it shows a messageDialog
+ * @param evt 
+ */
     private void loginLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLabelMouseClicked
         // TODO add your handling code here:
         String username = usernameTextField.getText();

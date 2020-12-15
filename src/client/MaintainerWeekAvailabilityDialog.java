@@ -23,8 +23,18 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Egidio
  */
+
 public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
-    
+    /**
+     * tableModel: a DefaultTableModel object representing the model of a table 
+     * tableModel2: a DefaultTableModel object representing the model of a table
+     * planner: a Planner object representing a planner
+     * maintainer: a Maintainer object representing a maintainer
+     * username: a String object representing the username of a maintainer
+     * id: an int object representing the id of an activity
+     * day: a String object representing a day of the week
+     * skills: a String object representing the number of skills of a maintainer compared to those required by the activity 
+     */
     private DefaultTableModel tableModel;
     private DefaultTableModel tableModel2;
     private Planner planner;
@@ -35,7 +45,15 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private String skills;
 
     /**
-     * Creates new form MaintainerWeekAvailability
+     * 
+     * @param parent
+     * @param modal
+     * @param id
+     * @param username
+     * @param day
+     * @param skills
+     * @throws ClassNotFoundException
+     * @throws SQLException 
      */
     public MaintainerWeekAvailabilityDialog(java.awt.Frame parent, boolean modal, int id, String username, String day, String skills) throws ClassNotFoundException, SQLException {
         super(parent, modal);
@@ -402,6 +420,11 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Initializes the models and the attributes
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     private void initialization() throws ClassNotFoundException, SQLException {
         tableModel = (DefaultTableModel) maintainerTable.getModel();
         tableModel2 = (DefaultTableModel) hoursTable.getModel();
@@ -411,6 +434,9 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
         maintainerTable.setRowSelectionAllowed(false);
     }
 
+    /**
+     * Fills the tables and sets the text of the labels and the notesTextArea
+     */
     private void initDialog() {
         try {
             MaintenanceActivity scheduledActivity = planner.getScheduledActivityFromId(id);
@@ -444,6 +470,13 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
         sendButton.setEnabled(false);
     }
+    
+    /**
+     * Gets all the parameters to pass to the assignActivity method.
+     * If SQLException or TimeExceededException are thrown,it shows a MessageDialog.
+     * Otherwise sets this as not visible
+     * @param evt 
+     */
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         int i = hoursTable.getSelectedColumn();
         try {
@@ -463,6 +496,10 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_sendButtonActionPerformed
 
+    /**
+     * sets the text of the availabilityLable and sets the sendButton as enabled 
+     * @param evt 
+     */
     private void hoursTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoursTableMouseClicked
 
         int i = hoursTable.getSelectedColumn();
@@ -474,6 +511,11 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_hoursTableMouseClicked
 
+    /**
+     * 
+     * @param column 
+     * @return an integer depending on the param column
+     */
     private int getDayHour(int column) {
         if (column == 0) {
             return 8;
