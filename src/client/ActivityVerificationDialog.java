@@ -28,6 +28,12 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ActivityVerificationDialog
+     * @param parent
+     * @param modal
+     * @param id
+     * @param planner
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     public ActivityVerificationDialog(java.awt.Frame parent, boolean modal, int id, Planner planner) throws ClassNotFoundException, SQLException {
         super(parent, modal);
