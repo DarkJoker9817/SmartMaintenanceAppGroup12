@@ -6,13 +6,13 @@
 package client;
 
 import businesslogic.Planner;
+import businesslogic.User;
 
 import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
 import java.awt.Color;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
