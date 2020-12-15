@@ -25,6 +25,8 @@ public class SysAdminGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form SysAdminGUI
+     * model: A DefaultTableModel object representing the model of the table
+     * admin: A SysAdmin object representing the admin
      */
     private DefaultTableModel model;
     private SysAdmin admin;
@@ -258,6 +260,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * First get the username, password and role from the field, then are insert in the system administrator database with admin method and in the model.
+     * If the fields are empty, throw an error message.
+     * @param evt 
+     */
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         String[] row = new String[3];
         row[0] = usernameTextField.getText();
@@ -278,7 +285,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
         usersTable.clearSelection();
         disableButtons();
     }//GEN-LAST:event_createButtonActionPerformed
-
+    
+    /**
+     * First get the username, password and role from the field, then update the username, password and role in the system administrator database with admin method. 
+     * @param evt 
+     */
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
@@ -303,7 +314,11 @@ public class SysAdminGUI extends javax.swing.JFrame {
     private void windowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowActivated
         disableButtons();
     }//GEN-LAST:event_windowActivated
-
+    
+    /**
+     * Select from the rows of the table the username, password and role of the users and set the fields. 
+     * @param evt 
+     */
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         enableButtons();
 
@@ -317,6 +332,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
         comboBoxModel.setSelectedItem(role);
     }//GEN-LAST:event_usersTableMouseClicked
 
+    /**
+     * Allows you to logout from the gui you are working on and returns to the login gui.
+     * @param evt 
+     */
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
         try {
@@ -326,6 +345,10 @@ public class SysAdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    /**
+     * First get the username from the table, then delete the user from the system administrator database with admin method. 
+     * @param evt 
+     */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = usersTable.getSelectedRow();
         String username = (String) model.getValueAt(i, 0);
@@ -340,6 +363,9 @@ public class SysAdminGUI extends javax.swing.JFrame {
         clearFields();
     }
 
+    /**
+     * First get a Map of user from the database with admin method, then they are added to the model.
+     */
     private void fillTable() {
         String[] row = new String[3];
 
@@ -355,17 +381,26 @@ public class SysAdminGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Database connection error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    /**
+     * Disable the update and delete buttons.
+     */
     private void disableButtons() {
         updateButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
 
+    /**
+     * Enable the update and delete buttons.
+     */
     private void enableButtons() {
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
     }
 
+    /**
+     * Clear the username and password fields.
+     */
     private void clearFields() {
         usernameTextField.setText("");
         passwordTextField.setText("");

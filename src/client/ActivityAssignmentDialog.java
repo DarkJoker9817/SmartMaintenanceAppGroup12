@@ -27,9 +27,9 @@ import javax.swing.table.TableCellRenderer;
 public class ActivityAssignmentDialog extends javax.swing.JDialog {
 
     private Repository rep;
-    private DefaultTableModel maintainersTableModel;
-    private DefaultTableModel availabilityTableModel;
-    private DefaultListModel skillsListModel;
+    private DefaultTableModel maintainersTableModel; // The model of the maintainers table
+    private DefaultTableModel availabilityTableModel; // The model of the availability table
+    private DefaultListModel skillsListModel; // The model list of the skills
     private Planner planner;
     private Maintainer maintainer;
     private MaintenanceActivity scheduledActivity;

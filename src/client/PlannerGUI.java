@@ -35,6 +35,10 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form PlannerGUI
+     * planner: a Planner object representing the planner.
+     * model: a DefaultTableModel object representing the activity management table.
+     * modelSecondTab: a DefaultTableModel object representing the activity assignment table.
+     * listModel: a DefaultListModel object representing the material list.
      */
     private Planner planner;
     private DefaultTableModel model;
@@ -519,6 +523,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Set components of the GUI with values in the table.
+     */
     private void setAttributes() {
         model = (DefaultTableModel) maintenanceTable.getModel();
         modelSecondTab = (DefaultTableModel) activityTable.getModel();
@@ -531,6 +538,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         siteComboBox.setModel(siteModel);
     }
 
+    /**
+     * 
+     * @return an Object array representing the sites.
+     */
     private Object[] setSiteComboBox() {
         List<Object> row = new ArrayList<>();
         try {
@@ -544,6 +555,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         return row.toArray();
     }
 
+    /**
+     * Get the list of material from the database with planner method and then added to the materialTable.
+     */
     private void fillMaterialTable() {
         DefaultTableModel model = (DefaultTableModel) materialTable.getModel();
         Object row[] = new Object[1];
@@ -559,6 +573,10 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * 
+     * @return a String representing the material.
+     */
     private String getArrayMaterial() {
         String materials = "{";
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -571,6 +589,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         disableButtons();
     }//GEN-LAST:event_formWindowActivated
 
+    /**
+     * Enable the components of the GUI and reset the list.
+     */
     public void enableComponents() {
         idTextField.setEnabled(true);
         weekComboBox.setEnabled(true);
@@ -585,6 +606,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         listModel.clear();
 
     }
+    
+    /**
+     * View all the activities for the specified week when the button is pressed.
+     * @param evt 
+     */
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         clearTableSecondTab();
         int week = Integer.parseInt(weekComboBoxSecondTab.getSelectedItem().toString());
@@ -603,6 +629,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_viewButtonActionPerformed
 
+    /**
+     * Allows you to logout from the gui you are working on and returns to the login gui.
+     * @param evt 
+     */
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         this.setVisible(false);
         try {
@@ -612,6 +642,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    /**
+     * Hide the planner GUI and instatiate and show the activity verification dialog.
+     * @param evt 
+     */
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
         // TODO add your handling code here:
         if (activityTable.getSelectedRow() == -1) {
@@ -625,6 +659,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_selectButtonActionPerformed
 
+    /**
+     * Add the selected material from the material table to the necessary materials list.
+     * @param evt 
+     */
     private void addMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMaterialButtonActionPerformed
         // TODO add your handling code here:
         if (materialTable.getSelectedRow() == -1) {
@@ -636,6 +674,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         materialTable.clearSelection();
     }//GEN-LAST:event_addMaterialButtonActionPerformed
 
+    /**
+     * Remove the selected material from the necessary materials list.
+     * @param evt 
+     */
     private void removeMaterialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMaterialButtonActionPerformed
         // TODO add your handling code here:
         if (materialList.getSelectedIndex() == -1) {
@@ -645,6 +687,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         materialList.clearSelection();
     }//GEN-LAST:event_removeMaterialButtonActionPerformed
 
+    /**
+     * Upload from local a pdf file with the steps to performe the procedure.
+     * @param evt 
+     */
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
@@ -656,6 +702,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_uploadButtonActionPerformed
 
+    /**
+     * Modify the workspace notes of the selected activity in the table and in the database with planner method.
+     * @param evt 
+     */
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         int i = maintenanceTable.getSelectedRow();
         Integer id = (Integer) model.getValueAt(i, 0);
@@ -672,6 +722,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    /**
+     * Delete the selected activity in the table and in the database with planner method.
+     * @param evt 
+     */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int i = maintenanceTable.getSelectedRow();
         Integer id = (Integer) model.getValueAt(i, 0);
@@ -689,6 +743,11 @@ public class PlannerGUI extends javax.swing.JFrame {
         maintenanceTable.clearSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    /**
+     * Delete an activity and add it in the database with planner method.
+     * If estimated minutes are greater than 60, throws an exception.
+     * @param evt 
+     */
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
         MaintenanceType type = getComboBoxType();
         String materials = getArrayMaterial();
@@ -714,6 +773,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         fillForm();
     }//GEN-LAST:event_maintenanceTableMouseClicked
 
+    /**
+     * Reset the activity assignment table.
+     */
     private void clearTableSecondTab() {
         int size = activityTable.getRowCount();
         for (int i = 0; i < size; i++) {
@@ -721,6 +783,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * @return a MaintenanceType Object representing the type of the activity
+     */
     private MaintenanceType getComboBoxType() {
         if (typeComboBox.getSelectedItem() == "Mechanical") {
             return MaintenanceType.MECHANICAL;
@@ -732,6 +797,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         return MaintenanceType.HYDRAULIC;
     }
 
+    /**
+     * 
+     * @param type a String representing the type of the activity. 
+     */
     private void setComboBoxType(String type) {
         if ("MECHANICAL".equals(type)) {
             typeComboBox.setSelectedItem("Mechanical");
@@ -744,6 +813,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Add to the model all the components from the fields of the table.
+     */
     private void addTableRow() {
         Object[] row = new Object[10];
         row[0] = Integer.parseInt(idTextField.getText());
@@ -759,20 +831,33 @@ public class PlannerGUI extends javax.swing.JFrame {
         model.addRow(row);
     }
 
+    /**
+     * Modify the workspace notes in the model.
+     * @param i an Integer representing the row of the table
+     */
     private void modifyTableRow(int i) {
         model.setValueAt(notesTextArea.getText(), i, 8);
     }
-
+    
+    /**
+     * Disable the update and delete button.
+     */
     private void disableButtons() {
         updateButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
 
+    /**
+     * Enable the update and delete button.
+     */
     private void enableButtons() {
         updateButton.setEnabled(true);
         deleteButton.setEnabled(true);
     }
 
+    /**
+     * Reset the fields of the table.
+     */
     private void clearFields() {
         idTextField.setText("");
         timeTextField.setText("");
@@ -782,6 +867,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         interruptibleCheckBox.setSelected(false);
     }
 
+    /**
+     * First get the activities from the database with planner method, then they are added to the model.
+     */
     private void fillTable() {
         try {
             Object[] row = new Object[11];
@@ -806,6 +894,10 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * 
+     * @return the current week.
+     */
     private DefaultComboBoxModel<String> setFromCurrentWeek() {
         LocalDate date = LocalDate.now();
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
@@ -819,6 +911,9 @@ public class PlannerGUI extends javax.swing.JFrame {
         return new DefaultComboBoxModel(weekStr);
     }
 
+    /**
+     * First get the material array and activity from the database with planner method, then they are added to the model.
+     */
     private void fillForm() {
         int i = maintenanceTable.getSelectedRow();
 
@@ -853,6 +948,10 @@ public class PlannerGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * 
+     * @param arr a Array object containing materials.
+     */
     public void fillMaterialList(Array arr) {
         try {
             listModel.clear();
@@ -867,6 +966,9 @@ public class PlannerGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Disable the field that are not editable.
+     */
     public void disableNotEditableFields() {
         idTextField.setEnabled(false);
         weekComboBox.setEnabled(false);
