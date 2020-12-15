@@ -45,13 +45,13 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
     private String skills;
 
     /**
-     * 
+     * Creates new form MaintainerWeekAvailabilityDialog
      * @param parent
      * @param modal
-     * @param id
-     * @param username
-     * @param day
-     * @param skills
+     * @param id an integer representing the id of the activity
+     * @param username a String representing the username of the maintainer
+     * @param day a String representing the day of the week
+     * @param skills a String representing the number of skills of a maintainer compared to those required by the activity
      * @throws ClassNotFoundException
      * @throws SQLException 
      */
@@ -513,7 +513,7 @@ public class MaintainerWeekAvailabilityDialog extends javax.swing.JDialog {
 
     /**
      * 
-     * @param column 
+     * @param column an integer representing the specific hoursTable column
      * @return an integer depending on the param column
      */
     private int getDayHour(int column) {
