@@ -11,7 +11,6 @@ import businesslogic.activity.MaintenanceActivity;
 import database.Repository;
 import java.awt.Color;
 import java.awt.Component;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -333,7 +332,7 @@ public class ActivityAssignmentDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void initialize() throws ClassNotFoundException, SQLException {
+    private void initialize() throws ClassNotFoundException, SQLException {
         rep = Repository.getIstance();
         maintainersTableModel = (DefaultTableModel) maintainersTable.getModel();
         availabilityTableModel = (DefaultTableModel) availabilityTable.getModel();
