@@ -410,7 +410,11 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Update the acvtivity workspace notes and call the next Dialog on click of mouse 
+     * @param evt 
+     */
     private void forwardButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
@@ -435,6 +439,11 @@ public class ActivityVerificationDialog extends javax.swing.JDialog {
         jPanel11.setBackground(new Color(255, 204, 0));
     }//GEN-LAST:event_forwardButtonLabelMouseExited
     
+    /**
+     * Initialize the dialog with all the activities information   
+     * @param id The activity id
+     * @throws SQLException 
+     */
     private void initDialog(int id) throws SQLException {
         MaintenanceActivity activity = planner.getScheduledActivityFromId(id);
         
