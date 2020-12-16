@@ -221,7 +221,7 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void showUserGUI(JFrame userGUI) {
         this.setVisible(false);
-        userGUI.setLocationRelativeTo(this);
+        userGUI.setLocationRelativeTo(null);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 userGUI.setVisible(true);
