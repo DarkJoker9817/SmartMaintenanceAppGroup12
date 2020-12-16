@@ -119,11 +119,11 @@ public class Planner extends User {
      * @return a MaintenanceType Object representing the type of the activity
      */
     private MaintenanceType getMaintenanceType(String maintenanceType) {
-        if (maintenanceType.equals("Mechanical")) {
+        if (maintenanceType.equals("MECHANICAL")) {
             return MaintenanceType.MECHANICAL;
-        } else if (maintenanceType.equals("Electronic")) {
+        } else if (maintenanceType.equals("ELECTRONIC")) {
             return MaintenanceType.ELECTRONIC;
-        } else if (maintenanceType.equals("Electrical")) {
+        } else if (maintenanceType.equals("ELECTRICAL")) {
             return MaintenanceType.ELECTRICAL;
         }
         return MaintenanceType.HYDRAULIC;
